@@ -1,0 +1,680 @@
+/* 一些公共的属性 */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	width: 100%;
+	table-layout: fixed;
+	/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+}
+
+input[type=search] {
+	font-size: 16px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 34px;
+	border: 0;
+	border-radius: 4px;
+	background-color: rgba(255, 255, 255, .6);
+	font-family: "微软雅黑";
+}
+
+input[type=checkbox] {
+	/*优化多选按钮位置*/
+	margin-top: 2px;
+}
+
+input[type=radio] {
+	/*优化多选按钮位置*/
+	margin-top: 2px;
+}
+
+select {
+	direction: rtl
+}
+
+
+/*九宫格的间距*/
+
+.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+	margin: 0;
+	padding: 2px;
+}
+
+.titleName,
+.recordTitleName {
+	font-size: 24px;
+	font-family: "微软雅黑";
+	text-align: center;
+	margin: 20px 10px;
+}
+
+.recordTitleName {
+	margin-bottom: 10px;
+}
+
+.issueTimer {
+	margin-top: -10px;
+	margin-right: 10px;
+	margin-bottom: 50px;
+}
+
+.issueTimer2 {
+	margin-top: -10px;
+	margin-right: 15px;
+	margin-bottom: 10px;
+}
+
+.timerText {
+	margin: 0px 5px;
+	color: #ED4731;
+}
+
+.timerNumber {
+	color: #ED4731;
+}
+
+.editContent {
+	width: 100%;
+	border: 0px;
+	height: 250px;
+	word-break: break-all;
+	word-wrap: break-all;
+}
+
+#search {
+	background-color: #e8e8e8;
+	padding: 0px 10px;
+}
+
+.search_input {
+	/*搜索框样式*/
+	margin-top: 1px;
+	margin-left: 5px;
+	width: 100%;
+}
+
+.titleGroup {
+	height: 44px;
+}
+
+.under-content {
+	margin-top: 42px;
+}
+
+.cboxInput {
+	margin-top: -3px;
+	margin-right: 10px;
+}
+
+.radioInput {
+	margin-left: -21px;
+	margin-top: -6px;
+	margin-right: -25px;
+}
+
+.search-button,
+.title-button-right {
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: -5px;
+	float: right;
+	color: #fff;
+}
+
+.search-button {
+	color: #000;
+	height: 32px;
+	line-height: 16px;
+	border: 1px solid #d0d1d2;
+	background-color: rgb(241, 240, 240);
+}
+
+.longBtn {
+	width: 98%;
+	/*width: 94%;*/
+	margin-top: 15px;
+	/*padding: 13px;*/
+	font-size: 20px;
+}
+
+.secretarialBtn {
+	width: 10%;
+	margin: 5px;
+	/*padding: 13px;*/
+	font-size: 20px;
+}
+
+.longBtn2 {
+	width: 100%;
+	border-radius: 0;
+	margin-top: 15px;
+	font-size: 20px;
+}
+
+.btnGroup {
+	padding: 8px 0px;
+	text-align: center;
+}
+
+.operatingPanel {
+	/*操作盘样式*/
+	width: 100%;
+	padding: 8px 0px;
+	background-color: rgba(225, 225, 225, 0.9);
+	text-align: center;
+	bottom: 0;
+	border-top: 1px solid #C0C0C0;
+	position: fixed;
+	z-index: 997;
+}
+
+.title-button-right .search-button:enabled:active {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.listTitle {
+	padding: 0 10px;
+	word-break: break-all;
+}
+
+.meetListCont {
+	padding: 0 10px;
+	word-break: break-all;
+	font-size: 16px;
+	color: #ccc;
+	margin-top: -15px;
+}
+
+.mar_t40 {
+	margin-top: 25px;
+}
+
+.inputlayer {
+	margin-left: -10px;
+	margin-right: -10px;
+	background-color: #e8e8e8;
+}
+
+.autoHiddenText {
+	word-break: keep-all;
+	/* 不换行 */
+	white-space: nowrap;
+	/* 不换行 */
+	overflow: hidden;
+	/* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow: ellipsis;
+	/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+	word-break: break-all;
+	/*font-size: 16px;*/
+}
+
+.textFloatR {
+	text-align: right;
+}
+
+.statusText {
+	float: right;
+	width: 47px;
+	padding-left: 5px;
+}
+
+.noticeStatus {
+	width: 35px;
+	padding-left: 5px;
+}
+
+.iconfont {
+	font-size: 36px;
+	color: #3B87CE;
+	/*margin-right: 10px;*/
+}
+
+.iconfont2 {
+	font-size: 18px;
+	color: #ccc;
+	margin-right: 0px;
+}
+
+.accessTimeStyle {
+	display: block;
+	float: right;
+	width: 140px;
+}
+
+.timeStyle {
+	display: block;
+	float: right;
+	max-width: 140px;
+	min-width: 82px;
+}
+
+.timeTextStyle {
+	/*float: right;*/
+	text-align: right;
+	padding-left: 2px;
+	font-size: 16px;
+	color: #C0C0C0;
+	word-break: break-all;
+}
+
+.autoChangeLine {
+	word-break: break-all;
+	word-wrap: break-all;
+}
+
+
+/* 搜索栏样式 */
+
+.mui-search .mui-placeholder {
+	font-size: 16px;
+	line-height: 34px;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: inline-block;
+	height: 34px;
+	color: #999;
+	border: 0;
+	border-radius: 6px;
+	background: 0 0;
+	padding-left: 5px;
+	text-align: left;
+}
+
+.editItem {
+	/*border: 1px dashed;*/
+	border: 1px solid;
+	margin: 3px;
+}
+
+.listName {
+	margin: 10px;
+	margin-top: 15px;
+}
+
+.divList,
+.divListEdit,
+.missiveList {
+	width: 100%;
+	background-color: #FFF;
+	padding: 10px;
+	padding-right: 17px;
+	padding-left: 15px;
+	line-height: 24px;
+	border-top: 1px solid #dedede;
+	overflow: hidden;
+}
+
+.divListEdit {
+	padding-right: 32px;
+}
+
+.missiveList {
+	/*相关公文列表样式*/
+	padding: 14px 10px;
+	padding-left: 20px;
+	border-top: 0px;
+}
+
+.missiveText {
+	/*相关公文条目字体样式*/
+	padding-top: 8px;
+}
+
+.normalBtn {
+	margin: 1px;
+}
+
+.display {
+	display: inline-block;
+}
+
+.floatL {
+	float: left
+}
+
+.floatR {
+	float: right;
+}
+
+.right-text {
+	text-align: right;
+}
+
+.center-text {
+	text-align: center;
+}
+
+.moreSignLine {
+	margin-top: 5px;
+	padding-top: 5px;
+	border-top: dashed 1px #ab1c0d;
+}
+
+.signTitle {
+	margin-bottom: 5px;
+}
+
+
+/*.botStyle{
+	border-top: 1px solid #ccc;
+}
+*/
+
+#urgencyLevel {
+	font-size: 18px;
+}
+
+.colorL {
+	color: #000;
+	font-size: 16px;
+}
+
+.colorR {
+	color: #949498;
+	font-size: 16px;
+}
+
+.clearB {
+	clear: both;
+}
+
+.textAreat {
+	text-indent: 2em;
+	display: inline-block;
+	color: #737373;
+}
+
+.itemTitle {
+	padding: 10px 0 10px 10px;
+	margin-top: 2px;
+	font-size: 20px;
+}
+
+.selectStyle {
+	color: #888;
+	height: 38px;
+	line-height: 38px;
+	padding-top: 0px;
+}
+
+.fan_down0 {
+	font-size: 12px;
+	color: #C0C0C0;
+}
+
+
+/*悬浮图标*/
+
+.suspensionBox {
+	position: fixed;
+	right: 5px;
+	bottom: 104px;
+	border: 1px solid #65a0e1;
+	width: 60px;
+	height: 60px;
+	z-index: 999;
+	text-align: center;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	border-radius: 150px;
+	background-color: #fff;
+	padding: 19px 0 0 0;
+	color: #297ad6;
+	font-family: "微软雅黑";
+	font-size: 18px;
+	margin: 0px auto;
+}
+
+.suspensionBox:active {
+	background-color: #CCCCCC;
+}
+
+
+/*输入框*/
+
+input.mui-input-clear {
+	text-align: left;
+	padding-left: 30px;
+}
+
+/*个人设置*/
+
+.mui-btn-block {
+	padding: 6px 0;
+}
+
+
+/*定义按钮灰色*/
+
+.mui-btn-hui {
+	color: #fff;
+	border: 1px solid #ACACB4;
+	background-color: #cccccc;
+}
+
+.mar_t_20 {
+	margin-top: 20px;
+}
+
+.fontB {
+	font-weight: bold;
+}
+
+.font18 {
+	font-size: 18px;
+}
+
+.pad_L20 {
+	padding-left: 20px;
+}
+
+.bor0 {
+	border: 0;
+}
+
+
+/*.gray {
+	color: #636363;
+}*/
+
+
+/*.green {
+	color: green;
+}*/
+
+.font_20 {
+	font-size: 20px;
+	vertical-align: text-top;
+}
+
+.font_16 {
+	font-size: 16px;
+}
+
+.yellow {
+	color: #F0B108;
+}
+
+
+/*列表之间上下，左右间隔*/
+
+.mui-table-view-cell {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+p.autoHiddenText {
+	font-size: 16px;
+}
+
+.pad_t25 {
+	padding-top: 25px;
+}
+
+.pad_t30 {
+	padding-top: 20px;
+}
+
+.pad_t5 {
+	margin-top: 10px;
+}
+
+.bg_qj {
+	border-bottom: 1px solid #ccc;
+	background-color: #f6f9fc;
+	margin: 0;
+	padding: 0;
+	height: 50px;
+	line-height: 50px;
+	padding-left: 15px;
+	font-weight: bold;
+	color: #CF2D28;
+}
+
+.bg_qj3 {
+	background-color: #f6f9fc;
+	height: 50px;
+	line-height: 50px;
+	padding-left: 15px;
+	font-weight: bold;
+	color: #CF2D28;
+	width: 110%;
+	margin: -15px 0px -15px -15px;
+}
+
+.bg_qj2 {
+	border-bottom: 1px solid #ccc;
+	background-color: #f6f9fc;
+	margin: 0;
+	padding: 16px 0;
+	height: 60px;
+	line-height: 15px;
+	padding-left: 15px;
+	font-weight: bold;
+	color: #CF2D28;
+}
+
+.bg_title {
+	margin: -15px -32px 0px -15px;
+}
+
+.pad_TB10 {
+	padding-top: 15px;
+	margin-top: 15px;
+}
+
+.boot_15 {
+	margin-bottom: 20px;
+}
+
+span.icon.iconfont.icon2-tongyi2 {
+	vertical-align: middle;
+}
+
+.pad_r20 {
+	padding-right: 20px;
+}
+
+.font_18 {
+	font-size: 18px;
+}
+
+.selectran {
+	text-align: left;
+	border-top: 1px solid #ccc;
+	margin: 0 -15px -18px -15px;
+	padding: 2px 0 9px 15px;
+	font-size: 16px;
+	background-color: #e9f1f4;
+}
+
+.title_list {
+	margin: 0px;
+	width: 100%;
+	background-color: #f6f9fc;
+	padding: 10px;
+	padding-right: 17px;
+	padding-left: 15px;
+	line-height: 24px;
+	border-top: 1px solid #dedede;
+	overflow: hidden;
+	font-weight: bold;
+	font-size: 18px;
+	margin-top: 15px;
+}
+
+.xinda {
+	margin: -15px -15px 10px -15px;
+	background-color: #f6f9fc;
+	padding: 10px;
+	border-top: 1px solid #dedede;
+	font-weight: bold;
+}
+
+.yiti_listNum {
+	font-size: 16px;
+	line-height: 1;
+	display: inline-block;
+	padding: 6px;
+	color: #fff;
+	border-radius: 100px;
+	background-color: #f00;
+	margin-right: 10px;
+}
+
+.huise {
+	color: #AAAAAA;
+}
+
+
+/*图标样式——笔*/
+
+.green_se {
+	color: #057a08;
+}
+
+.green {
+	color: #11b84c;
+}
+
+.blue {
+	color: #297ad6;
+}
+
+.red {
+	color: #CF2D28;
+}
+
+.gray {
+	color: #949498;
+}
+
+.greenbg {
+	background-color: #11b84c;
+}
+
+.graybg {
+	background-color: #949498;
+}
+
+.white {
+	color: #fff;
+}
+
+.fj_list {
+	margin: 15px 0 0 0;
+	border-top: 1px solid #ccc;
+	padding: 5px 10px 10px 10px;
+	background-color: #f6f9fc;
+}
+.mui-col-xs-6{
+	width: 45%;
+}

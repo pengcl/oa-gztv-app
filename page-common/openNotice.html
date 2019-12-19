@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color: #FFF;"></a>
+			<h1 class="mui-title">通知公告</h1>
+		</header>	
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script type="text/javascript">
+			 
+			 
+			 mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				var noticeInfoId = self.noticeInfoId;//获取通知公告ID
+				var url = 'page-notice/h5/noticeh5.jsp?noticeInfoId='+noticeInfoId+'&title=noticeDep' ;
+				mui.init({
+				    subpages:[{
+				      url: topUrl + url,
+				      id:'list.html',
+				      styles:{
+				        top:'45px',//mui标题栏默认高度为45px；
+				        bottom:'0px'//默认为0px，可不定义；
+				      }
+				    }]
+				 });
+			 });
+			 
+			 mui.back = function() { // 回退刷新
+				mui.doAction("backs");
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.divList{
+				border: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">			
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">应用信息</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			<ul class="mar_t_20">
+				<li id="version" class="divList">
+					<div class="display floatL colorL">版本号</div>
+					<div class="textAreat floatR colorR"></div>
+				</li>
+				<li id="developer" class="divList mar_t_20">
+					<div class="display floatL colorL">开发者选项</div>
+					<div class="textAreat floatR colorR"></div>
+				</li>
+			</ul>
+			
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script type="text/javascript">
+			
+			var developerTapCount = 0;
+			var oldTimestamp = new Date().getTime(); // 获取时间戳
+			
+			var version = document.getElementById("version").children[1];
+			
+			mui.init();
+			mui.plusReady(function() {
+				initData();
+			});
+			
+			// 初始化数据
+			function initData(){
+				version.innerHTML = "V "+plus.runtime.version;
+			}
+			
+			// 设置条目击事件(控件组点击方式)
+			mui("ul").on('tap', 'li', function() {
+				var clickId = this.getAttribute("id");
+				var newTimestamp = new Date().getTime(); // 获取时间戳
+				
+				switch (clickId) {
+					case "developer" : 
+						if (newTimestamp-oldTimestamp <= 1000) { // 点击间隔小于或等于1秒时记录点击次数
+							if (developerTapCount < 5) { // 点击次数不足6次时, 累计点击次数
+								developerTapCount += 1;
+							} else { // 点击次数为7时, 打开开发者选项界面
+								var openUrl = "../page-developer/developer-developerList.html";
+								var openId = "developer-developerList";
+								openNewPage(openUrl,openId);
+							}
+						} else { // 点击间隔大于1秒时, 清空点击计数, 提示不开放页面
+							developerTapCount = 0;
+							mui.toast("开发者选项仅对开发者开放");
+						}
+						oldTimestamp = newTimestamp; // 更新时间戳
+						break;
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

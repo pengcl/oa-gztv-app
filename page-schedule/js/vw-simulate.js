@@ -1,0 +1,1 @@
+(function(window,document){var _this=this;$(function(){setRootFs();$(window).resize(function(event){setRootFs()});function setRootFs(){var vw=document.body.clientWidth;$("html").css("font-size",vw*0.0555555555555556+"px")}})}(window,document));

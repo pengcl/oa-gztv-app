@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+	</head>
+	<style>
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #f00;
+		}
+		.editContent{
+			width: 100%;
+			border: 1px;
+			height: 150px;
+			word-break:break-all; 
+			word-wrap:break-all;
+		}
+		.edit{
+			bottom: 45px;
+			border-top: 1px;
+		}
+	</style>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        <div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<a id="toDo" class="mui-icon mui-icon-bars mui-pull-right" style="color: #FFF;"></a>
+			<h1 id="title" class="mui-title">公文表单</h1>
+		</header>
+		
+		<!--<div id="" class="mui-bar mui-bar-tab edit">
+			
+			<textarea id="editContent" class="editContent" placeholder="请输入内容"></textarea>
+				
+			<div id="selectList" class="mui-card" hidden="hidden">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse">
+						<a id="groupName" class="mui-navigate-right">表单</a>
+						<div class="mui-collapse-content">
+							<form id="selectContentList" class="mui-input-group">
+								
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>-->
+		
+		<nav class="mui-bar mui-bar-tab">
+			<a id="homeTab" class="mui-tab-item mui-active" href="toDo-form.html">
+				<span class="mui-icon iconfont icon2-biaodan"></span>
+				<span class="mui-tab-label">公文表单</span>
+			</a>
+			<a id="documentTab" class="mui-tab-item" href="toDo-accessories.html">
+				<span class="mui-icon iconfont icon2-fujian"></span>
+				<span class="mui-tab-label">正文附件</span>
+			</a>
+			<a id="communicationTab" class="mui-tab-item" href="toDo-record.html">
+				<span class="mui-icon iconfont icon2-gongwenliuzhuan"></span>
+				<span class="mui-tab-label">流转记录</span>
+			</a>
+			<a id="suggestionTab" class="mui-tab-item" href="toDo-suggestion.html">
+				<span class="mui-icon iconfont icon2-yijian"></span>
+				<span class="mui-tab-label">填写意见</span>
+			</a>
+		</nav>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var mainToDoPage;
+			var formPage;
+			var tabIdArr = ['homeTab','documentTab','communicationTab','suggestionTab'];
+			var subpages = ['toDo-form.html', 'toDo-accessories.html', 'toDo-record.html','toDo-suggestion.html'];
+			var subpage_style = {
+				top: subpageTop,
+				bottom: '51px'
+//				bottom: '202px'
+			};
+			
+			// 由于出现多次点击的问题, 使用一个变量来控制操作列表的显示
+			var isButtonOnClick = false;
+			
+			// 这个aniShow暂时不知道有啥用
+			var aniShow = {};
+			var toDoItemData;
+			
+			//mui初始化
+			mui.init();
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				mainToDoPage = plus.webview.getWebviewById('main-toDo');
+				
+				var self = plus.webview.currentWebview();
+				toDoItemData = self.itemData;
+				for(var i = 0; i < 4; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if(i > 0) {
+						sub.hide();
+					} else {
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow, temp);
+					}
+					self.append(sub);
+				}
+			});
+			
+			// 当子页面创建完毕后调用此方法获取MissiveId, 初始化内容
+			function subGetMissiveId(id){
+				var sub = plus.webview.getWebviewById(subpages[id]);
+				var mtitle = JSON.stringify(toDoItemData.mtitle); // 转换成纯字符串
+				if (mtitle) {
+					mtitle = mtitle.substring(1, mtitle.length-1); // 将转换后生成的双引号截掉
+				}
+				// 将missiveId传至子页面
+				switch(id){
+					case 0 : 
+						sub.evalJS("getBeDoneData('"+toDoItemData.mfMissiveId+
+						"','"+toDoItemData.officeMissiveFlowId+"','"+
+						toDoItemData.mfTemplateId+"','"+toDoItemData.id+
+						"','"+mtitle+"');");
+					break;
+					case 1 :
+						sub.evalJS("getAccessoriesData('"+
+							toDoItemData.mfMissiveId+"','"+mtitle+"');");
+					break;
+					case 2 :
+						sub.evalJS("getRecordData('"+toDoItemData.mfMissiveId+
+							"','"+mtitle+"');");
+					break;
+				}
+			}
+			
+			function closePage(){
+				mui.back();
+			}
+			
+			//当前激活选项, 设置登录后首先显示的页面
+			var activeTab = subpages[0];
+			//选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				// 获取点击选卡的连接
+				var targetTab = this.getAttribute('href');
+				// 若点击的选卡与当前正在显示的选卡相同, 则回滚
+				if(targetTab == activeTab) {
+					return;
+				}
+				
+				// 切换标题栏内容
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios || aniShow[targetTab]) {
+					//显示选中界面
+					plus.webview.show(targetTab);
+				} else {
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 0);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			
+			// 选项卡高光设置, 默认第一个高光
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+			// 标题栏功能键监听
+			document.getElementById("toDo").addEventListener('tap',function () {
+				
+				if(!isButtonOnClick)isButtonOnClick = true; // 若已经打开了功能键, 则返回
+				else return;
+				
+				var nextFlowText = "转下一处理人";
+				if (plus.storage.getItem("deptName") == "") { // 只要是台领导, 下一处理人按钮都是显示转秘书室
+					nextFlowText = "转秘书室";
+				}
+				
+				var btnArray = [{title:"保存"},{title:nextFlowText},
+					{title:"回退"},{title:"办结"},{title:"送阅知"}];
+				plus.nativeUI.actionSheet( {
+					title:"选择操作",
+					cancel:"关闭",
+					buttons:btnArray
+				}, function(e){
+					isButtonOnClick = false; // 重置功能键点击
+					var index = e.index;
+					formPage = plus.webview.getWebviewById(subpages[0]);
+					switch (index){
+						case 0: break; // 点击关闭的操作
+						case 1: formPage.evalJS("saveFrom();");break;
+						case 2: formPage.evalJS("turnToNextLink();");break;
+						case 3: 
+							var dialogText = "回退";
+							formPage.evalJS("showDialog('"+dialogText+"',doBackFun);");
+							break;
+						case 4:
+							var dialogText = "办结";
+							formPage.evalJS("showDialog('"+dialogText+"',doEndFun);");
+							break;
+						case 5:
+							mui.toast("该功能暂未开放");
+							break;
+					}
+				} );
+			});
+			
+			mui.back = function(){
+				if(!isButtonOnClick)isButtonOnClick = true;
+				else return;
+				
+				mainToDoPage.evalJS("refreshData();");
+				mui.doAction("backs");;
+			}
+			
+			
+			
+			/**
+			 * 非点击切换选项卡
+			 * @param int newTab
+			 * @param int oldTab
+			 */
+			function changeTab(newTab,oldTab) {
+				// 显示
+				plus.webview.show(subpages[newTab]);
+				// 隐藏
+				plus.webview.hide(subpages[oldTab]);
+				// 更换正在显示选项卡
+				activeTab = subpages[newTab];
+				
+				// 切换选项卡高亮
+				var defaultTab = document.getElementById(tabIdArr[newTab]);
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				
+				// 切换高光
+				current.classList.remove('mui-active'); // 删掉当前高光
+				defaultTab.classList.add('mui-active'); // 根据选择对象显示高光
+			}
+			
+			//当前激活选项, 设置登录后首先显示的页面
+			var activeTab = subpages[0];
+			//选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				// 获取点击选卡的连接
+
+				var targetTab = this.getAttribute('href');
+				// 若点击的选卡与当前正在显示的选卡相同, 则回滚
+				if(targetTab == activeTab) {
+					return;
+				}
+
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios || aniShow[targetTab]) {
+					//显示选中界面
+					plus.webview.show(targetTab);
+				} else {
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 0);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.editContent{
+				width: 100%;
+				border: 0px;
+				height: 250px;
+				word-break:break-all; 
+				word-wrap:break-all;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+            <div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="title" class="mui-title"></h1>
+		</header>
+		<div id="content" class="mui-content" style="text-align: center;">
+			<button id="saveBtn" type="button" class="mui-btn mui-btn-primary longBtn">确&nbsp;&nbsp;定</button>
+		</div>
+		
+		
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script type="text/javascript">
+		
+			var titleText;
+			var oldValue;
+			var valueId;
+			var wvId;
+			var callbackName;
+			
+			var title = document.getElementById("title");
+			var editContent = document.getElementById("editContent");
+			var saveBtn = document.getElementById("saveBtn");
+			
+			mui.init();
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				titleText = self.titleText;// 标题文字
+				oldValue = self.oldValue;// 旧数据
+				valueId = self.valueId;// 显示内容的空间id
+				wvId = self.wvId;// 需要编辑的页面id
+				callbackName = self.callbackName;// 编辑成功的回调函数名
+				
+				initData();
+			});
+			
+			// 初始化数据
+			function initData(){
+				title.innerHTML = titleText;
+				editContent.value = oldValue;
+			}
+			
+			// 添加确认按钮点击事件
+			saveBtn.addEventListener('tap', function(event) {
+				var page = plus.webview.getWebviewById(wvId);
+				page.evalJS(callbackName+"('"+valueId+"','"+editContent.value+"');");	
+				mui.back();
+			});
+			
+		</script>
+	</body>
+
+</html>

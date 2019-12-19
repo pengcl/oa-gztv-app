@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/home.css" />
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-transparent" style="background-color:rgba(243,16,15,0); text-align: left;">
+			<div class="temperature">
+				<span id="setting" class="mui-icon iconfont icon2-set"></span>
+			</div>
+			<!--<img class="weather-pic" src="../img/weather.png">-->
+
+			<!--<div class="mui-input-row mui-search">-->
+			<div class="icon iconfont icon2-sousuo mui-input-row white" style="display:none">
+				<input type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+			</div>
+		</header>
+
+		<div class="mui-content" id="content" >
+				<div id="picSlider" class="mui-slider">
+	
+					<div class="mui-slider-group mui-slider-loop" id="picDiv">
+						
+						<!-- 额外增加的一个节点(循环轮播：该图片为最后一张图片) -->
+						<div id="pic01" class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../img/slider/yj1.png">
+							</a>
+						</div>
+						<!-- 第一张图片的位置 -->
+						<div id="pic02" class="mui-slider-item">
+							<a href="#">
+								<img src="../img/slider/yj2.png">
+							</a>
+						</div>
+						<div id="pic05" class="mui-slider-item">
+							<a href="#">
+								<img src="../img/slider/yj3.png">
+							</a>
+						</div>
+						<div id="pic06" class="mui-slider-item">
+							<a href="#">
+								<img src="../img/slider/yj4.png">
+							</a>
+						</div>
+						<!-- 最后一张图的位置 -->
+						<div id="pic07" class="mui-slider-item">
+							<a href="#">
+								<img src="../img/slider/yj1.png">
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：该图为第一张图片) -->
+						<div id="pic08" class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../img/slider/yj2.png">
+							</a>
+						</div>					
+	
+					</div>
+	
+					<div class="mui-slider-title">
+						<!--	<span class="title_cn">畅享广视，勇创未来</span>
+						<br><span class="title_en">Do the most Show the best</span>-->
+					</div>
+	
+					<div class="mui-slider-indicator" id="picA">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+					<!-- 显示登陆用户 -->
+					<div id="loginName" class="loginName">您好</div>
+	
+				</div>
+	
+				<ul id="function-selection" class="mui-table-view mui-grid-view mui-grid-9">
+					<li id="0" class="mui-table-view-cell mui-media mui-col-xs-3 ">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-wenjian">
+								<span id="toDoNumObj" class="mui-badge" style="display: none;">1</span>
+							</span>	
+							<div class="mui-media-body">待办</div>
+						</a>
+					</li>
+					<li id="1" class="mui-table-view-cell mui-media mui-col-xs-3">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-xinxi1"></span>
+							<div class="mui-media-body">待阅</div>
+						</a>
+					</li>
+					<li id="5" class="mui-table-view-cell mui-media mui-col-xs-3">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-caidan"></span>
+							<div class="mui-media-body">已办</div>
+						</a>
+					</li>
+					<li id="3" class="mui-table-view-cell mui-media mui-col-xs-3">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-tupian">
+								<span id="notStartMeetNumObj" class="mui-badge" style="display: none;">1</span>
+							</span>		
+							<div class="mui-media-body">会议</div>
+						</a>
+					</li>
+					<li id="4" class="mui-table-view-cell mui-media mui-col-xs-3">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-gongwenbaozi">
+								<span id="newNoticeNumObj" class="mui-badge" style="display: none;">1</span>
+							</span>
+							<div class="mui-media-body">公告</div>
+						</a>
+					</li>
+					<li id="2" class="mui-table-view-cell mui-media mui-col-xs-3">
+						<a class="gridStyle" href="#">
+							<span class="mui-icon iconfont icon2-rili"></span>
+							<div class="mui-media-body">日程</div>
+						</a>
+					</li>
+				</ul>
+	
+				
+	
+				<div class="pageMeeting">
+					<span class="titleL"><p>我的会议</p></span>
+					<span id="more-meeting" class="titleR"><a href="#">查看更多</a></span>
+				</div>
+	
+				<!-- 会议列表 -->
+				<!--<ul id="noticeList" class="mui-table-view mui-table-view-chevron">-->
+				<ul id="meetList" class="mui-table-view mui-table-view-chevron">
+					<!--公告模板-->
+					<!--<li class="mui-table-view-cell">
+						<div class="autoHiddenText">公告主题公告主题公告主题公告主题公告主题公告主题</div>
+						<div class="autoHiddenText"><p>发布时间:&nbsp;2017-01-22</p></div>
+					</li>-->
+				</ul>
+				
+				
+				
+				
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-common.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+
+		<script src="../js/publicMethod.js"></script>
+		<!--<script src="../js/noticeListData.js"></script>-->
+		<script src="../js/meetListData.js"></script>
+		<script type="text/javascript">
+			
+			var mainPage;
+			var notOnlineText = "即将上线...";
+			var toDoNum;
+			var newNoticeNum;
+
+			var loginName = document.getElementById("loginName");
+			//var greetingText = document.getElementById("greetingText");
+			var settingBtn = document.getElementById("setting");
+			var moreMeeting = document.getElementById('more-meeting');      // 更多-我的会议
+			var moreNotice = document.getElementById('more-notice');        // 更多-通知公告
+			var moreNoticeDep = document.getElementById('more-notice-dep'); // 更多-部门专栏
+			var notStartMeetNumObj = document.getElementById('notStartMeetNumObj'); // 未开会议个数的数字圆点
+			var toDoNumObj = document.getElementById('toDoNumObj'); // 待办个数的数字圆点
+
+			var vmNoticeList;
+			mui.ready(function () {
+				
+				// 初始化Vue
+				//var data = {};
+				//data.noticeList = [];
+
+				//vmNoticeList = initVueApp("noticeList", data);
+				
+			});
+
+			mui.plusReady(function() {
+				
+				
+
+				// 加载界面特定控件
+				initView();
+
+				// 获取会议数据
+				getMeetListData(1, 1, true);
+				
+				// 获取公告列表
+//				getNoticeListData(1);
+
+				// 获取待办数量
+				getToDoNum();
+				
+				// 获取新公告（未读公告）
+				//getNewNoticeNum();
+				
+				// 开启定时刷新
+//				realTimeRefresh();
+
+				// 获取问候语
+				//getGreetingText();
+				
+				// 查询通知公告
+				//getNoticeList();
+				
+				// 绑定事件
+				bindTap();
+			});
+
+			// 获取代办个数
+			function getToDoNum() {
+				var args = {
+					page: "1",
+					pageSize: "1",
+					searchTxt: ""
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("待办数据个数: " + JSON.stringify(rtnData));
+					toDoNum = rtnData.total;
+					initToDoNum();
+				}
+				sendRequest(toDoList, args, success);
+			}
+			
+			
+			// 获取未读公告数量
+			function getNewNoticeNum() {
+				
+				var args = {showType:2};
+				sendRequest(URL_NOTICE_UNREAD, args, function(rtnData){
+					
+					console.log("--------------------------------------");
+					console.log("未读公告数量: " + JSON.stringify(rtnData));
+					var cnt = rtnData;
+					if (!cnt) cnt = 0;
+					var newNoticeNumObj = document.getElementById("newNoticeNumObj");
+					newNoticeNumObj.innerHTML = cnt;
+					if (cnt == 0) {
+						newNoticeNumObj.style.display = "none";
+					} else {
+						newNoticeNumObj.style.display = "";
+					}					
+					
+				});
+			}
+			
+
+			/**
+			 * 初始化控件及数据
+			 */
+			function initView() {
+				
+				openDB(); // 开启数据库
+				
+				createCacheData(NOT_START_AND_RUNNING); // 创建缓存数据列表
+				
+				mainPage = plus.webview.getWebviewById("main");
+
+				loginName.innerHTML = "您好，" + plus.storage.getItem("uname");
+
+				// 设置图片轮播
+				//initPic();
+				var slider = mui("#picSlider");
+				slider.slider({
+					interval: 3000
+				});
+
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+			}
+			
+			// 初始化公告图片
+		    function initPic() {
+				var args = {
+					page : 1,
+					size : 8,
+				};
+				var _url = URL_NOTICE_LIST_PIC; // "bulletinRead/pageListView";
+				sendRequest(_url, args, function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("公告图片列表: " + JSON.stringify(rtnData));
+					createNoticePicList(rtnData);
+				});			    	
+		    }
+		    
+		    
+			/***
+			 * 动态生成TABLE ROW
+			 */
+			function createNoticePicList(noticePicList) {
+				
+				var length = 0;
+				if (noticePicList) length = noticePicList.length;
+				if (length <= 0) return;
+				var divHtml = "";
+				var preText = "pic0";
+				var class1 = "mui-slider-item mui-slider-item-duplicate";
+				var class2 = "mui-slider-item";
+				var imgSrc1 = "";
+				var imgSrc2 = "";
+				var id1 = "";
+				var id2 = "";
+				var htmlLast = ""; // 倒数第1、2张
+				for (var i = 1; i <= length; i++) {
+					
+					var itemData = noticePicList[i-1];
+					var picturePath = itemData.picturePath;
+					var title = itemData.title;
+					var id = itemData.noticeInfoId;
+					var imgSrc = topUrl + URL_ATTACH_DOWNLOAD + picturePath;
+					console.log("PIC" + i + ":" + imgSrc);
+					var html = '';
+					if (i == 1) {
+						html = getDivHtml(preText + i, class1, imgSrc, id);
+						imgSrc1 = imgSrc;
+						id1 = id;
+					} else {
+						html = getDivHtml(preText + i, class2, imgSrc, id);
+						if (i == 2) {
+							imgSrc2 = imgSrc;
+							id2 = id;
+						}
+					}
+
+					divHtml += html;
+				}
+				
+				if (length <= 1) {
+					divHtml += getDivHtml(preText + (length + 1), class1, imgSrc1, id1);
+				} else {
+					divHtml += getDivHtml(preText + (length + 1), class2, imgSrc1, id1);
+					divHtml += getDivHtml(preText + (length + 2), class1, imgSrc2, id2);
+				}
+				
+				var picDiv = document.getElementById("picDiv");
+				picDiv.innerHTML = divHtml;
+				
+				var htmlA = "";
+				var picA = document.getElementById("picA");
+				for (var i = 0; i < length; i++) {
+					if (i == 0) {
+						htmlA += '<div class="mui-indicator mui-active"></div>';
+					} else {
+						htmlA += '<div class="mui-indicator"></div>';
+					}
+				}
+				picA.innerHTML = htmlA;
+			}		  
+			
+			
+			function getDivHtml(id, className, imgSrc, noticeInfoId) {
+				
+				var html = "";
+				html += '	<div id="' + id + '" class="' + className + '" noticeInfoId="' + noticeInfoId + '">';
+				html += '		<a href="#">'; //SysAttachment!download.action?fileNo=FILE_f8a1190d05504a238bb54c1a5b802118
+				html += '			<img src="' + imgSrc + '">';
+				html += '		</a>';
+				html += '	</div>';
+				return html;
+				
+			}
+		    		    
+
+			// 初始化未开会议的个数
+			function initMeetNum() {
+				if(notStartMeetNum == 0) {
+					notStartMeetNumObj.style.display = "none";
+				} else {
+					notStartMeetNumObj.style.display = "";
+				}
+				notStartMeetNumObj.innerHTML = notStartMeetNum;
+			}
+
+			// 初始化待办的个数
+			function initToDoNum() {
+				if(toDoNum == 0) {
+					toDoNumObj.style.display = "none";
+				} else {
+					toDoNumObj.style.display = "";
+				}
+				toDoNumObj.innerHTML = toDoNum;
+			}
+
+			/**
+			 * 获取问候语方法
+			 */
+			function getGreetingText() {
+				var args = {};
+				var success = function(rtnData) {
+					if (!rtnData) return;
+					greetingText.innerHTML = rtnData.greeting;
+					console.log("--------------------------------------");
+					console.log("问候语数据: " + rtnData.greeting);
+				}
+				sendRequest(greetingUrl, args, success);
+			}
+
+			/*设置监听事件*/
+
+			// 设置定时器调用获取问候语方法, 每小时更新一次问候语
+			setInterval("getGreetingText()", 3600000); //1000为1秒钟
+			
+			
+			
+			// 绑定事件
+			function bindTap(){
+				
+				// 设置九宫格点击事件(控件组点击方式)
+				mui("#function-selection").on('tap', '.mui-table-view-cell', function() {
+					// 九宫格按钮点击事件
+					var clickId = this.getAttribute("id");
+	
+					switch(clickId) {
+						case '0':
+							openNewPage("../page-toDo/main-toDo.html", "main-toDo");
+							break; // 待办页面
+						case '1':
+							openNewPage("../page-beDone/main-beDone.html", "main-toRead");
+							break; // 待阅页面
+						case '2':
+							//openNewPage("../page-schedule/schedule.html", "schedule");
+							mainPage.evalJS("changeTab(3,0);");
+							// mui.toast(notOnlineText);
+							break; // 日程页面
+						case '3':
+							mainPage.evalJS("changeTab(2,0);");
+							break; // 会议页面
+						case '4':
+							openNewPage("../page-notice/notice.html", "notice");
+							//mui.toast(notOnlineText);
+							break; // 公告页面
+						case '5':
+							openNewPage("../page-beDone/main-beDone.html", "main-beDone");
+							break; // 已办页面
+						case '6':
+							openNewPage("../page-im/im-chat.html", "main-im");
+							//mui.toast(notOnlineText);
+							break; // 即时通讯界面
+						case '7':
+							openNewPage("../page-notice/notice-dep.html", "notice");
+							break; // 全部
+					}
+				});
+				
+				
+				
+				// 设置会议-更多按钮点击事件(单控件点击方式)
+				moreMeeting.addEventListener('tap', function(event) {
+					var main = plus.webview.getWebviewById("main");
+					main.evalJS("changeTab(2,0);");
+				});
+				
+				
+				
+				
+				// 设置设置按钮点击监听
+				settingBtn.addEventListener('tap', function(event) {
+					// openNewPage("../page-setting/main-setting.html", "setting")
+					openNewPage("../page-me/me.html", "setting")
+				});
+				
+				// 设置轮播图点击事件(控件组点击方式)
+				mui(".mui-slider-group").on('tap', '.mui-slider-item', function() {
+					
+					var noticeInfoId = this.getAttribute("noticeInfoId");
+					if (noticeInfoId == null) return;
+					var url = topUrl + URL_NOTICE_PIC + noticeInfoId;
+					openPage(url, "公告详情");
+					//				var clickPicId = this.getAttribute("id");
+					//				alert(clickPicId);
+					//				alert("图片信息");
+	
+				});
+				
+				// 设置列表item点击事件
+				mui("#meetList").on('tap', '.mui-table-view-cell', function() {
+					var id = this.getAttribute("id");
+	
+					if(id == 0) { // 若id为0, 则表示没有数据
+						return;
+					}
+	
+					console.log("--------------------------------------");
+					console.log("被点击的会议id: " + id);
+	
+					var mainPage = plus.webview.getWebviewById("main");
+					mainPage.evalJS("changeTab(2,0);"); // 跳转至会议界面
+	
+					var openUrl = '../page-meeting/meeting-detail.html';
+					var openId = 'meeting-detail';
+	
+					openItemPage(id, meetListData, openUrl, openId);
+				});	
+				
+				
+				
+			}
+
+			// 绑定事件
+			function bindNoticeTap(){
+				// 设置通知公告列表点击事件
+				mui('#noticeList').on('tap','.mui-table-view-cell',function(){
+					mui.alert('ss');
+					var params = {
+						
+					}
+					openNewPage("../page-common/openNotice.html","notice-detail",params);
+				});	
+			}
+			
+			/**
+			 * 查询通知公告
+			 */
+			function getNoticeList() {
+				var args = {};
+				var success = function(rtnData) {
+					if (!rtnData) return;
+					vmNoticeList.noticeList = rtnData.rows;
+					vmNoticeList.nextTick(function(){
+		                bindNoticeTap();
+		            });
+		            vmNoticeList.$nextTick(function(){
+		                bindNoticeTap();
+		            })
+				}
+				sendRequest(URL_NOTICE_LIST, args, success);
+			}
+			
+		</script>
+	</body>
+
+</html>

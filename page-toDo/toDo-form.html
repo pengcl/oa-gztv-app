@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+			.mui-table-cell {
+				position: relative;
+				display: table-cell;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 0px 0 0 10px;
+				text-align: left;
+			}
+			
+			.mui-table-view.mui-grid-view {
+				padding: 0;
+			}
+			
+			.editContent {
+				height: 100px;
+				padding-top: 10px;
+			}
+			
+			select,
+			textarea {
+				padding: 0px 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<h3 id="titleName" class="titleName">标题</h3>
+
+		<div id="listContent">
+			<!--议内容会议内容-->
+
+			<!--内容样式-->
+
+			<!--<div id="urgencyLevel" style="margin: 10px; margin-top: 0px; text-align: right;">紧急程度:&nbsp;
+				<div id="level" class="floatR" hidden="true">平件</div>
+				<select id="levelSelect" hidden="true">
+					<option value="0" selected="true">平件</option>
+					<option value="1">急件</option>
+					<option value="2">特急</option>
+				</select>
+				
+			</div>-->
+			<!--<div id="urgencyLevel">
+				<ul class="mui-table-view mui-grid-view">
+					<li class="mui-table-view-cell mui-media mui-col-xs-1"></li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-5" >
+						紧急程度
+						<div style=" position: relative; margin-top: 17px;" class="floatR mui-icon mui-icon-arrowdown fan_down0"></div>
+						<select style=" width: 44%;" data-datatext="紧急程度" data-datatype="nvarchar" id="fileGrade" name="fileGrade" class="selectStyle">
+							<option class="option-type" value="平件" selected="selected">平件</option>
+							<option class="option-type" value="急件">急件</option>
+							<option class="option-type" value="特急">特急</option>
+						</select>
+					</li>
+					
+					<li class="mui-table-view-cell mui-media mui-col-xs-5">
+						属性
+						<div style=" position: relative; margin-top: 17px;" class="floatR mui-icon mui-icon-arrowdown fan_down0"></div>
+						<select style=" width: 44%;" data-datatext="属性" data-datatype="nvarchar" id="fileType" name="fileType" class="selectStyle">
+							<option class="option-type" value="公开">公开</option>
+							<option class="option-type" value="内部">内部</option>
+						</select>
+
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-1"></li>
+				</ul>
+			</div>-->
+
+			<!--<div class="divListEdit mui-table-view-cell">
+				<div class="display floatL colorL">字段</div>
+				<div class="textAreat floatR colorR mui-navigate-right">内容</div>
+			</div>
+			<div class="divList">
+				<div class="display floatL colorL">字段</div>
+				<div class="textAreat floatR colorR">内容</div>
+			</div>
+
+			<div class="divListEdit mui-table-view-cell">
+				<div class="colorL signTitle mui-navigate-right bg_qj bg_title"><span class="icon iconfont icon2-tongyi2"></span>审批意见</div>
+				<div class="textAreat colorR pad_t25 font_18">呈领导呈领导呈领导呈领导呈领导呈领导呈领导呈领导呈领导呈领导呈领导呈领导</div>
+				<div class="colorR textFloatR pad_t25 boot_15 pad_r20 font_18">技术部 李德芳 2017-01-19</div>
+			</div>
+
+			<div class="divList">
+				<div class="colorL signTitle bg_qj bg_title"><span class="icon iconfont icon2-tongyi2"></span>审批意见2</div>
+				<div class="textAreat colorR pad_t25">呈领导</div>
+				<div class="colorR textFloatR pad_t25 pad_r20">技术部 李德芳 2017-01-19</div>
+				<div class="colorR moreSignLine pad_TB10"></div>
+				<div class="textAreat colorR">呈领导</div>
+				<div class="colorR textFloatR pad_r20">技术部 李德芳 2017-01-19</div>
+				<div class="colorR moreSignLine pad_TB10"></div>
+				<div class="textAreat colorR">呈领导</div>
+				<div class="colorR textFloatR pad_t25 boot_15 pad_r20 font_18">技术部 李德芳 2017-01-19</div>
+			</div>-->
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/Map.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+			var sysData = {}; //变量
+			var formData;
+			var titleText;
+
+			var mainPage;
+			var wvId;
+
+			mui.plusReady(function() {
+				// 界面加载结束, 获取id进行网络请求
+				mainPage = plus.webview.getWebviewById("toDo-main");
+				wvId = plus.webview.currentWebview().id;
+				mainPage.evalJS("subGetMissiveId(0);");
+				initView();
+			});
+
+			// 获取已办正文数据
+			function getBeDoneData(missiveId, flowId, templateId, flowGoId, mtitle) {
+				titleText = mtitle;
+				var args = {
+					op: 'todo',
+					missiveId: missiveId,
+					flowId: flowId,
+					flowGoId: flowGoId,
+					templateId: templateId
+				};
+				var success = function(rtnData) {
+
+					console.log("--------------------------------------");
+					console.log("公文正文数据: " + JSON.stringify(rtnData));
+
+					console.log("--------------------------------------");
+					console.log("公文格式数据: " + JSON.stringify(rtnData.html));
+
+					console.log("--------------------------------------");
+					console.log("公文内容数据: " + JSON.stringify(rtnData.fieldPropsJson));
+
+					//初始化变量
+					sysData = initSysData(rtnData);
+					// 加载表单
+					createFormByTemplet(rtnData);
+					// 初始化表单字段
+					initFormField(rtnData);
+					// 绑定点击事件
+					bindOnClickEvent();
+					initData(rtnData);
+				}
+				sendRequest(missiveDetail, args, success);
+			}
+
+			function initView() {
+
+			}
+
+			// 初始化控件数据
+			function initData(rtnData) {
+				var titleName = document.getElementById("titleName");
+				titleName.innerHTML = rtnData.m_title;
+			}
+
+			// 保存字段信息
+			function saveFrom() {
+				var missiveId = sysData.missiveId;
+				var flowId = sysData.flowId;
+				var m_title = sysData.m_title;
+				var formFeildsValue = getFieldsValueFun(1);
+				var params = {};
+				params.missiveId = missiveId;
+				params.flowId = flowId;
+				params.m_title = m_title;
+				params.formFeildsValue = formFeildsValue;
+
+				var success = function(rtnData) {
+
+					console.log("--------------------------------------");
+					console.log("保存结果: " + JSON.stringify(rtnData));
+					mui.toast(rtnData.msg);
+				}
+				sendRequest(saveFormData, params, success);
+
+			}
+
+			// 转下一处理人
+			function turnToNextLink() {
+				var formFeildsValue = getFieldsValueFun(2);
+
+				mui.openWindow({
+					url: '../page-select/selectNextLink.html',
+					id: 'selectNextLink',
+					styles: {
+						bounce: 'vertical'
+					},
+					extras: {
+						formFeildsValue: formFeildsValue,
+						sysData: sysData
+					}
+				});
+			}
+
+			/**
+			 * 显示选择提示框
+			 * @param {Object} dialogText 需要提示的文字
+			 * @param {Object} operation 对应的操作函数
+			 */
+			function showDialog(dialogText, operation) {
+				var btnArray = ['是', '否'];
+				mui.confirm('是否' + dialogText + '？', '广视通提醒', btnArray, function(e) {
+					if(e.index == 0) {
+						operation();
+					}
+				});
+			}
+
+			// 回退方法
+			function doBackFun() {
+				var args = {
+					missiveId: sysData.missiveId,
+					flowId: sysData.flowId,
+					flowGoId: sysData.flowGoId,
+					backSelectId: 1
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("回退请求结果: " + JSON.stringify(rtnData));
+					mui.toast(rtnData.msg);
+					mainPage.evalJS("mui.back();");
+				}
+				sendRequest(doBackUrl, args, success);
+			}
+
+			// 办结方法
+			function doEndFun() {
+				var args = {
+					missiveId: sysData.missiveId,
+					flowId: sysData.flowId,
+					flowGoId: sysData.flowGoId
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("办结请求结果: " + JSON.stringify(rtnData));
+					mui.toast(rtnData.msg);
+					mainPage.evalJS("mui.back();");
+				}
+				sendRequest(doEndUrl, args, success);
+			}
+
+			/**
+			 * 获取并封装表单字段的值,提交才拼接新意见. flag = 1 为保存, flag = 2 为提交
+			 */
+			function getFieldsValueFun(flag) {
+				var firstFlag = true; // 找第一个可编辑签名框标志位，若找到就赋值为false
+				var param = {};
+				$('*[data-datatype]').each(function(index, item) {
+					var fileItem = $(this).get(0);
+					if(fileItem != undefined) {
+						var tagName = fileItem.tagName;
+						var id = $(this).attr("id");
+						if(tagName == "SELECT") {
+							$(this).val();
+							param['' + id] = $(this).val();
+						} else if(tagName == "div" || tagName == "DIV") {
+							var approval = $(this).attr("data-isapproval"); //审批框属性
+							var isApproval = false; //是否签名框
+							if(typeof(approval) != "undefined" && approval != "") {
+								isApproval = true;
+							}
+
+							if(isApproval) {
+								// 找第一个可编辑签名框
+								if(firstFlag && editableItemIdMap.containsKey(id)) { // 第一个可编辑
+									firstFlag = false; // 修改标志位
+									if(approval == "1" || approval == "3") { // 单条意见框
+										if(newApproveValue != '' && flag == '2') { // 不为空，使用新的值。
+											param['' + id] = newApproveValue;
+										} else { // 为空，使用原来的值。
+											param['' + id] = fieldNameValueMap.get(id);
+										}
+									} else { // 多条意见框
+										if(newApproveValue != '' && flag == '2') { // 不为空，追加新的值。
+											if(fieldNameValueMap.get(id) && fieldNameValueMap.get(id) != '') {
+												param['' + id] = fieldNameValueMap.get(id) + "&,&" + newApproveValue;
+											} else {
+												param['' + id] = newApproveValue;
+											}
+										} else { // 为空，使用原来的值。
+											param['' + id] = fieldNameValueMap.get(id);
+										}
+									}
+								} else { // 不可编辑或非第一个可编辑框
+									param['' + id] = fieldNameValueMap.get(id);
+								}
+							} else {
+								$(this).text();
+								param['' + id] = $(this).text();
+							}
+						}
+					}
+				});
+				var formFeildsValue = JSON.stringify(param);
+				return formFeildsValue;
+			}
+			/**
+			 * 打开编辑字段页面
+			 * @param {Object} title 标题名
+			 * @param {Object} oldValue 旧数据
+			 * @param {Object} objId 数据显示控件的id
+			 * @param {Object} wvId 
+			 */
+			function openEditPage(title, oldValue, objId) {
+				var args = {
+					titleText: title,
+					oldValue: oldValue,
+					objId: objId,
+					wvId: wvId,
+					callbackName: "normalEditCallback",
+				};
+				var openUrl = "../page-editPage/editPage.html";
+				var openId = "editPage";
+				openNewPage(openUrl, openId, args);
+			}
+
+			// 常用编辑后的回调
+			function normalEditCallback(objId, value) {
+				var valueElement = document.getElementById(objId);
+				valueElement.innerHTML = value;
+			}
+
+			// 意见编辑后的回调
+			function suggestionEditCallback(value) {
+				if(value != '') {
+					var uname = plus.storage.getItem("uname");
+					var deptName = plus.storage.getItem("deptName");
+					var curDate = new Date();
+					var datetime = curDate.pattern("yyyy-MM-dd HH:mm");
+					var msgStr = deptName + "&nbsp;&nbsp;" + uname + "&nbsp;&nbsp;" + datetime
+
+					newApproveValue = value + "&@&" + msgStr;
+				}
+				turnToNextLink(); // 调用转下一处理人
+			}
+
+			// 在布局加载完后, 绑定点击事件
+			function bindOnClickEvent() {
+				mui("#listContent").on('tap', '.divListEdit', function() {
+
+					try { // 若为签名框则没有父节点
+						var clickId = this.children[1].id; // 获取字段id
+						var infoKey = document.getElementById(clickId);
+						var infoName = infoKey.parentNode.children[0].innerHTML; // 获取字段标题
+						var infoValue = infoKey.innerHTML; // 获取字段数据
+					} catch(e) {}
+
+					//				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+
+					var isapproval = false;
+					var clickTitle = this.children[0]; // 获取点击内容标题
+
+					var approvaltype = clickTitle.getAttribute("data-isapproval");
+					if(approvaltype != "undefined" && approvaltype != "" && approvaltype != null) {
+						isapproval = true;
+					}
+
+					if(isapproval) {
+						mainPage.evalJS("changeTab(3,0);"); // 跳转到签名页面
+					} else { // 普通字段点击操作
+						openEditPage(infoName, infoValue, clickId);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

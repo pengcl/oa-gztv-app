@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>通知公告</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<style>
+			ul{
+				list-style: none;
+			}
+			.jieshou{
+				margin-right: 15px;
+				display: inline-block;
+				text-align: center;
+				width:47px ;
+				height: 30px;
+				background-color: #51aa38;
+				color: white;
+				line-height: 30px;
+				border-radius: 2px;
+			}
+			.ul-friend{
+				padding-left: 10px;
+				margin-top: 20px;
+				float: left;
+			}
+			.ul-friend li{
+				line-height: 20px;
+				height: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">通知公告</h1>
+				<button type="button" id="showSearchBtn" class=" mui-pull-right" style="background: none; border: none; margin:-2px 10px 0 0px;"  >
+					<span class="icon iconfont icon2-sousuo white"></span>					
+				</button>
+			</div>		
+		</header>
+		
+		<div style="margin-top: 80px;">
+			<div class="addPeopleFun" style="background-color: white;;height: 80px;border-bottom: 1px solid #d9d8da;border-top: 1px solid #d9d8da;">
+				<p style="text-align: center;font-size: 55px;color: #51aa38;">
+					<i class="fa fa-mobile-phone"></i></p>
+				<p style="text-align: center;margin: 0px;font-size: 13px;">添加手机联系人</p>
+			</div>
+			<ul style="list-style: none;padding-left: 15px;background-color: white;">
+				<li  style="height: 78px;line-height: 78px;border-bottom: 1px solid #d9d8d9;">
+					<img style="height: 36px;float: left;margin-top: 21px;" src="../img/slider/touxiang@2x.png">
+					<ul class="ul-friend">
+						<li style="color: #2d2d2d;font-size: 14px;">里的放</li>
+						<li style="font-size: 13px;color: #888888;">开发部</li>
+					</ul>
+					<span  style="float: right;">
+						<a class="confirmFriend jieshou" id="{{item.id}}">接收</a>
+						<div style="clear: both;"></div>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		
+		<script src="../js/publicUrls.jss"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		
+	</body>
+
+</html>

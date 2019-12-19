@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">即时通讯</h1>
+		</header>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script type="text/javascript">
+			(function($,doc){
+				$.init({
+					subpages: [{
+						id: 'main-communication',
+						url: 'main-communication.html',
+						styles: {
+							top: subpageTop+'px',
+							bottom: 0,
+							bounce: 'vertical'
+						}
+					}]
+				});
+			}(mui,document));
+			
+			// 标题栏返回键监听
+			var back = document.getElementById("toBack");
+			back.addEventListener('tap', function(event){
+				var mainPage = plus.webview.getWebviewById("main");
+				mainPage.evalJS("changeTab(0,4);");
+			});
+		</script>
+	</body>
+
+</html>

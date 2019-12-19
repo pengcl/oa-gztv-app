@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			.twoSpace{
+				text-indent: 2em;
+				display: inline-block;
+				color: #0c4ec8;
+			}
+			.divList{
+				border-top: 1px solid #dedede;
+				border-bottom: 1px solid #dedede;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        <div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="titleName" class="mui-title">签到情况</h1>
+		</header>
+		
+		<div id="content"  class="mui-content mui-scroll">
+			<div id="pullrefresh" class="">
+				
+				<div id="allLeaderList" class="divList">
+				<!--	<div class="signTitle xinda"><span class="icon iconfont icon2-yuanquan"></span>应出席人员: </div>
+					<div class="twoSpace">领导　</div>
+					<div class="twoSpace">呈领导</div>-->
+				</div>
+
+				<div id="attendLeaderList" class="divList">
+					<!--<div class="signTitle xinda"><span class="icon iconfont icon2-yuanquan"></span>已出席人员 :</div>-->
+				</div>
+				
+				<div id="notAttendLeaderList" class="divList">
+					<!--<div class="signTitle xinda"><span class="icon iconfont icon2-yuanquan"></span>未出席人员 :</div>-->
+				</div>
+				
+				<div id="attendMemoList" class="divList">
+				<!--	<div class="signTitle xinda"><span class="icon iconfont icon2-yuanquan"></span>备注 :</div>
+					<div class="twoSpace"></div>-->
+				</div>
+				
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script type="text/javascript">
+		
+			var meetingId;// 会议id
+			
+			var leaderIdsArr;// 签到人员的id数组
+			var leaderNamesArr;// 签到人员的姓名数组
+			var attendIdsArr;// 已经签到人员的id数组
+			var attendMemo; // 签到备注内容
+			
+			var all;// 总人数
+			var attend;// 出席人数
+			var notAttend;// 未出席人数
+			
+			var allLeaderList = document.getElementById("allLeaderList"); // 获取所有人员列表对象
+			var attendLeaderList = document.getElementById("attendLeaderList"); // 获取已出席人员列表对象
+			var notAttendLeaderList = document.getElementById("notAttendLeaderList"); // 获取未出席人员列表对象
+			var attendMemoList = document.getElementById("attendMemoList"); // 获取备注列表对象
+			
+			mui.init({
+				
+			});
+			
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				meetingId = self.meetingId;// 获取会议id
+				
+				getDataDetail();
+			});
+			
+			// 获取会议详情(只取出席人员名单)
+			function getDataDetail(){
+				args = {
+					id:meetingId
+				}
+				var success = function(rtnData){
+					console.log("--------------------------------------");
+					console.log("会议详情数据: " + JSON.stringify(rtnData.objDetail));
+					var objDetail = rtnData.objDetail;
+					var leaderIds = objDetail.leaderIds; // 获取人员id
+					var leaderNames = objDetail.leaderNames; // 获取人员姓名
+					var attendIds = objDetail.attendIds; // 获取选中人员id
+					attendMemo = objDetail.attendMemo // 获取签到备注内容
+					
+					leaderNamesArr = leaderNames.toString().split("、");
+					leaderIdsArr = leaderIds.toString().split(",");
+					attendIdsArr = attendIds.toString().split(",");
+					
+					createList();
+					
+				};
+				sendRequest(meetDetailUrl,args,success);
+			}
+			
+			// 创建列表
+			function createList(){
+				
+				all = leaderIdsArr.length;// 总人数
+				if(leaderIdsArr == ""){
+					all = 0;
+				}
+				
+				attend = attendIdsArr.length;// 出席人数
+				if(attendIdsArr == ""){
+					attend = 0;
+				}
+				
+				notAttend = all - attend;// 未出席人数
+				
+				var listName;// 为循环设置列表的id名
+				var arrayLength;// 设置所有数组的长度
+				var firstItemText;// 设置列表标题名称
+				var tempArray = [];// 设置每次显示的数据数组
+				
+				for(var i = 0 ; i < 4; i++){
+					
+					// 设置每次需要显示的数组
+					switch(i){
+						case 0: 
+							listName = "allLeaderList";
+							arrayLength = all;
+							firstItemText = "应出席人员 :";
+							tempArray = leaderNamesArr;
+							break;
+						case 1: 
+							listName = "attendLeaderList";
+							arrayLength = attend;
+							firstItemText = "已出席人员 :";
+							tempArray = getLeaderNamesArr("a");
+							break;
+						case 2: 
+							listName = "notAttendLeaderList";
+							arrayLength = notAttend;
+							firstItemText = "未出席人员 :";
+							tempArray = getLeaderNamesArr("n");
+							break;
+						case 3: 
+							listName = "attendMemoList";
+							arrayLength = 1;
+							firstItemText = "备注 :";
+							tempArray[0] = attendMemo;
+							break;
+					}
+					
+					var table = document.getElementById(listName);
+					table.innerHTML = "";// 清空内容
+					
+					// 添加标题
+					var li = document.createElement("div");
+					li.className = "signTitle xinda";
+					li.innerHTML = '<span class="icon iconfont icon2-qiandao"></span>'+firstItemText;
+					table.appendChild(li);
+					
+					// 开始插入数据
+					for(var j = 0; j < arrayLength; j++){
+						
+						// 添加人员
+						var li = document.createElement("div");
+						var contentText = tempArray[j];
+						
+						li.className = "twoSpace";
+						if(contentText && contentText.length < 3){
+							contentText = contentText + "　";
+						}
+						li.innerHTML = contentText;
+						table.appendChild(li);
+						
+					}
+				}
+			}
+			
+			// 获取人员姓名列表
+			function getLeaderNamesArr(flag){
+				var attendNameArr = [];
+				var notAttendNameArr = [];
+				
+				for(var i = 0; i < attend; i++){
+					
+					// 获取已出席人员姓名
+					for(var j = 0; j < all; j++){
+						// 若标志位为已出席, 则获取已出席人员
+						if(attendIdsArr[i] == leaderIdsArr[j]){
+							attendNameArr[attendNameArr.length] = leaderNamesArr[j];
+						}
+					}
+				}
+				
+				if(flag == "a"){
+					return attendNameArr;// 返回名字数组
+				}
+				
+				// 获取未出席人员姓名
+				for(var i = 0; i < all; i++){
+					var isExist = false;
+					for(var j = 0; j < attendNameArr.length; j++){
+						if(attendNameArr[j] == leaderNamesArr[i]){
+							isExist = true;
+							continue;
+						}
+					}
+					if(!isExist){// 若该姓名不存在于出席列表, 则加入未出席列表
+						notAttendNameArr[notAttendNameArr.length] = leaderNamesArr[i];
+					}
+				}
+				
+				return notAttendNameArr;// 返回名字数组
+			}
+			
+		</script>
+	</body>
+
+</html>

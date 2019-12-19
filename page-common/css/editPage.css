@@ -1,0 +1,12 @@
+	.mui-input-row{
+		left: 10px;
+	}
+	/* 该页面似乎无法加载common.css, 直接将样式写到页面 */
+	.btnGroup{
+		text-align: center;
+	}
+	.longBtn{
+		width: 100%;
+		font-size: 20px;
+		margin: 0px;
+	}

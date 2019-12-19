@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css">
+	</head>
+	<style>
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #e61e24;
+		}		
+		.mui-bar {
+			background-color: #fff;
+		}		
+		.mui-bar-tab .mui-tab-item {
+			color: #676870;
+		}
+	</style>
+
+	<body>
+
+		<nav class="mui-bar mui-bar-tab">
+			
+			<a id="homeTab" name="0" class="mui-tab-item mui-active" href="page-main/main-home.html">
+				<span class="mui-icon iconfont icon2-indexTab_over2"></span>
+				<span class="mui-tab-label">主页</span>
+			</a>
+			<!--<a class="mui-tab-item" href="#tabbar-with-chat">
+				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
+				<span class="mui-tab-label">消息</span>
+			</a>-->
+			<a id="documentTab" name="1" class="mui-tab-item" href="page-missive/missive.html">
+				<span class="mui-icon iconfont icon2-gongwenTab"></span>
+				<span class="mui-tab-label">公文</span>
+			</a>
+			<a id="meetingTab" name="2" class="mui-tab-item" href="page-main/main-meeting.html">
+				<span class="mui-icon iconfont icon2-huiyiTab"></span>
+				<span class="mui-tab-label">会议</span>
+			</a>
+			<a id="agendaTab" name="3" class="mui-tab-item" href="page-schedule/schedule.html">
+				<span class="mui-icon iconfont icon2-richengTab"></span>
+				<span class="mui-tab-label">日程</span>
+			</a>
+			<!--<a id="communicationTab" class="mui-tab-item" href="page-main/main-communication-header.html">
+				<span class="mui-icon iconfont icon2-tongxunlu1"></span>
+				<span class="mui-tab-label">即时通讯</span>
+			</a>-->
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/websql.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		
+			// 用于点击图标切换的按钮id
+			var tabIdArr = ['homeTab','documentTab','meetingTab','agendaTab'];
+			// 非高亮图标
+			var iconNormalArr = ['icon2-indexTab2','icon2-gongwenTab','icon2-huiyiTab','icon2-richengTab'];
+			// 高亮图标
+			var iconActiveArr = ['icon2-indexTab_over2','icon2-gongwenTab_over','icon2-huiyiTab2_over','icon2-richengTab_over'];
+		
+			//mui初始化
+			mui.init({
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				}
+			});
+			var subpages = ['page-main/main-home.html', 'page-missive/missive.html', 'page-main/main-meeting.html', 'page-schedule/schedule.html'];
+			var subpage_style = {
+				top: 0,
+				bottom: '51px'
+			};
+
+			var aniShow = {};
+
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				
+				var self = plus.webview.currentWebview();
+				for(var i = 0; i < 4; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if(i > 0) {
+						sub.hide();
+					} else {
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow, temp);
+					}
+					self.append(sub);
+				}
+				initView();
+			});
+			
+			/**
+			 * 初始化控件
+			 */
+			function initView(){
+
+			}
+			
+			/**
+			 * 切换tab图标
+			 * @param {String} newId 被点击的选项卡id或者name
+			 */
+			function changeTabIcon(newId){
+				// 先将所有图标切换为默认
+				var num;
+				var tempTab;
+				for(num in tabIdArr){
+					tempTab = document.getElementById(tabIdArr[num]).children[0];
+					tempTab.classList.remove(iconActiveArr[num]);
+					tempTab.classList.add(iconNormalArr[num]);
+				}
+				// 切换被点击的图标
+				tempTab = document.getElementById(tabIdArr[newId]).children[0];
+				tempTab.classList.remove(iconNormalArr[newId]);
+				tempTab.classList.add(iconActiveArr[newId]);
+			}
+			
+			/**
+			 * 非点击切换选项卡
+			 * @param int newTab 需要显示的页面
+			 * @param int oldTab 需要隐藏的页面
+			 */
+			function changeTab(newTab,oldTab) {
+				// 显示
+				plus.webview.show(subpages[newTab]);
+				// 隐藏
+				plus.webview.hide(subpages[oldTab]);
+				// 更换正在显示选项卡
+				activeTab = subpages[newTab];
+				
+				// 切换选项卡高亮
+				var defaultTab = document.getElementById(tabIdArr[newTab]);
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				
+				// 切换图标
+				changeTabIcon(parseInt(newTab));
+				
+				// 切换高光
+				current.classList.remove('mui-active'); // 删掉当前高光
+				defaultTab.classList.add('mui-active'); // 根据选择对象显示高光
+			}
+			
+			//当前激活选项, 设置登录后首先显示的页面
+			var activeTab = subpages[0];
+			//选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				// 获取点击选卡的连接
+
+				var targetTab = this.getAttribute('href');
+				// 若点击的选卡与当前正在显示的选卡相同, 则回滚
+				if(targetTab == activeTab) {
+					return;
+				}
+
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios || aniShow[targetTab]) {
+					//显示选中界面
+					plus.webview.show(targetTab);
+				} else {
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 0);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				
+				// 切换图标
+				changeTabIcon(parseInt(this.name));
+				
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			
+			//自定义事件，模拟点击“首页选项卡”
+			/*document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(defaultTab !== current) {
+					current.classList.remove('mui-active');// 删掉当前高光
+					defaultTab.classList.add('mui-active');// 根据选择对象显示高光
+				}
+			});*/
+			
+			/***
+			 * 刷新页面
+			 */
+			window.addEventListener('refreshPage',function(){
+				console.log("refreshPage:" + plus.webview.currentWebview().id);
+			    plus.webview.currentWebview().reload();
+			});				
+
+			
+		</script>
+	</body>
+
+</html>

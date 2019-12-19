@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="titleName" class="mui-title">用户选择</h1>
+		</header>
+
+		<div id="pullrefresh" class="mui-content">
+			<div id="content" class="mui-scroll">
+
+				<!--<header><h3 id="contentTitle" class="titleName" >啦啦啦</h3></header>-->
+				<header>
+					<h3 id="contentTitle" class="titleName" hidden="hidden">
+						<div class="selectran">
+							<span class="icon iconfont icon2-yuanquan"></span>
+								标题
+						</div>
+					</h3>
+				</header>
+
+				<ul id="listContent" class="mui-table-view">
+					<!--样式-->
+					<!--<li class="mui-table-view-cell mui-radio mui-left">
+						<input name="radio" type="radio">
+						<samp>部门</samp>
+					</li>
+					<li id="0" class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox">
+						<samp>部门</samp>
+					</li>-->
+				</ul>
+
+				<div id="memoObj" class="mar_t_20" hidden="hidden">
+					<textarea id="editContent" class="editContent" placeholder="请输入内容" style="height: 100px;"></textarea>
+				</div>
+
+				<div id="subId" class="btnGroup">
+					<button type="button" id="submitButton" class="mui-btn-primary longBtn">确　定</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+			var splitSymbolNormal = ","; // 默认的分割符号
+			var splitSymbol; // 特殊分割符号
+			var titleName; // 标题名称
+			var btnName; // 按钮名称
+			var type; // 记录列表的类型, 单项或多选
+			var valueNames; // 列表的显示数据内容
+			var valueIds; // 列表的数据值
+			var checkedValues; // 已选中的内容
+			var wvId; // 上一页面id
+			var callbackFun; // 回调函数, 参数为新选中的内容
+			var myWvId; // 本页面的id
+			var memoText = ""; // 备注的内容
+
+			var submitButton = document.getElementById("submitButton"); // 确定按钮
+			var table = document.getElementById("listContent"); // 列表容器
+			var memoObj = document.getElementById("memoObj"); // 备注对象
+			var memoTextObj = memoObj.children[0]; // 备注内容对象
+
+			mui.init({
+				//				pullRefresh: {
+				//					container: '#pullrefresh',
+				//					up: {
+				//						contentrefresh:'正在加载中...',
+				//						callback: pullupRefresh
+				//					}
+				//				}
+			});
+
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				myWvId = self.id // 获取本页面id
+				type = self.type; // 获取列表类型, 单项, 多选
+				valueNames = self.valueNames; // 获取显示内容
+				valueIds = self.valueIds; // 获取显示内容对应的值
+				checkedValues = self.checkedValues; // 获取已选中内容的数值
+				splitSymbol = self.splitSymbol; // 获取特殊的分割符号, 用于分割数据字符串
+				titleName = self.titleName; // 获取标题名称
+				contentTitleName = self.contentTitleName; // 获取内容标题名称
+				btnName = self.btnName; // 获取按钮名称
+				callbackFun = self.callbackFun; // 获取回调函数名
+				editTitle = self.editTitle; // 获取编辑栏标题
+				memoText = self.memoText; // 获取编辑栏旧内容
+				wvId = self.wvId; // 获取上一页面id
+
+				initView();
+				createList();
+			});
+
+			function initView() {
+				// 初始化标题
+				var title = document.getElementById("titleName");
+				title.innerHTML = titleName;
+				// 初始化内容标题
+				if(contentTitleName != undefined) {
+					var contentTitle = document.getElementById("contentTitle");
+					contentTitle.children[0].innerHTML = '<span class="icon iconfont icon2-yuanquan"></span>'+contentTitleName;
+					contentTitle.hidden = false;
+				}
+				// 初始化按钮文字
+				if(btnName != undefined) {
+					submitButton.innerHTML = btnName;
+				}
+				// 初始化备注
+				if(memoText != undefined) {
+					memoTextObj.placeholder = editTitle; // 装填备注提示
+					memoTextObj.value = memoText; // 装填备注内容
+					memoObj.hidden = false;
+				}
+			}
+
+			// 创建列表
+			function createList() {
+
+				var element0;
+				var element1;
+				var tempFun; // 用于创建新的item
+				if(type == "radio") { // 区分单项与多选的结构
+					tempFun = function() {
+						var li = document.createElement("li");
+						li.className = "mui-table-view-cell mui-radio mui-left";
+						element0 = document.createElement("input");
+						element0.type = "radio";
+						li.appendChild(element0);
+						element1 = document.createElement("samp");
+						li.appendChild(element1);
+						return li;
+					}
+				} else if(type == "checkbox") {
+					tempFun = function() {
+						var li = document.createElement("li");
+						li.className = "mui-table-view-cell mui-checkbox mui-left";
+						element0 = document.createElement("input");
+						element0.type = "checkbox";
+						li.appendChild(element0);
+						element1 = document.createElement("samp");
+						li.appendChild(element1);
+						return li;
+					}
+				}
+
+				// 若没有特殊分割符号则用默认的分割符号
+				if(splitSymbol == undefined) {
+					splitSymbol = splitSymbolNormal;
+				}
+
+				var valueNamesArr = valueNames.toString().split(splitSymbol);
+				var valueIdsArr = valueIds.toString().split(splitSymbolNormal);
+				for(var i = 0; i < valueNamesArr.length; i++) {
+					var li = tempFun();
+					li.id = valueIdsArr[i];
+					element1.innerHTML = valueNamesArr[i];
+
+					table.appendChild(li);
+				}
+
+				// 显示默认选中
+				if(checkedValues.toString() != "") {
+					var checkedValuesArr = checkedValues.toString().split(splitSymbolNormal);
+					for(var i = 0; i < checkedValuesArr.length; i++) {
+						var temp = document.getElementById(checkedValuesArr[i]);
+						temp.children[0].checked = true;
+					}
+				}
+			}
+
+			// 编辑成功的回调
+			function editCallback(objId, editContent) {
+				memoText = editContent;
+				memoTextObj.innerHTML = memoText;
+			}
+
+			// 备注点击事件
+			/*memoObj.addEventListener('tap', function(event){
+				
+				var openUrl = "../page-editPage/editPage.html";
+				var openId = "editPage";
+				
+				var args = {
+					titleText : "签到备注",
+					oldValue :　memoText,
+					objId : "memoObj",
+					wvId : myWvId,
+					callbackName : "editCallback"
+				};
+				
+				openNewPage(openUrl,openId,args);
+			});*/
+
+			// 确定按钮点击事件
+			submitButton.addEventListener('tap', function(event) {
+
+				if(memoText != undefined) { // 若备注信息存在, 则收集数据
+					memoText = memoTextObj.value;
+				}
+
+				var userIds = "";
+				mui("input[type = checkbox]").each(function(index, item) {
+					if(item.checked == true) {
+						if(userIds != '') {
+							userIds += ",";
+						}
+						userIds += item.parentElement.id;
+					}
+				});
+
+				var tempPage = plus.webview.getWebviewById(wvId);
+				tempPage.evalJS(callbackFun + "('" + userIds + "','" + memoText + "');");
+			});
+		</script>
+	</body>
+
+</html>

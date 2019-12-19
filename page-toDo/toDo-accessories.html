@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+	<body>
+		<h3 id="titleName" class="titleName">标题</h3>
+		
+		<!--列表标题样式-->
+		<!--<div class="listName">附件列表&nbsp;:</div>-->
+		<!--<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>附件列表</div>-->
+		
+		<!--附件样式-->	
+		<!--<ul id="accessoryList" class="mui-table-view mui-table-view-chevron">
+					
+			<li name="5" class="mui-table-view-cell">
+				<table border="0">
+					<tr>
+						<td rowspan="2" width="35"><span class="mui-icon iconfont icon2-fujian"></span></td>
+						<td colspan="2" class="meetListTitle autoHiddenText">附件1附件1附件1附件1附件1附件1</td>
+					</tr>
+					<tr>
+						<td><p class="autoHiddenText" style="padding-left: 10px;">上传者:&nbsp;XXX</p></td>
+						<td class="accessTimeStyle"><p>上传时间:&nbsp;2016-11-14</p></td>
+					</tr>
+				</table>
+			</li>
+			
+			相关公文样式
+			<li class="mui-table-view-cell">
+				<table border="0">
+					<tr>
+						<td class="autoHiddenText">mtitle</td>
+					</tr>
+					<tr>
+						<td><p class="autoHiddenText">创建人:&nbsp;creatorName</p></td>
+					</tr>
+				</table>
+			</li>
+		</ul>-->
+		
+		<div id="missive" hidden="true">
+			<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>公文正文</div>
+			<ul id="missiveText" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		<div id="access" hidden="true">
+			<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>公文附件</div>
+			<ul id="missiveAccessory" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		<div id="related" hidden="true">
+			<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>相关公文</div>
+			<ul id="relatedMissive" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		<div id="leader" hidden="true">
+			<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>领导批示</div>
+			<ul id="instruction" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		<div id="src" hidden="true">
+			<div class="listName title_list"><span class="icon iconfont icon2-yuanquan"></span>参考资料</div>
+			<ul id="resource" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/Map.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+		
+			var missiveTextListData;
+			var missiveAccessoryListData;
+			var instructionListData;
+			var resourceListData;
+			var relatedListData;
+			
+			mui.plusReady(function(){
+				// 界面加载结束, 获取id进行网络请求
+				var main = plus.webview.getWebviewById("toDo-main");
+				main.evalJS("subGetMissiveId(1);");
+				initView();
+			});
+			
+			// 获取附件列表数据
+			function getAccessoriesData(missiveId,mtitle){
+				beDoneTitle = mtitle;
+				initData();
+				var args = {
+					missiveId:missiveId
+				};
+				var success = function(rtnData){
+					createAllAccessoriesList(rtnData.rows);
+					initAccessListData(rtnData.rows);
+					
+					console.log("--------------------------------------");
+					console.log("正文附件数据: " + JSON.stringify(rtnData));
+				}
+				sendRequest(missiveAccessoriesList,args,success);
+			}
+			
+			// 初始化控件数据
+			function initData(){
+				var titleName = document.getElementById("titleName");
+				titleName.innerHTML = beDoneTitle;
+			}
+			
+			// 初始化数据, 将数据进行分类存放
+			function initAccessListData(data){
+				var num;	
+				for(num in data){
+					switch(parseInt(data[num].uploadType)){
+						case 0: missiveTextListData = data[num].datalist;break;
+						case 1: missiveAccessoryListData = data[num].datalist;break;
+						case 2: instructionListData = data[num].datalist;break;
+						case 3: resourceListData = data[num].datalist;break;
+						case 4: relatedListData = data[num].datalist;break;
+					}
+				}
+			}
+			
+			function initView(){
+				
+			}
+			
+			// 设置列表item点击事件
+			mui(".mui-table-view").on('tap','.mui-table-view-cell',function(){
+				var temp = this.parentNode.id;
+				var id = this.getAttribute("id");
+				
+				console.log("--------------------------------------");
+				console.log("被点击的附件id: " + id);
+					
+				var listData = null;
+				switch(temp){
+					case "relatedMissive":
+						var path = "../page-relatedMissive/related-main.html" 
+						var openId = "related-main-0";
+						openItemPage(id,relatedListData,path,openId,openId);
+					break;
+					case "missiveText": listData = missiveTextListData;
+					case "missiveAccessory": 
+						if(listData == null)listData = missiveAccessoryListData;
+					case "instruction": 
+						if(listData == null)listData = instructionListData;
+					case "resource": 
+						if(listData == null)listData = resourceListData;
+					default:
+						var type = getAccessoryType(id,listData);
+						var path = accessoriesPath+id+type;
+						
+						plus.io.resolveLocalFileSystemURL(path,
+							// 本地存在对应文件, 直接打开
+						   	function success(entry){
+								plus.runtime.openFile(path);
+								
+							},// 本地不存在对应文件, 下载并打开
+					   		function error(e){
+					   			downloadAccess(id,path);
+						});	
+				}
+			});
+			
+			
+		</script>
+	</body>
+
+</html>

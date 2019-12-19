@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link href="../page-notice/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<title>LayIM 移动版</title>
+<style>
+	.laymi-define-radius{
+		margin-top: 12px;
+		border-radius: 50%;
+		color: white;
+		float: right;
+		display: inline-block;
+		background-color: red;
+		height: 20px;
+		line-height: 20px;
+		width: 20px;
+		text-align: center;
+	}
+	.layim-chat-detail{
+		display: none;
+	}
+	.layim-title p{
+		height: 50px;
+		line-height: 50px;
+	}
+	.layim-title{
+		line-height: 0px!important;
+	}
+	.layim-tab-content li h5{
+		padding-left: 15px!important;
+		height: 30px!important;
+		line-height: 30px!important;
+		background-color: #f0f0f5!important;
+	}
+	.layim-tab-content li h5 i{
+		display: none!important;
+	}
+	.layim-list-friend .layim-tab-content, .layim-tab-content li ul{
+		display: block!important;
+	}
+	.layim-tab-content,
+	.layim-tab-content li ul {
+		display: block;
+	}
+	
+	.layim-title {
+		background-color: #f3100f!important;
+	}
+	
+	ul {
+		list-style: none;
+	}
+	
+	.jieshou {
+		margin-right: 15px;
+		display: inline-block;
+		text-align: center;
+		width: 47px;
+		height: 30px;
+		background-color: #51aa38;
+		color: white;
+		line-height: 30px;
+		border-radius: 2px;
+	}
+	
+	.ul-friend {
+		padding-left: 10px;
+		margin-top: 20px;
+		float: left;
+	}
+	
+	.ul-friend li {
+		line-height: 20px;
+		height: 20px;
+	}
+	
+	.addFunClass i {
+		position: absolute;
+		top: 10px;
+		margin-right: 10px;
+		left: 18px;
+		font-size: 20px
+	}
+</style>
+
+<link rel="stylesheet" href="layim/css/layui.mobile.css">
+
+</head>
+<body id="muiChat" onload="onload()">
+
+<script src="../js/mui.min.js"></script>
+<script src="layim/layui.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/openPage.js"></script>
+<script src="select-people.js"></script>
+<script type='text/javascript' src='Config.js'></script>
+<script type='text/javascript' src='easemob/webim.config.js'></script>
+<script type='text/javascript' src='easemob/strophe-1.2.8.min.js'></script>
+<script type='text/javascript' src='easemob/websdk-1.4.13.js'></script>
+<!--<script type='text/javascript' src='chat_ui_bak.js'></script>-->
+<script type='text/javascript' src='chat_ui.js'></script>
+<script type='text/javascript' src='chat.js'></script>
+
+</body>
+</html>

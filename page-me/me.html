@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/common.css" rel="stylesheet" />
+		<link href="css/me.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style="position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			
+			<div hidden="hidden">这个div的作用是使图片列表中的margin-top生效</div>
+			
+			<ul class="mui-table-view listGroupInterval">
+				<li id="personalPic" class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#picture">
+						<img id="headPicObj" class="mui-media-object mui-pull-left headerPic" style="width:40px;height:40px" src="../img/user.png"/>
+						<div style="padding-top: 9px;">
+							<div id="userNameObj" class="mui-media-body">
+								用户姓名
+							</div>
+							<p id="userIdObj">账号 : </p>
+							<p id="userDepartObj" hidden="hidden">部门</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view listGroupInterval">
+				<li id="userInfo" class="mui-table-view-cell">
+					<img id="headPicObj" class="mui-media-object mui-pull-left littleIconsStyle" src="../img/icons/user.png"/>
+					<div class="mui-navigate-right">
+						帐号与安全
+					</div>
+				</li>				
+				<li id="changePwd" class="mui-table-view-cell">
+					<img id="headPicObj" class="mui-media-object mui-pull-left littleIconsStyle" src="../img/icons/locked.png"/>
+					<div class="mui-navigate-right">
+						修改密码
+					</div>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view listGroupInterval">
+				<li id="about" class="mui-table-view-cell">
+					<img id="headPicObj" class="mui-media-object mui-pull-left littleIconsStyle" src="../img/icons/info1.png"/>
+					<div class="mui-navigate-right">
+						<span id="about-label">关于</span> <i id="version" class="mui-pull-right update"></i>
+					</div>
+				</li>		
+			</ul>
+			
+			<ul id="function-selection" class="mui-table-view listGroupInterval">
+				<li id="logout" class="mui-table-view-cell">
+					<a style="text-align: center">
+						退出登录
+					</a>
+				</li>
+			</ul>		
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		
+		<script src="../js/app-url.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/app-constant.js"></script>
+		<script src="../js/immersed.js"></script>
+		
+		<script src="js/me.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.cardObj{
+				margin-bottom: 3px;
+				background-color: #FFFFFF;
+				border: 1px solid #CCCCCC;
+			}
+			.card1,.card2{
+				padding: 5px;
+			}
+			.card2{
+				width: 100%;
+				border-top: 1px solid #CCCCCC;
+				min-height: 30px;
+			}
+			.btnStyle{
+				padding: 5px;
+				width: 100%;
+				height: 50px;
+			}
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				/*中分线*/
+				height: 100%;
+			}
+			.cacheContentObj{
+				padding: 3px;
+				border-left: 1px solid #c8c7cc;
+				overflow-y: scroll;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">			
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="pageTitle" class="mui-title">查看缓存数据</h1>
+		</header>
+
+		<div id="content" class="mui-content mui-row mui-fullscreen">
+			
+			<div id="btnList" class="mui-col-xs-3" style="overflow-y: scroll; ">
+				<button id="allDataBtn" class="mui-btn btnStyle">全部数据</button>
+				<button id="homeMeet" class="mui-btn btnStyle">主页会议</button>
+				<button id="notStartMeet" class="mui-btn btnStyle">未开会议</button>
+				<button id="runningMeet" class="mui-btn btnStyle">会议中</button>
+				<button id="finishMeet" class="mui-btn btnStyle">结束会议</button>
+				<button id="meetDetail" class="mui-btn btnStyle">会议详情</button>
+				<button id="issueList" class="mui-btn btnStyle">议题列表</button>
+				<button id="issueDetail" class="mui-btn btnStyle">议题详情</button>
+				<button id="issueMissiveList" class="mui-btn btnStyle">议题公文</button>
+				<button id="accessoryList" class="mui-btn btnStyle">附件列表</button>
+				<button id="clearContentBtn" class="mui-btn btnStyle">清屏</button>
+				<button id="clearCacheBtn" class="mui-btn btnStyle">清空缓存</button>
+				<button id="dropCacheTableBtn" class="mui-btn btnStyle" style="display: none;">删缓存表</button>
+			</div>
+			
+			<div id="cacheContentObj" class="mui-col-xs-9 cacheContentObj">
+				<!--<div class="cardObj">
+					<div class="card1">
+						类型 : finishMeetingDataFlag
+					</div>
+					<div class="card1">
+						数据Id : 
+					</div>
+					<div class="card1">
+						关联Id : 
+					</div>
+					<div class="card1">
+						关联会议Id : 
+					</div>
+					<div class="card1">
+						时间戳 : 
+					</div>
+					<div class="card2" hidden="hidden">
+						lalala
+					</div>
+				</div>-->
+			</div>
+		
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script type="text/javascript">
+			
+			var titleName = "全部数据"; // 记录点击按钮名称, 用于显示在标题上
+			
+			var pageTitle = document.getElementById("pageTitle"); // 标题内容对象
+			var cacheContentObj = document.getElementById("cacheContentObj"); // 数据列表对象
+			
+			mui.init();
+			mui.plusReady(function() {
+				initView();
+			});
+			
+			// 初始化控件
+			function initView(){
+				openDB();
+				getCacheData("",createCacheList);
+			}
+			// 初始化数据
+			function initData(){
+				
+			}
+			// 创建缓存数据列表
+			function createCacheList(rows) {
+				var tempRows;				// 临时数据存储
+				var dataFlag;				// 数据类型
+				var dataId;					// 数据id
+				var relateMeetId;			// 数据关联会议id
+				var relateNodeId;			// 关联上一节点id
+				var dataContent;			// 数据内容
+				var dataTimestamp;			// 数据时间戳
+				var length = rows.length;	// 数据条目总数
+				
+				showTitle(length);
+				if (length == 0) {
+					mui.toast("没有数据");
+					return;
+				}
+				
+				for (var i=0; i<length; i++) {
+					tempRows = rows.item(i);
+					dataFlag = tempRows[DATA_FLAG];
+					dataId = tempRows[DATA_ID];
+					relateMeetId = tempRows[RELATE_MEET_ID];
+					relateNodeId = tempRows[RELATE_NODE_ID];
+					dataContent = tempRows[DATA_CONTENT];
+					dataTimestamp = tempRows[DATA_TIMESTAMP];
+					createCacheItem(dataFlag,dataId,relateMeetId,relateNodeId,dataContent,dataTimestamp);
+				}
+			}
+			// 创建缓存条目
+			function createCacheItem(dataFlag,dataId,relateMeetId,relateNodeId,dataContent,dataTimestamp) {
+				
+				var li = document.createElement("div");
+				li.className = "cardObj";
+				li.innerHTML = '<div class="card1">类型 : '+dataFlag+'</div>'+
+					'<div class="card1">数据Id : '+dataId+'</div>'+
+					'<div class="card1">关联Id : '+relateNodeId+'</div>'+
+					'<div class="card1">关联会议Id : '+relateMeetId+'</div>'+
+					'<div class="card1">时间戳 : '+dataTimestamp+'</div>'+
+					'<div class="card2" hidden="hidden">'+dataContent+'</div>';
+				cacheContentObj.appendChild(li);
+			}
+			// 改变标题描述
+			function showTitle(length){
+				if (length < 1) {
+					pageTitle.innerHTML = titleName;
+				} else {
+					pageTitle.innerHTML = titleName+"("+length+")";
+				}
+			}
+			      
+			// 设置条目击事件(控件组点击方式)
+			mui('#btnList').on('tap', 'button', function() {
+				var clickId = this.getAttribute("id");
+				titleName = this.innerHTML;
+				
+				cacheContentObj.innerHTML = ""; // 清屏
+				
+				switch (clickId) {
+					case "allDataBtn" : 
+						getCacheData("",createCacheList);
+						break;
+					case "homeMeet" : 
+						getCacheData(NOT_START_AND_RUNNING,createCacheList);
+						break;
+					case "notStartMeet" : 
+						getCacheData(NOT_START_MEET_DATA,createCacheList);
+						break;
+					case "runningMeet" : 
+						getCacheData(RUNNING_MEET_DATA,createCacheList);
+						break;
+					case "finishMeet" : 
+						getCacheData(FINISH_MEET_DATA,createCacheList);
+						break;
+					case "meetDetail" : 
+						getCacheData(MEET_DETAIL_DATA,createCacheList);
+						break;
+					case "issueList" : 
+						getCacheData(ISSUE_LIST_DATA,createCacheList);
+						break;
+					case "issueDetail" : 
+						getCacheData(ISSUE_DETAIL_DATA,createCacheList);
+						break;
+					case "issueMissiveList" : 
+						getCacheData(ISSUE_MISSIVE_LIST_DATA,createCacheList);
+						break;
+					case "accessoryList" : 
+						getCacheData(ACCESSORIES_DATA,createCacheList);
+						break;
+					case "clearCacheBtn" : // 清除缓存数据
+						clearCacheData(function () {
+							mui.toast("已清空缓存数据");
+							showTitle(0);
+						});
+						break;
+					case "clearContentBtn" : // 清屏
+						showTitle(0);
+						break;
+					case "dropCacheTableBtn" : // 删除缓存表
+						dropCacheTable(function(){
+							mui.toast("已删除数据库中的缓存表");
+							showTitle(0);
+						});
+						break;
+				}
+			});
+			
+			// 设置条目击事件(控件组点击方式)
+			mui('#cacheContentObj').on('tap', '.cardObj', function() {
+				alert(this.children[5].innerHTML);
+			});
+			
+		</script>
+	</body>
+
+</html>

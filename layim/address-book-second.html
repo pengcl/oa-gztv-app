@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.tab {
+				padding: -1px 10px;
+				padding-bottom: 0px;
+				display: block;
+				margin: 0px -10px;
+				background-color: #fff;
+				border-bottom: 1px solid #CCCCCC;
+				height: 40px;
+			}
+			
+			.titleTabContent {
+				/*margin-top: 40px;*/
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				/*选中页签样式*/
+				color: #f00;
+				background-color: #F6F9FC;
+				border-bottom: 2px solid #f00;
+			}
+			
+			div#segmentedControl {
+				top: 0px;
+			}
+			.workflow-radius{
+				margin-top: 7px;
+				color: white;
+				border-radius: 50%;
+				border: 1px solid white;
+				line-height: 22px;
+				height: 22px;
+				width: 22px;
+				text-align: center;
+			}
+			.mui-bar-nav~.mui-content{
+				padding-bottom: 80px;
+			}
+			.selectPeople li{
+				text-align: center;
+				line-height: 3rem;
+				background-color: white;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			.personelId.active{
+				background-color: #F2F2F2;
+			}
+			.mui-input-group .mui-button-row{ height: 55px; } .mui-btn, button, input[type=button], input[type=reset], input[type=submit]{ padding: 8px 12px; }
+			.message-button{ color: white; border: 0px; /*background-color: #3286e2;*/ width: 100%; background:-webkit-linear-gradient(top,#5da7f8,#156ac8);/*new gradient for Webkit*/ }
+		</style>
+	</head>
+
+	<body style="background-color: #E5E5E5;">
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">选择人员</h1>
+				<button type="button" id="showSearchBtn" class=" mui-pull-right" style="background: none; border: none; margin:-5px 10px 0 0px;"  >
+					<span class="icon iconfont icon2-sousuo white"></span>					
+				</button>	
+			</div>
+			<div id="searchGroup" style="display: none;">
+				<a id="hideSearchBtn" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise search_input">
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入你要搜索的内容">
+				</div>
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>
+			</div>
+		</header>
+
+		<div id="pullrefresh" class="mui-content titleTabContent mui-scroll-wrapper mui-scroll">
+			<div  id="content" >
+				<ul id="selectPeople" class="selectPeople">
+					<li class="personelId" id="">数据无</li>
+				</ul>
+			</div>
+			<!--<div id="isShowSave" style="text-align: center;background-color: white;padding: 20px 15px;position: fixed;z-index: 9999;width: 100%;bottom: 0px;">
+				<button style="padding: 6px 12px; font-size: 20px;" id="savePersonel" class="message-button" id="retransmission" type="button" class="mui-btn mui-btn-primary">提交</button>
+			</div>-->
+		</div>
+	
+
+		<!--工具js-->
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<!--操作js-->
+		<script src="../js/publicMethod.js"></script>
+		<script src="../js/meetListData.js"></script>
+		<script src="Config.js"></script>
+		<script type="text/javascript">
+			var hideSearchBtn = document.getElementById("hideSearchBtn"); // 获取隐藏搜索栏按钮对象(隐藏搜索栏)
+			var searchBtn = document.getElementById("searchButton"); // 获取搜索按钮对象(获取数据)
+			var showSearchBtn = document.getElementById("showSearchBtn"); // 获取显示搜索栏按钮对象(显示)
+			var titleGroup = document.getElementById("titleGroup"); // 获取标题栏控件组
+			var searchGroup = document.getElementById("searchGroup"); // 获取搜索栏控件组
+			mui.init({
+//				preloadPages:[{ id:'page-workflow-detail.html', url:'page-workflow-detail.html' }],
+//				beforeback: function(){
+//					//获得列表界面的webview 
+//					id = plus.webview.currentWebview().id;
+//					id = id.substr(1,id.length);
+//					var list = plus.webview.getWebviewById(id); 
+//					//触发列表界面的自定义事件（refresh）,从而进行数据刷新 
+//					mui.fire(list,'workflowAlert',{factorId:personelId,factorName:personelName}); //返回true，继续页面关闭逻辑 
+//					return true; 
+//				}
+			});
+			var udepartmentId
+			mui.plusReady(function() {
+				udepartmentId = plus.storage.getItem("udepartmentId");
+				getUserAndOrg('');
+				homePage = plus.webview.getWebviewById("page-main/main-home.html");
+
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				mui(".mui-scroll-wrapper").scroll({ deceleration : 0.0005 });
+
+			});
+			
+			
+			function getUserAndOrg(id){
+				var url = topUrl+'/OaApi!view.action?cmd=10801'
+				var selectPeople = document.getElementById("selectPeople");
+				var dataHtml='';
+				mui.ajax(url,{
+					data:{id:id},
+					success:function(data){
+						var rows = data.data;
+						for(var i=0;i<rows.length;i++){
+							var name='【'+rows[i].deptName+'】'
+							if(rows[i].type=='org'){
+								name='';
+							}
+							var html='<li name="'+rows[i].text+'" type="'+rows[i].type+'" class="personelId" id="'+rows[i].id+'">'+name+''+rows[i].text+'</li>';
+							dataHtml+=html;
+						}
+						selectPeople.innerHTML=dataHtml;
+					},
+				});
+			}
+			
+			mui("#selectPeople").on('tap','.personelId',function(event){
+				var flag=true;
+				var id = this.getAttribute("id");
+				var type = this.getAttribute("type");
+				$('.personelId').each(function(){
+					var personelClass = $(this).attr('class');
+					if(personelClass.indexOf("active")>-1){
+						flag=false;
+					}
+				})
+				if(flag){
+					if(type == 'org'){ getUserAndOrg(id); return; }
+				}
+//				$('.personelId').each(function(){
+//					var personelId = $(this).attr('id');
+//					var personelClass = $(this).attr('class');
+//					if(personelClass.indexOf('active')>-1){ $('#isShowSave').css("display","block"); }
+//					if(personelId == id){
+//						if(personelClass.indexOf('active')>-1){
+//							$(this).removeClass('active');
+//						}else{
+//							$(this).addClass("active");
+//							$('#isShowSave').css("display","block");
+//						}
+//					}
+//				})
+			})
+//
+//			
+//			// 标题栏返回键监听
+			var back = document.getElementById("toBack");
+			back.addEventListener('tap', function(event) {
+				mui.back();
+			});
+			
+			//保存选择人员
+//			var savePersonel = document.getElementById("savePersonel")
+//			var personelId=[];
+//			var personelName=[];
+//			savePersonel.addEventListener("tap", function(){
+//				personelId=[];
+//				personelName=[];
+//				$('.active').each(function(){
+//					var id = $(this).attr('id');
+//					var type = $(this).attr('type');
+//					var name = $(this).attr('name');
+//					if(type == 'org'){
+//						alert("不能提交部门");
+//					}
+//					personelName.push(name);
+//					personelId.push(id)
+//				})
+//				if(personelName.length==0){
+//					alert("请选择人员");
+//					return;
+//				}
+//				if(personelName.length>1){ alert("只能选择一个人员"); return; }
+//				getUserAndOrg(udepartmentId);
+//				mui.back();
+//			})
+			
+			// 显示搜索栏按钮点击事件
+			showSearchBtn.addEventListener('tap', function(event) {
+				setTimeout(function() {
+					titleGroup.hidden = true;
+					searchGroup.style.display = "-webkit-flex"; // 用 -webkit-flex 代替 flex, 使flex属性在旧设备上也生效
+					searchInput.focus();
+				}, 400);// 设置延时, 保证显示搜索栏时弹出软键盘
+			});
+			
+			// 隐藏搜索栏按钮点击事件
+			hideSearchBtn.addEventListener('tap', function(event) {
+				searchInput.blur(); // 隐藏搜索栏时让输入框失去焦点
+				searchGroup.style.display = "none";
+				titleGroup.hidden = false;
+			});
+			
+			// 标题搜索键监听
+			searchBtn.addEventListener('tap', function(event) {
+				var searchInput = document.getElementById("searchInput").value;
+				if(searchInput.length>0){
+					searchTxt(searchInput);
+				}else{
+					getUserAndOrg(udepartmentId);
+				}
+//				// 重置上拉加载
+//				mui('#pullrefresh').pullRefresh().refresh(true);
+//				searchValue = searchInput.value.trim();
+//				//				getMeetListData(1,searchValue);
+//				refreshData();
+//
+//				homePage.evalJS("refreshData('y');");
+			});
+			
+			function searchTxt(searchInput){
+				var url = topUrl+'/OaApi!view.action?cmd=10802'
+				var selectPeople = document.getElementById("selectPeople");
+				var dataHtml='';
+				mui.post(url,{
+					searchTxt:searchInput,
+				},function(data){
+						var rows = data.data;
+					for(var i=0;i<rows.length;i++){
+							var name='【'+rows[i].deptName+'】';
+							var html='<li name="'+rows[i].text+'" type="'+rows[i].type+'" class="personelId" id="'+rows[i].id+'">'+name+''+rows[i].text+'</li>';
+							dataHtml+=html;
+						}
+						selectPeople.innerHTML=dataHtml;
+				});
+			}
+		</script>
+
+	</body>
+
+</html>

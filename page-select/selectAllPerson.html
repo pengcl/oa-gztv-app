@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="../css/publicClass.css">
+			
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				/*中分线*/
+				height: 100%;
+			}
+			.mui-col-xs-3,
+			.mui-control-content {
+				width: 100%;
+				overflow-y: auto;
+				height: 100%;
+			}
+			.mui-col-xs-3{
+				width: 130%;
+			}
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				/*选中选卡背景色*/
+				background-color: #fff;
+			}
+			.selectedGroup{ /*选中人员组*/
+				z-index: 100;
+				position: fixed;
+				bottom: 0px;
+				width: 100%;
+				background-color: #DEDEDE;
+				border: 10px solid #DEDEDE;
+				display: -webkit-flex;
+			}
+			.selectedList{ /*选中人员数据栏*/
+				z-index: 100;
+				bottom: 0px;
+				width: 100%;
+				height: 180px;
+				overflow-y: scroll;
+			}
+			.selectedBtnGroup{ /*选中人员按钮组*/
+				margin-right: 1px;
+				width: 100px;
+			}
+			.selectedBtn{ /*选中人员按钮*/
+				height: 180px;
+				width: 100%;
+				font-size: 18px;
+			}
+			.deleteIcon{
+				height: 33px;
+				width: 33px;
+				background-color: #AAAAAA;
+				border-radius: 100%;
+				margin: -5px; 
+				color: #FFF;
+				text-align: center;
+				line-height: 33px;
+				font-size: 25px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="titleName" class="mui-title">选人</h1>
+			<button type="button" id="submitBtn" class="mui-btn-grey search-button">确定</button>
+			<div id="search" class="mui-input-row inputlayer">
+				<button type="button" id="searchBtn" class="mui-btn-grey search-button">搜索</button>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise" >
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+				</div>
+			</div>
+		</header>
+		
+		<div id="pageContent" class="mui-content mui-row mui-fullscreen under-content" style="display: -webkit-flex; margin-bottom: 199px;">
+			
+			<div class="mui-col-xs-3" hidden="hidden">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+					<!--<a id="item1" class="mui-control-item">选项1</a>
+					<a id="item2" class="mui-control-item">选项2</a>
+					<a id="item3" class="mui-control-item">选项3</a>
+					<a id="item4" class="mui-control-item">选项4</a>-->
+				</div>
+			</div>
+			
+			<div id="pullrefresh" class="mui-control-content mui-active mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+				<div id="segmentedControlContents" class="mui-scroll">
+					<ul id="personList" class="mui-table-view">
+						<!--<li id="0" class="mui-table-view-cell center-text">
+							部门
+						</li>-->
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div id="selectedGroup" class="selectedGroup">
+			<div class="selectedBtnGroup">
+				<button id="selectAllBtn" class="selectedBtn" hidden="hidden">
+					全选
+				</button>
+				<button id="clearSelectedBtn" class="selectedBtn">
+					清空
+				</button>
+			</div>
+			<div id="selectedList" class="selectedList">
+				<!--<div class="divList">
+					<div class="floatR deleteIcon">X</div>
+					啦啦啦
+				</div>-->
+				<div class="divList">
+					无
+				</div>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/Map.js"></script>
+		<script>
+			
+			var RECAPTRUE_DATA = "0";			// 从新获取列表数据
+			var ADDITION_DATA = "1";			// 追加列表分页数据
+			
+			var personCount = 0;				// 记录当前人员显示的个数
+			var personMaxCount = 0;				// 记录人员列表最大个数
+			var personPageCount = 1;			// 记录当前人员列表请求分页的页数
+			var personData;						// 人员数据
+			var searchTxt = "";					// 记录搜索栏中的内容
+			var selectedPersonMap = new Map(); 	// 存储已选中的人员map
+			
+			var lastPageId;						// 上一页面id
+			var callbackFunction				// 上一页面的选人回调函数
+			
+			var departmentListData = [{"username":"部门1","userid":"depart1"},{"username":"部门2","userid":"depart2"},{"username":"部门3","userid":"depart3"},{"username":"部门4","userid":"depart4"},{"username":"部门5","userid":"depart5"},{"username":"部门6","userid":"depart6"}];
+			var departPersonListData1 = [{"username":"人员1","userid":"depart1"},{"username":"人员2","userid":"depart2"}];
+			var departPersonListData2 = [{"username":"人员1","userid":"depart1"}];
+			var departPersonListData3 = [{"username":"人员1","userid":"depart1"},{"username":"人员2","userid":"depart2"},{"username":"人员3","userid":"depart3"},{"username":"人员4","userid":"depart4"},{"username":"人员5","userid":"depart5"},{"username":"人员6","userid":"depart6"}];
+			var departPersonListData4 = [{"username":"人员1","userid":"depart1"},{"username":"人员2","userid":"depart2"},{"username":"人员3","userid":"depart3"}];
+			var departPersonListData5 = [{"username":"人员1","userid":"depart1"},{"username":"人员2","userid":"depart2"},{"username":"人员3","userid":"depart3"},{"username":"人员4","userid":"depart4"},{"username":"人员5","userid":"depart5"}];
+			var departPersonListData6 = [{"username":"人员1","userid":"depart1"},{"username":"人员2","userid":"depart2"},{"username":"人员3","userid":"depart3"},{"username":"人员4","userid":"depart4"}];
+			
+			var titleName = document.getElementById("titleName"); 						// 标题文字描述对象
+			var submitBtn = document.getElementById("submitBtn"); 						// 提交确定按钮对象
+			var searchBtn = document.getElementById("searchBtn"); 						// 搜索按钮对象
+			var controls = document.getElementById("segmentedControls"); 				// 获取部门列表对象
+			var personList = document.getElementById("personList"); 					// 获取部门人员列表对象
+			var selectedList = document.getElementById("selectedList"); 				// 获取已选中人员列表对象
+			var selectAllBtn = document.getElementById("selectAllBtn"); 				// 获取全选按钮对象
+			var clearSelectedBtn = document.getElementById("clearSelectedBtn"); 		// 获取清空按钮对象
+			var selectedGroup = document.getElementById("selectedGroup"); 				// 获取已选中控件对象
+			
+			mui.init({
+				gestureConfig:{ 		// 开启监听事件
+					tap: true, 			//单击, 默认为true
+					doubletap: true, 	//双击, 默认为false
+					longtap: true, 		//长按, 默认为false
+					swipe: true, 		//默认为true
+					drag: true, 		//默认为true
+					hold:false,			//默认为false，不监听
+					release:false		//默认为false，不监听
+				},
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh:'正在加载中...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			mui.plusReady(function(){
+//				createDepartmentList();
+				var self = plus.webview.currentWebview();
+				var selectedIds = self.selectedIds;				// 获取已选中人员id值
+				var selectedNames = self.selectedNames;			// 获取已选中人员姓名值
+				callbackFunction = self.callbackFunction;	// 获取回调函数名称
+				lastPageId = self.lastPageId;
+				if (selectedIds != undefined && selectedIds != "") {
+					// 若已选中id存在且不为空, 则初始化已选中列表
+					initSelectedPersonList(selectedIds,selectedNames);
+				}
+				getSearchPersonData(RECAPTRUE_DATA);
+//				personData = departPersonListData3;测试数据
+//				createPersonList();
+			});
+			
+			/**
+			 * 初始化已选中列表
+			 * @param {Object} selectedIds <p已选中的人员id(逗号分隔)
+			 * @param {Object} selectedNames 已选中的人员姓名(顿号分隔)
+			 */
+			function initSelectedPersonList(selectedIds,selectedNames) {
+				var selectedIdsArr = selectedIds.toString().split(",");
+				var selectedNamesArr = selectedNames.toString().split("、");
+				for (var i in selectedIdsArr) {
+					if (selectedIdsArr[i] == "") {
+						continue;
+					}
+					selectedPersonMap.put(selectedIdsArr[i],selectedNamesArr[i]);
+				}
+				createSelectedList();
+			}
+			
+			// 创建部门列表
+			function createDepartmentList() {
+				for (var i in departmentListData) {
+					var li = document.createElement("a");
+					li.className = "mui-control-item";
+					li.id = departmentListData[i].value;
+					li.innerHTML = departmentListData[i].name;
+					controls.appendChild(li);
+				}
+				//默认选中第一个
+				var temp = controls.querySelector('.mui-control-item'); // 搜索第一个带括号内id或class名的控件
+				temp.classList.add('mui-active');
+				
+				createPersonList(temp.id);
+			}
+			
+			// 通过搜索获取人员列表
+			function getSearchPersonData(flag) {
+				
+				if (flag == RECAPTRUE_DATA) {	// 若为重获数据, 页数为第一页
+					personPageCount = 1;
+				} else {						// 否则为追加数据, 页数为上一页页数加1
+					personPageCount += 1;
+				}
+				
+				var args = {
+					searchTxt : searchTxt,
+					page : personPageCount + "",
+					pageSize : "15"
+				}
+				var success = function (rtnData) {
+					console.log("--------------------------------------");
+					console.log("搜索人员列表结果: " + JSON.stringify(rtnData));
+						
+					var tempDataRows = rtnData.rows;
+						
+					personMaxCount = rtnData.total;		// 获取最大人员个数
+					if (flag == RECAPTRUE_DATA) {
+						// 若为重获数据, 则清空原有数据, 人员个数计算重置
+						personCount = 0;				// 重置人员个数记录
+						personData = tempDataRows;		// 获取列表数据
+						personList.innerHTML = "";		// 清空列表数据
+						mui('#pullrefresh').pullRefresh().refresh(true); // 重置上拉加载
+					} else {
+						// 若为追加数据, 将当前获取的数据与原有数据合并
+						personData = personData.concat(rtnData.rows); // 合并数据数组
+					}
+					createPersonList(tempDataRows);		// 创建人员列表
+				}
+				var errorCallback = function () {
+					// 请求错时, 上拉加载状态变更
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(personCount == personMaxCount); 
+				}
+				sendRequest(getSearchPersonList,args,success,errorCallback);
+			}
+			
+			// 创建人员列表
+			function createPersonList(dataRows) {
+				
+				for (var i in dataRows) {
+					personCount += 1;
+					var li = document.createElement("li");
+					li.className = "mui-table-view-cell center-text";
+					li.id = dataRows[i].userid;
+					li.innerHTML = dataRows[i].username;
+					personList.appendChild(li);
+				}
+				// 判断是否加载完所有数据
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(personCount == personMaxCount); 
+			}
+			
+			// 创建已选中列表
+			function createSelectedList() {
+				var selectedIdArr = selectedPersonMap.keys(); 		// 获取已选中人员id数组
+				var selectedNameArr = selectedPersonMap.values(); 	// 获取已选中人员姓名数组
+				
+				selectedList.innerHTML = ""; 						// 清空选中列表
+				
+				for (var i in selectedIdArr) {
+					var li = document.createElement("div");
+					li.id = selectedIdArr[i];
+					li.className = "divList";
+					li.innerHTML = '<div class="floatR deleteIcon">X</div>' + selectedNameArr[i];
+					selectedList.appendChild(li);
+				}
+				
+				var length = selectedIdArr.length;					// 显示已选中的人数
+				if (length == 0) {
+					titleName.innerHTML = "选人";
+					var li = document.createElement("div");
+					li.className = "divList";
+					li.innerHTML = '无';
+					selectedList.appendChild(li);
+				} else {
+					titleName.innerHTML = "已选中(" + length + ")";
+				}
+			}
+			
+			// 上拉加载触发事件
+			function pullupRefresh() {
+				getSearchPersonData(ADDITION_DATA);
+			}
+			
+			// 部门列表点击事件
+			mui('#segmentedControls').on('tap', '.mui-control-item', function() {
+				var id = this.getAttribute("id");
+				createPersonList(id);
+			});
+			
+			// 人员列表双击选中事件
+			mui('#personList').on('tap', 'li', function() {
+				var personId = this.getAttribute("id");
+				var personName = this.innerHTML;
+				
+				if (selectedPersonMap.containsKey(personId)) {		// 若选中map中已存在点选的id, 则提示已存在
+					mui.toast(personName +"已选中");
+					return;
+				}
+				
+				selectedPersonMap.put(personId,personName); 		// 将点击的人员姓名与id存进map
+				createSelectedList(); 								// 创建选中列表
+			});
+			
+			// 已选中列表删除按钮点击事件
+			mui('#selectedList').on('tap', '.deleteIcon', function() {
+				var id = this.parentNode.id;
+				selectedPersonMap.remove(id); 						// 删除点击的已选中人员
+				createSelectedList(); 								// 刷新选中列表
+			});
+			
+			// 提交确定按钮点击事件
+			submitBtn.addEventListener('tap',function() {
+				
+				var selectedIdArr = selectedPersonMap.keys(); 		// 获取已选中人员id数组
+				var selectedNameArr = selectedPersonMap.values(); 	// 获取已选中人员姓名数组
+				var length = selectedIdArr.length;
+				
+				if (length == 0) {
+					mui.toast("没有选中任何人哦");
+					return;
+				}
+				
+				var tempIds = "";
+				var tempNames = "";
+				for (var i in selectedIdArr) {
+					if (i != 0) {
+						tempIds += ",";
+						tempNames += "、";
+					}
+					tempIds += selectedIdArr[i];
+					tempNames += selectedNameArr[i];
+				}
+
+				var lastPage = plus.webview.getWebviewById(lastPageId);
+				lastPage.evalJS(callbackFunction+"('"+tempIds+"','"+tempNames+"','"+length+"');");
+				mui.back();
+			});
+			
+			// 搜索栏内容变更事件
+			searchInput.addEventListener('input',function() {
+				searchTxt = searchInput.value.trim();		// 获取搜索内容
+				if (searchTxt == "") {
+//					return;
+				}
+				getSearchPersonData(RECAPTRUE_DATA);
+			});
+			
+			// 搜索按钮点击事件
+			searchBtn.addEventListener('tap',function() {
+				searchTxt = searchInput.value.trim();		// 获取搜索内容
+				getSearchPersonData(RECAPTRUE_DATA);
+			});
+			
+			// 全选按钮点击事件
+			selectAllBtn.addEventListener('tap',function() {
+				var showingPersonArr = personList.children; 		// 获取当前人员列表中的所有人员信息数组
+				
+				for (var i=0; i < showingPersonArr.length; i++) {
+					var tempObj = showingPersonArr[i];
+					if (!selectedPersonMap.containsKey(tempObj.id)) {	// 若选中map中没有该人员信息, 则将其添加到map中
+						selectedPersonMap.put(tempObj.id,tempObj.innerHTML);
+					}
+				}
+				createSelectedList(); 								// 重新加载已选列表
+			});
+			
+			// 清空按钮点击事件
+			clearSelectedBtn.addEventListener('tap',function() {
+				selectedPersonMap.clear(); 							// 清空map集合中所有已选人员
+				createSelectedList(); 								// 重新加载已选列表
+			});
+			
+			// 清空按钮点击事件
+			selectedGroup.addEventListener('tap',function() {
+				event.stopPropagation();
+			});
+			
+		</script>
+
+	</body>
+
+</html>

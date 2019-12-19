@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>部门专栏</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<style type="text/css">
+			.tab {
+				padding: -1px 10px;
+				padding-bottom: 0px;
+				display: block;
+				margin: 0px -10px;
+				background-color: #fff;
+				border-bottom: 1px solid #CCCCCC;
+				height: 40px;
+			}
+			
+			.titleTabContent {
+				margin-top: 40px;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				/*选中页签样式*/
+				color: #f00;
+				background-color: #F6F9FC;
+				border-bottom: 2px solid #f00;
+			}
+			
+			div#segmentedControl {
+				top: 0px;
+			}
+		
+		</style>		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">部门专栏</h1>
+				<button type="button" id="showSearchBtn" class=" mui-pull-right" style="background: none; border: none; margin:-2px 10px 0 0px;"  >
+					<span class="icon iconfont icon2-sousuo white"></span>					
+				</button>
+			</div>
+			
+			<div id="searchGroup" style="display: none;">
+				<a id="hideSearchBtn" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<div style="text-align: center;" class="icon iconfont icon2-sousuo mui-input-row huise search_input">
+					<!--<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">-->
+						<select id="searchInput">
+							<!--<option>1</option>-->
+							<!--<option>2</option>-->
+						</select>
+				</div>
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>	
+			</div>		
+		</header>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		
+		<script src="js/notice-dep.js"></script>
+	</body>
+
+</html>

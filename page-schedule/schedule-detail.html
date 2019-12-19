@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的日程</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">我的日程</h1>
+			</div>	
+		</header>
+		
+		<div style="margin-top: 4rem;">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>日期</label>
+					<input id="dateTime" type="date" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div  class="mui-input-row">
+					<label>开始时间</label>
+					<input id="startTime" type="time" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div class="mui-input-row">
+					<label>结束时间</label>
+					<input id="endTime" type="time" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div style="height: auto;" class="mui-input-row">
+					<label>内容</label>
+					<textarea id="content" style="height: 8rem;"></textarea>
+				</div>
+			</form>
+			<button id="saveFun" style="width: 100%;margin-top: 3rem;height: 40px;" type="button" class="mui-btn mui-btn-danger">提交</button>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script type="text/javascript">
+			var list;
+			var id
+			mui.plusReady(function() {
+				list = plus.webview.getWebviewById('schedule-calendar.html');
+				 id = plus.webview.currentWebview().id;
+				if(id!=' '){
+					initSchedule(id);
+				}else{
+					id='';
+					var today = (new Date()).pattern("yyyy-MM-dd")
+					document.getElementById("dateTime").value=today;
+				}
+			});
+			
+			function initSchedule(id){
+				var url = topUrl+'/ScheduleManage!getById.action';
+				mui.ajax(url,{
+					data:{
+						token,token,
+						id:id,
+					},
+					success:function(data){			
+						document.getElementById("dateTime").value=data.objDetail.dateTime;
+						document.getElementById("startTime").value=data.objDetail.startTime;
+						document.getElementById("endTime").value=data.objDetail.endTime;
+						document.getElementById("content").value=data.objDetail.content;
+					},
+				});
+			}
+			
+			var saveFun = document.getElementById("saveFun");
+			saveFun.addEventListener("tap", function(){ 
+				var url = topUrl+'/ScheduleManage!saveOrUpdate.action';
+				var dateTime=document.getElementById("dateTime").value;
+				var startTime=document.getElementById("startTime").value;
+				var endTime=document.getElementById("endTime").value;
+				var content=document.getElementById("content").value;
+				console.log(id);
+				mui.ajax(url,{
+					data:{
+						token:token,
+						id:id,
+						dateTime:dateTime,
+						startTime:startTime,
+						endTime:endTime,
+						content:content,
+					},
+					type:'post',
+					success:function(data){
+						if(data.code == 0){
+							alert(data.message);
+							list.reload(true); 
+							mui.back();
+						}else{
+							alert(data.message);
+						}
+					},
+				});
+			})
+			
+			var toBack = document.getElementById("toBack");
+			toBack.addEventListener("tap", function(){
+				mui.back();
+			})
+		</script>
+		
+	</body>
+	
+</html>

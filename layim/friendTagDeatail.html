@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>部门专栏</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../page-notice/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<style type="text/css">
+			ul{
+				list-style: none;
+			}
+			ul li i{
+				margin-right: 10px;
+				position: relative;
+				top: 4px;
+			}
+			ul li{
+				font-size: 15px;
+				border-bottom: 1px solid #d9d8d9;
+				padding: 0 15px;
+				height: 60px;
+				line-height: 60px;
+			}
+			ul li p{
+				line-height: 25px;
+			}
+			input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea{
+				height: 60px;
+				line-height: 60px;
+				border-radius: 0px; border-left: none; border-right: 0px;
+			}
+			label{
+				height: 30px;
+				line-height: 30px;
+				background-color: #efeff4;
+				width: 100%;
+				display: inline-block;
+				color:#8e8e8e;
+				border-top: 0px;
+				padding-left: 15px;
+				font-size: 14px;
+			}
+			#creataeFriendTap{
+				margin-right: 0px;
+				padding: 0px;
+				height: 40px;
+				line-height: 44px;
+				display: inline-block;
+				font-size: 17px;
+			}
+			#updateFriendTabBatch{
+				margin-right: 0px;
+				padding: 0px;
+				height: 40px;
+				line-height: 44px;
+				display: inline-block;
+				font-size: 17px;
+			}
+			#friendTap li{
+				line-height: 49px;
+				height: 49px;
+			}
+			#friendTap li img{
+				vertical-align: middle;
+				width: 25px;
+			}
+			#friendTap li span{
+				color: #000000;
+				margin-left: 10px;
+			}
+		</style>		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 id="friendTitle" class="mui-title"></h1>
+				<a id="creataeFriendTap" class="mui-icon mui-pull-right" style="color: #FFF;display: block;">完成</a>
+				<!--<a id="updateFriendTabBatch" class="mui-icon mui-pull-right" style="color: #FFF;display: none;">完成</a>-->
+			</div>
+		</header>
+		<div id="friend" style="margin-top: 4.5rem;margin-bottom: 10px;">
+			<div>
+				<label>标签名字</label>
+				<input id="tagName" type="text"  />
+			</div>
+
+			<ul style="background-color: white;">
+				<label>标签成员</label>
+				<li id="addFriend" style="color: #51aa38;">
+					<i style="font-size: 30px;" class="fa fa-plus-circle"></i>
+					<span>添加成员</span>
+				</li>
+				<label>成员名单</label>
+				<ul id="friendTap">
+					<!--<li class="friendId" id="1">
+						<img src="../img/slider/touxiang@2x.png" />
+						<span>洪城资质</span>
+					</li>-->
+				</ul>
+			</ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script type='text/javascript' src='Config.js'></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script>
+			var friendIds=[];
+			var back = document.getElementById("toBack"); 
+			var friendTitle = document.getElementById("friendTitle");
+			var tagName = document.getElementById("tagName");
+			// 获取回退按钮对象(回退到首页) 
+			var lastId;
+			var userId; 
+			var homePage;
+			var homeLastId
+			mui.plusReady(function() { 
+				userId = plus.storage.getItem("sysUsersId");
+				homeLastId = plus.webview.currentWebview().id;
+				lastId = homeLastId.substr(homeLastId.indexOf(',')+1);
+				homePage =plus.webview.getWebviewById(homeLastId.substring(0,2));
+				var title = "编辑标签";
+				if(lastId==''){
+					title = '新建标签';
+//					$("#creataeFriendTap").css("display","inline-block");
+				}else{
+					findFriendByTagId(lastId);
+					listFriendTagDTO(userId,lastId);
+//					$("#updateFriendTabBatch").css("display","inline-block");
+				}
+				friendTitle.innerHTML=title;
+			});
+
+			var back = document.getElementById("toBack"); 
+			back.addEventListener('tap', function(event){ 
+				mui.back(); 
+			});
+			
+			
+			//根据标签ID查询人数
+			function findFriendByTagId(tagId){
+				var friendTap = document.getElementById("friendTap");
+				var url = imUrl+'layim/findFriendByTagId'
+				var html='';
+				mui.ajax(url, { 
+					type:'post',
+					data:{ tagId:tagId, }, 
+					success: function(data) { 
+						if(data.length>0){
+							for(var i=0;i<data.length;i++){
+								html+='<li class="friendId" id="'+data[i].id+'">' 
+								html+='<img src="'+data[i].avatar+'" />'
+								html+='<span>'+data[i].username+'</span></li>';
+							}
+						}
+						friendTap.innerHTML=html;
+					}, 
+				});
+			}
+			
+			function listFriendTagDTO(userId,lastId){
+				var tagName = document.getElementById("tagName");
+				var url = imUrl+'friendTag/listFriendTagDTO';
+				mui.ajax(url, { 
+					data:{ userId:userId, }, 
+					success: function(data) { 
+						var rows=data.model;
+						for(var i=0;i<rows.length;i++){
+							console.log(rows[i].imFriendTagVO.id);
+							if(rows[i].imFriendTagVO.id==lastId){
+								tagName.value=rows[i].imFriendTagVO.tagName;
+							}
+						}
+					}, 
+				});
+			}
+			
+			//创建标签
+			var creataeFriendTap = document.getElementById("creataeFriendTap");
+			creataeFriendTap.addEventListener("tap", function(){
+				var url = imUrl+'friendTag/createOrUpdate';
+				tagName=tagName.value;
+				if(tagName==null||tagName==''){
+					alert("标签名字不能为空!");
+					return;
+				}
+				var friendId;
+				if(friendIds.length>0){
+					friendId=friendIds[0] 
+					if(friendIds.length>1){
+						for(var i=1 ;i<friendIds.length;i++){ 
+							friendId=',' +friendIds[i]; 
+						} 
+					}
+				}
+				mui.post(url,{
+					tagId:lastId,
+					userId:userId,
+					tagName:tagName,
+					friendId:friendId,
+				},function(data){
+					if(data.success){
+						alert("保存成功");
+						mui.back();
+						homePage.reload();
+					}else{
+						alert(data.errorMsg);
+					}
+				});
+			})
+			
+			var updateFriendTabBatch = document.getElementById("updateFriendTabBatch");
+//			updateFriendTabBatch.addEventListener("tap", function(){
+//				updateFriendTabBatchUrl();
+//			})
+			//添加好友
+			function updateFriendTabBatchUrl(){
+				var url = imUrl+'friend/updateFriendTabBatch'
+				var friendId=friendIds[0];
+				if(friendIds.length>1){
+					for(var i=1 ;i<friendIds.length;i++){
+						friendId=','+friendIds[i];
+					}
+				}
+				mui.ajax(url, { 
+					type:'post',
+					data:{ 
+						userId:userId,
+						friendId:friendId,
+						tagId:lastId,
+					},
+					success: function(data) { 
+						if(data.success){
+							alert("保存成功")
+							mui.back();
+							homePage.reload();
+						}else{
+							alert(data.errorMsg);
+						}
+					}, 
+				});
+			}
+			
+			function addFriendFun(friendList){
+				var html='';
+				for(var i=0;i<friendList.length;i++){
+					html='<li class="friendId" id="'+friendList[i].id+'">'+
+					'<img src="'+friendList[i].img+'" />'+
+					'<span>'+friendList[i].groupname+'</span></li>';
+					friendIds.push(friendList[i].id);
+				}
+				$('#friendTap').append(html);
+			}
+			
+			var addFriend = document.getElementById("addFriend");
+			addFriend.addEventListener("tap", function(){
+				var url = 'select-friend.html';
+				openNewPage(url,','+homeLastId);
+			})
+			
+		</script>
+		
+	</body>
+
+</html>

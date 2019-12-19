@@ -1,0 +1,38 @@
+
+.meetPicStyle {
+	height: 40px;
+	width: 40px;
+	background:url(../img/list_img.png) no-repeat;
+	margin-right: 10px;
+}
+
+.meetTimePicStyle {
+	height: 18px;
+	width: 18px;
+	background:url(../img/times.png) no-repeat;
+	margin-right: 5px;
+	float: right;
+}
+.meetTimePicStyle2 {
+	height: 18px;
+	width: 18px;
+	background:url(../img/userlist.png) no-repeat;
+	margin-right: 5px;
+	float: right;
+}
+
+.meetListTitle {
+	padding-left:10px;
+	word-break: break-all;
+}
+
+.meetTimeStyle {
+	/*display: block;*/
+	/*float: right;*/
+	width: 75px;
+}
+.meetTimeTextStyle{
+	font-size: 14px;
+	color: #C0C0C0;
+	float: right;
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			table{
+				margin-bottom: 20px;
+				border-bottom: 1px dashed;
+			}
+			td{
+				padding: 3px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h3 id="titleName" class="recordTitleName">标题</h3>
+		
+		<div id="listContent">
+			<!--样式在待办中-->
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+		
+			var beDoneTitle;
+			
+			mui.plusReady(function(){
+				// 界面加载结束, 获取id进行网络请求
+				var pageId = plus.webview.currentWebview().pageId;
+				var main = plus.webview.getWebviewById(pageId);
+				main.evalJS("subGetMissiveId(2);");
+				
+			});
+			
+			// 获取流转记录数据
+			function getRecordData(missiveId,mtitle){
+				beDoneTitle = mtitle;
+				initData();
+				var args = {
+					missiveId : missiveId
+				};
+				var success = function(rtnData){
+					// 创建流转记录
+					createRecord(rtnData.rows,'relatedMissive');
+					
+					console.log("--------------------------------------");
+					console.log("流转记录数据: " + JSON.stringify(rtnData));
+					
+				}
+				sendRequest(recordUrl,args,success);
+			}
+			
+			// 初始化控件数据
+			function initData(){
+				var titleName = document.getElementById("titleName");
+				titleName.innerHTML = beDoneTitle;
+			}
+			
+		</script>
+	</body>
+
+</html>

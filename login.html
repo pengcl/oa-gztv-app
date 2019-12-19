@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>广视通</title>
+		<link href="css/mui.min.css" rel="stylesheet" />		
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<link href="css/login.css" rel="stylesheet" />
+	</head>
+	<body style="background: url(img/bg_.png) content-box left top; ">
+		<div class="logon_Pic"><img src="img/loginbg_.png"></div>	
+		<div id="index_logon_check">
+			<div class="mui-content">
+				<div class="mui-input-row">
+					<label><span class="mui-icon iconfont icon2-user_icon"></span>&nbsp;账号</label>
+					<input id='uname' type="text" value="" class="mui-input-clear mui-input txtUser" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label><span class="mui-icon iconfont icon2-mima_icon"></span>&nbsp;密码</label>
+					<input id='passwd' type="password" value="" class="mui-input-clear mui-input txtUser" placeholder="请输入密码">
+				</div>
+				<button id='login_button' class="mui-btn mui-btn-block mui-btn-primary">登　录</button>
+				<div class="footName">GZBN Office Automation System</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/publicUrls.js"></script>
+		<script src="js/publicResource.js"></script>
+		<script src="js/websql.js"></script>
+		<script src="js/waitingDialog.js"></script>
+		<script src="js/networkRequest.js"></script>
+		<script src="js/openPage.js"></script>
+		<script src="js/publicMethod.js"></script>
+		<script src="js/version.js"></script>
+		<script src="js/immersed.js"></script>
+		<script scr="page-webim/static/js/main.bd0f24d4.js"></script>
+		<script src="js/md5.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		
+			var userId;						// 记录用户id
+			var userPwd;					// 记录用户密码
+			
+			mui.init({
+				statusBarBackground: '#f7f7f7'
+			});
+
+			mui.plusReady(function() {
+				if (LOCK_SCREEN) {
+					// 锁定屏幕为竖屏
+					try{
+	                	plus.screen.lockOrientation('portrait-primary'); //锁死屏幕方向为竖屏
+						videoElem.addEventListener('webkitbeginfullscreen', function() {
+							plus.screen.lockOrientation('portrait-primary'); //锁死屏幕方向为竖屏
+						});
+					}catch(e){}
+				}
+				
+				initData(); // 加载数据
+				bindEvent(); // 绑定监听
+			});
+			
+			/**
+			 * 初始化数据
+			 */
+			function initData() {
+				
+				// 为了在插入数据前创建数据表, 预先打开数据库, 创建数据表
+				openDB();
+				createCacheTable(); // 创建数据表
+				
+				// 获取最后一个登陆的id, 显示在屏幕上
+				try {
+					userId = plus.storage.getItem("lastId");
+					userPwd = plus.storage.getItem("lastPwd");
+					
+					if (userId != null && userId != "") uname.value = userId;
+					if (userPwd != null && userPwd != "") passwd.value = userPwd;
+					
+					// 自动登录 
+					if (userId != null && userId != "" 
+						&& userPwd != null && userPwd != "") {
+						login(uname.value,passwd.value,0);
+					}
+				}catch(e){}
+			}
+			
+			/*刷新session*/
+			function continuouslyLogin() {
+
+				// 每20分钟刷新一次
+				setInterval("login(userId,userPwd,1)", 1200000);
+				
+			}
+
+			/**
+			 * 登录请求
+			 */
+			function login(id, pwd, type) {
+				
+				var logonInfo = {
+					account: id,
+					password: pwd
+				};
+
+				// 4.设置成功登陆后的回调函数, rtnData为回调的json数据
+				var success = function(rtnData) {
+					console.log(rtnData);
+					console.log("--------------------------------------");
+					console.log("登录信息: " + JSON.stringify(rtnData.userInfo));
+					
+					if(type == 1) return;
+					
+					closeWaiting();
+					
+					if(rtnData.loginCode == 0) {
+						mui.toast("账号或密码不正确 !");
+					} else {
+						openNewPage('main.html','main');
+						// mui.toast("登录成功 !");
+						var isMeetAdmin = rtnData.meetingAdmin;
+						var userInfo = rtnData.userInfo;
+						var deptName = userInfo.deptName;
+						var uname = userInfo.uname;
+						if(deptName == "台领导"){
+							deptName = "";
+						}
+						var secondPwd = hex_md5(pwd);
+						plus.storage.clear();// 清理之前的存储信息
+						plus.storage.setItem("token", rtnData.userInfo.token); // 存储token
+						plus.storage.setItem("lastId", id); // 存储最后一个登陆的id
+						plus.storage.setItem("meetingAdmin", isMeetAdmin); // 存储用户是否为会议管理员,即秘书
+						plus.storage.setItem("deptName", deptName); // 存储用户部门
+						plus.storage.setItem("uname", uname); // 存储用户姓名
+						plus.storage.setItem("lastPwd", pwd); // 存储密码
+						plus.storage.setItem("pwd", secondPwd); // 存储密码
+						plus.storage.setItem("sysUsersId", String(userInfo.sysUsersId)); // 存储密码
+						// 登录成功后, 持续登录以确保session不过期
+						continuouslyLogin();
+					}
+					
+					passwd.value = "" // 清空用户输入的密码
+				}
+				// 5.使用post方法
+				console.log(JSON.stringify(logonInfo));
+			
+				sendRequest(loginUrl, logonInfo, success);
+			}
+			
+			// plusReady后绑定网络变化监听
+			function bindEvent() {
+				document.addEventListener("netchange", function() {
+					login(userId,userPwd,1); // 当网络发生变化时, 默认发送一次登录信息
+				});
+			}
+			
+			// 屏幕旋转应急措施
+			function orientationChange() {
+				var orientation = window.orientation; 					// 获取当前屏幕方向
+				var allWebviewArr = [];
+				var showingWebviewArr = [];
+				showingWebviewArr = plus.webview.getDisplayWebview(); 	// 获取当前可视的页面数组
+				allWebviewArr = plus.webview.all(); 					// 获取所有webview
+				for (var i in allWebviewArr) { 							// 遍历所有的webview
+					for (var j in showingWebviewArr) { 					// 遍历所有的可见webview
+						
+						var tempAll = allWebviewArr[i];
+						var tempShowing = showingWebviewArr[j];
+						if (tempShowing.id == tempAll.id) {
+							break; 										// 若该webview在可视范围内, 则跳出刷新页面循环
+						} else if (j == showingWebviewArr.length-1 && tempAll.id != tempShowing.id) {
+							// 若该webview不在可视范围内, 则重新刷新页面
+							var tempJSText = "var tempBody = document.body;";
+							tempJSText += "tempBody.hidden = true;setTimeout(function(){tempBody.hidden = false;},3000);";
+//							allWebviewArr[i].evalJS(tempJSText);
+							tempAll.reload();
+//							tempAll.hide();
+//							setTimeout(function(){
+//								tempAll.show();
+//							},10);
+						}
+					}
+				}
+			}
+			
+			// 屏幕方向切换时重新绘制所有页面
+			window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+				if (CHANGE_SCREEN_REFRESH) {
+					orientationChange();
+				}
+			}, false); 
+			
+			// 应用唤醒状态, 发送登录信息
+			document.addEventListener("resume", function(){
+				login(userId,userPwd,1);
+			});
+			
+			// 登录按钮点击监听
+			var loginButton = document.getElementById('login_button');
+			loginButton.addEventListener('tap', function(event) {
+				if(uname.value.trim() == "" || passwd.value.trim() == "") {
+					mui.toast("账号或密码不能为空 !");
+				} else {
+					// 发送请求的步骤:
+					// 1.将用户输入的数据封装成json数据, 发送到服务器
+					userId = uname.value;
+					userPwd = passwd.value;
+					
+					showWaiting("登录中...");
+					
+					// 登录
+					login(userId, userPwd, 0);
+				}
+			});
+		</script>
+	</body>
+
+</html>

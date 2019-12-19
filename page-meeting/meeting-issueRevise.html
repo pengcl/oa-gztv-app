@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			.btnGroup{
+				padding-bottom: 0px;
+				margin-bottom: 0px;
+			}
+			.divList{
+				height: 80px;
+				line-height: 80px;
+				padding: 0 15px 0px 10px;
+			}
+			.icon2-yijian:before {
+				font-size: 41px;
+				-webkit-font-smoothing: subpixel-antialiased;
+				position:relative;
+				top: -9px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        	<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">议题操作</h1>
+			<button type="button" id="addIssueBtn" class="mui-btn-grey search-button">添加议题</button>
+		</header>
+		
+		<div id="content" class="mui-content mui-scroll">
+			<ul id="issueList" class="mui-table-view mui-table-view-chevron">
+				<!--议题操作样式-->			
+				<!--<div class="divList">
+					<div id="subId" class="btnGroup floatR" itemData = '{"agreeCount":"","agreeNames":"","evadeCount":"","evadeNames":"","evadeUserIds":"","leaderIds":"","leaderNames":"","mTopic":"","mid":"30","missiveIds":"","missiveNames":"","myAgree":"","notAgreeCount":"","notAgreeNames":"","notify":"0","page":1,"pageSize":15,"peopleCount":"","pids":"","ptypes":"","resultFlag":"","rows":[],"spnames":"","status":"","subAttendIds":"","subCalStartTime":"","subEndTime":"","subHostIds":"832","subHostNames":"江耘","subHours":"","subId":"49","subMemo":"","subOrd":"2","subPartIds":"734,1130","subPartNames":"黎泳、黄燕霞","subSeconds":"","subStartTime":"2017-02-18 17:32:48","subStatus":"2","subSummary":"","subTimes":"0","subTopic":"议题20170218002","subTotalTime":"","total":0,"totalTime":"","voteFlag":"","waiveCount":"","waiveNames":""}'>
+						<span id="0" class="icon iconfont icon2-shanchu"></span>
+						<span id="1" class="icon iconfont icon2-xiangxiashenzhan"></span>
+						<span id="2" class="icon iconfont icon2-iconfontdown2"></span>
+						<span id="3" class="icon iconfont icon2-yijian"></span>
+					</div>
+					<div class="autoHiddenText">一、dfjslkfjdsfsdfsdfsfdsd</div>
+				</div>-->
+			</ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+			
+			// 自定义常量
+			var UP_ITEM = "u";		// 上移议题标志位
+			var DOWN_ITEM = "d";	// 下移议题标志位
+			
+			var issueListData;
+			var isMeetingAdmin;
+			var meetingDetailPage;
+			var mid;				// 会议id
+			var issueCount = 0; 		// 记录可编辑会议的个数
+			var newSubOrd = 1; 			// 新建议题的位置序号
+			
+			var table = document.getElementById("issueList");
+			var addIssueBtn = document.getElementById("addIssueBtn"); // 添加议题按钮对象
+				
+			mui.init({
+//				swipeBack: true //启用右滑关闭功能
+			});
+			
+			mui.plusReady(function(){
+				isMeetingAdmin = plus.storage.getItem("meetingAdmin");
+				meetingDetailPage = plus.webview.getWebviewById("meeting-detail");
+				var self = plus.webview.currentWebview();
+				mid = self.meetingId;
+				
+				getMeetIssueData();
+			});
+			
+			// 获取议题列表数据
+			function getMeetIssueData(){
+				var args = {
+					mid: mid,
+					flag : isMeetingAdmin
+				};
+				var success = function(rtnData){
+					
+					console.log("--------------------------------------");
+					console.log("议题列表数据: " + JSON.stringify(rtnData));
+					
+					// 请求成功后清除所有议题信息
+					table.innerHTML = "";
+					issueCount = 0;
+					newSubOrd = 1; // 新增议题位置默认为1
+					issueListData = null;
+					issueListData = rtnData.rows;
+					
+					// 创建议题列表
+					createItem(issueListData);
+				}
+				sendRequest(meetIssueList,args,success);
+			}
+			
+			/**
+			 * 发送议题顺序调整信号
+			 * @param {Object} type 调整类型, 上移或下移
+			 */
+			function changeItemOrd(type,subId){
+				var args = {
+					subId : subId,
+					flag : type
+				};
+				var success = function(rtnData){
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("议题顺序调整结果: " + JSON.stringify(rtnData));
+					
+					getMeetIssueData();
+				}
+				sendRequest(changeItemOrdUrl,args,success);
+			}
+			
+			/**
+			 * 发送议题解绑信号
+			 * @param {Object} type 
+			 */
+			function unbindItem(subId){
+				var args = {
+					ids : subId
+				};
+				var success = function(rtnData){
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("议题解绑结果: " + JSON.stringify(rtnData));
+					mui.toast(rtnData.message);
+					getMeetIssueData();
+				}
+				sendRequest(unbindItemUrl,args,success);
+			}
+			
+			// 创建可操作议题列表
+			function createItem(issueData){
+				var i;
+				for(i in issueData){
+					newSubOrd += 1;									// 更新新增议题的位置序号
+					var issueItemData = issueData[i];
+					// 获取item的各个元素
+					var issueStatus = issueItemData.subStatus;		// 获取议题的状态
+					if(issueStatus != WAIT_ISSUE){					// 只显示未开始的议题
+						continue;
+					}
+					var issueTop = issueItemData.subTopic;			// 获取议题标题
+					var issueId = issueItemData.subId;				// 获取议题subId
+					var idNum = issueItemData.subOrd;				// 获取议题的序列号
+					var chineseNum = getChineseNumber(idNum);
+					
+					issueCount += 1; // 显示总数数加一
+					
+					var li = document.createElement('div');			// 创建父容器
+					li.className = 'divList';
+					
+					var child0 = document.createElement('div');		// 创建标题容器
+					child0.className = 'autoHiddenText';
+					child0.innerHTML = chineseNum+'、'+issueTop;
+					
+					var child1 = document.createElement('div');		// 创建按钮容器
+					child1.className = 'btnGroup floatR';
+					child1.id = issueId;
+					
+					child1.subNum = issueCount; 					// 为条目创建新的隐藏参数并赋值
+					
+					child1.itemData = issueItemData;
+					
+					child1.innerHTML = '<span id="0" class="icon iconfont icon2-shanchu">'+
+					'</span><span id="1" class="icon iconfont icon2-xiangxiashenzhan">'+
+					'</span><span id="2" class="icon iconfont icon2-iconfontdown2">'+
+					'</span><span id="3" class="icon iconfont icon2-yijian"></span>';
+					
+					li.appendChild(child1);
+					li.appendChild(child0);
+					
+					// 新纪录插到最后面；
+					table.appendChild(li);
+				}
+				
+				// 若第一议题标志位没变, 表示没有可操作的议题
+				if(issueCount == 0){
+					mui.toast("没有可操作的议题");
+				}
+			}
+			
+			// 打开议题编辑界面
+			function openIssueEditPage(data) {
+				var args = {
+					mid : mid, 								// 会议id
+					newSubOrd : newSubOrd					// 新议题位置序号
+				};
+				if (data) { // 如果有数据则使用数据中的参数
+					args = {
+						mid : mid,							// 会议id
+						subId : data.subId,					// 议题id
+						issueTitle : data.subTopic,			// 议题标题
+						issueStates : data.subStatus,		// 议题状态
+						subHours : data.subHours,			// 议题预计时长(小时)
+						subSeconds : data.subTimes,		// 议题预计时长(分钟)
+						subMemo : data.subMemo,				// 议题备注
+						missiveIds : data.missiveIds,		// 议题相关公文id
+						subHostNames : data.subHostNames,	// 议题汇报人名称
+						subHostIds : data.subHostIds,		// 汇报人id
+						selectedNames : data.subPartNames,	// 列席人名称
+						selectedIds : data.subPartIds		// 列席人id
+					}
+				}
+				var openUrl = "meeting-addIssue.html";
+				var openId = "meeting-addIssue";
+				openNewPage(openUrl, openId, args);
+			}
+			
+			/**
+			 * 显示选择提示框
+			 */
+			function showDialog(subId){
+				var btnArray = ['是', '否'];
+				mui.confirm('是否删除该议题？', '议题提醒', btnArray, function(e) {
+					if (e.index == 0) {
+						unbindItem(subId);
+					}
+				});
+			}
+			// 设置列表按钮点击事件
+			mui("#issueList").on('tap','.icon',function(){
+				event.stopPropagation();
+				var id = this.getAttribute("id");
+				var parentElement = this.parentElement;
+				var subId = parentElement.id;
+				var subNum = parentElement.subNum; // 获取当前点击条目的标记位
+				var itemData = parentElement.itemData;
+				
+				switch(id){
+					case "0": // 删除议题, 弹出对话框
+						showDialog(subId);
+						break;
+					case "1": // 上移议题
+						if (subNum == 1) {
+							mui.toast("没法再往上移了哦");
+							return;
+						}
+						changeItemOrd(UP_ITEM,subId);
+						break;
+					case "2": // 下移议题
+						if (subNum == issueCount) {
+							mui.toast("没法再往下移了哦");
+							return;
+						}
+						changeItemOrd(DOWN_ITEM,subId);
+						break;
+					case "3": // 修改议题
+						openIssueEditPage(itemData);
+						break;
+				}
+			});
+			
+			// 添加议题按钮点击事件
+			addIssueBtn.addEventListener('tap',function() {
+				openIssueEditPage();
+			});
+			
+			// 设置回退的方法
+			mui.back = function(){
+				meetingDetailPage.evalJS("getDataDetail();");
+				mui.doAction("backs");
+			}
+			
+		</script>
+	</body>
+</html>

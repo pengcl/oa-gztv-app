@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+			.mui-table-cell {
+				position: relative;
+				display: table-cell;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 0px 0 0 10px;
+				text-align: left;
+			}
+			
+			.mui-table-view.mui-grid-view {
+				padding: 0;
+			}
+			
+			select,textarea {
+				padding: 0px 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h3 id="titleName" class="titleName">标题</h3>
+		
+		<div id="listContent">
+			<!--议内容会议内容-->
+			
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/Map.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+		
+			var beDoneData;
+			
+			mui.plusReady(function(){
+				// 界面加载结束, 获取id进行网络请求
+				var main = plus.webview.getWebviewById("beDone-main");
+				if(main == null) main = plus.webview.getWebviewById("toRead-main");
+				main.evalJS("subGetMissiveId(0);");
+				
+			});
+			
+			// 获取已办正文数据
+			function getBeDoneData(missiveId){
+				var args = {
+					op : 'done',
+					missiveId : missiveId
+				};
+				var success = function(rtnData){
+					beDoneData = rtnData;
+					// 创建正文字段
+					createFormByTemplet(rtnData);
+					initFormField(rtnData);
+					
+					console.log("--------------------------------------");
+					console.log("公文字段数据: " + JSON.stringify(rtnData));
+					
+					initData();
+				}
+				sendRequest(missiveDetail,args,success);
+			}
+			
+			// 初始化控件数据
+			function initData(){
+				var titleName = document.getElementById("titleName");
+				titleName.innerHTML = beDoneData.m_title;
+			}
+			
+		</script>
+	</body>
+
+</html>

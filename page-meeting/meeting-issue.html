@@ -1,0 +1,1407 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.voteBtn {
+				width: 32%;
+				/*padding: 15px;*/
+				font-size: 18px;
+			}
+
+			.longBtn {
+				margin-top: 0px;
+			}
+
+			.secretarialBtn {
+				/*width: 32%;*/
+				width: 44%;
+				font-size: 18px;
+			}
+
+			.secretarialBtn96 {
+				width: 97%;
+				font-size: 18px;
+				margin: 5px 0 10px 0;
+			}
+
+			.oneSpace {
+				text-indent: 1em;
+				display: inline-block;
+			}
+
+			.voteContent {
+				text-indent: 1em;
+			}
+
+			.chart {
+				height: 300px;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			h5 {
+				margin-top: 30px;
+				font-weight: bold;
+			}
+
+			h5:first-child {
+				margin-top: 15px;
+			}
+
+			.mui-table-view:before {
+				margin-left: 18px;
+			}
+
+			.bor_0 {
+				border: 0px;
+			}
+
+			.pad_L0 {
+				padding-left: 0px;
+			}
+
+			.pad_TB12 {
+				padding-top: 12px;
+				padding-bottom: 15px;
+			}
+
+			.divList_pa_L10 {
+				width: 100%;
+				background-color: #FFF;
+				padding: 10px 17px 10px 0px;
+				left: 30px;
+				line-height: 24px;
+				border-top: 1px solid #dedede;
+				overflow: hidden;
+			}
+
+			.missiveList {
+				padding-left: 20px;
+				/*padding:0 10px 10px 10px;*/
+			}
+
+			.missiveList:active {
+				background-color: #E8E8E8;
+			}
+		</style>
+	</head>
+
+	<body onload="initPage();">
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">议题详情</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			<div class="mui-scroll" style="padding-bottom: 111px;">
+				<div id="issueContent">
+
+					<!--议提内容-->
+					<header>
+						<h3 id="issueName" class="titleName"></h3>
+					</header>
+
+					<div id="issueTimer" class="issueTimer2 right-text">
+						<div id="meetTimer" class="" hidden="hidden">
+							<span class="timerText">会议持续时间 </span>
+							<span id="timer" class="timerNumber">00:00:00</span>
+						</div>
+
+						<div id="subTimerGroup" style="margin: 6px 0 10px 0;">
+							<span class="timerText">议题持续时间 </span>
+							<span id="subTimer" class="timerNumber">00:00:00</span>
+						</div>
+					</div>
+
+					<div class="divList">
+						<div class="display floatL colorL">汇报人</div>
+						<div id="presenter" class="textAreat floatR colorR"></div>
+					</div>
+					<div class="divList">
+						<div class="display colorL">列席</div>
+						<div id="participants" class="textAreat floatR colorR" style="text-indent: 0em;"></div>
+					</div>
+					<div class="divList" style="border-bottom: 1px solid #dedede;">
+						<div class="display floatL colorL">预计时长</div>
+						<div id="subStartTime" class="textAreat floatR colorR"></div>
+					</div>
+
+				</div>
+
+				<!--<div id="meetRelatedMissive">-->
+				<div id="meetRelatedMissive" hidden="hidden">
+					<div class="divList fontB font18 balck" style="margin-top: 20px; background-color:#f1f8fb; "><span class="icon iconfont icon2-yuanquan"></span>相关公文</div>
+					<!--相关公文列表-->
+					<ul id="relatedMissiveList" class="mui-table-view gray">
+						<!--<li class="missiveList mui-table-view-cell">
+							<div class="floatR" style="margin-top: 5px;">								
+								<span id="missiveForm" class="iconfont icon2-kongbiaodan "></span>
+								<span id="missiveAccessory" class="iconfont icon2-fujian_con "></span>
+							</div>
+							<div class="floatL" style="margin-top: 5px;margin-right: 5px;">
+								<span class="icon iconfont icon2-gongwenbao"></span>
+							</div>
+							<div class="autoHiddenText font_20" style="margin-top: 2px;margin-right: 5px;">
+								大大大的大大的啊大大大的大大的啊大大大的大大的啊大大大的大大的啊大大大的大大的啊
+							</div>
+						</li>-->
+					</ul>
+				</div>
+
+				<div id="meetAccessories" hidden="hidden">
+					<div class="divList fontB font18" style="margin-top: 20px;  background-color:#f1f8fb;"><span class="icon iconfont icon2-yuanquan"></span>附件</div>
+					<!--附件列表-->
+					<ul id="accessoryList" class="mui-table-view mui-table-view-chevron gray">
+					</ul>
+				</div>
+
+				<div class="mar_t40"></div>
+				<!--分割层-->
+
+				<div id="voteSuggestion" hidden="hidden">
+					<div class="divList fontB font18" style="margin-top: 20px; background-color:#f1f8fb;">
+						<span class="icon iconfont icon2-yuanquan"></span>表决结果
+					</div>
+					<ul class="mui-table-view pad_L20">
+						<div id="agreeGroup" class="divList pad_L0 bor_0 green">
+							<div class="floatL"><span class="iconfont icon2-tongyi1"></span></div>
+							<div class="signTitle">同意 :</div>
+							<!--<div class="oneSpace">台领导</div>
+							<div class="oneSpace">领导　</div>-->
+						</div>
+						<div id="disagreeGroup" class="divList pad_L0 red">
+							<div class="floatL"><span class="iconfont icon2-butongyi"></span></div>
+							<div class="signTitle">不同意 :</div>
+							<!--<div class="voteContent">台领导(方案不成熟)</div>
+							<div class="voteContent">台领导(方案不成熟)</div>-->
+						</div>
+						<div id="waiveGroup" class="divList pad_L0 yellow">
+							<div class="floatL"><span class="iconfont icon2-fangqi"></span></div>
+							<div class="signTitle">放弃 :</div>
+						</div>
+					</ul>
+				</div>
+
+				<!--数值表决结果-->
+				<div id="voteNumber" class="btnGroup red" hidden="hidden"></div>
+
+				<div id="voteText" class="btnGroup red" hidden="true"></div>
+
+				<div class="mui-content-padded">
+					<div class="chart" id="pieChart" hidden="hidden"></div>
+				</div>
+
+				<!--自己的填写的意见, 暂不显示-->
+				<div id="suggestion" class="btnGroup red" hidden="true"></div>
+
+			</div>
+
+			<div id="voteGroup" class="operatingPanel pad_TB12" hidden="hidden">
+				<button id="waiver" type="button" class="mui-btn mui-btn-hui voteBtn">弃　权</button>
+				<button id="disagree" type="button" class="mui-btn mui-btn-danger voteBtn">不同意</button>
+				<button id="agree" type="button" class="mui-btn mui-btn-primary voteBtn">同　意</button>
+			</div>
+
+			<div id="secretarialGroup" class="operatingPanel" hidden="hidden">
+				<button id="statusButton" type="button" class="mui-btn mui-btn-primary secretarialBtn">开始议题</button>
+				<button id="stopStatusBtn" type="button" disabled="disabled" class="mui-btn mui-btn-primary secretarialBtn">暂停会议</button>
+				<button id="evadeBtn" type="button" disabled="disabled" class="mui-btn mui-btn-primary secretarialBtn">回　避</button>
+				<button id="startVoteBtn" type="button" disabled="disabled" class="mui-btn mui-btn-primary secretarialBtn">发起表决</button>
+			</div>
+
+			<div id="suspensionBox" class="suspensionBox" hidden="hidden">
+				隐藏
+			</div>
+
+			<div id="startVoteGroup" class="operatingPanel" hidden="hidden">
+				<button id="startVoteBtnAlone" type="button" class="mui-btn mui-btn-primary longBtn">发起表决</button>
+			</div>
+
+			<div id="revoteGroup" class="operatingPanel" hidden="hidden">
+				<button id="revoteBtn" type="button" class="mui-btn mui-btn-primary longBtn">重新表决</button>
+			</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/echarts-all.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script type="text/javascript">
+			var issueData;
+			var issueCount; // 记录会议议题的个数
+			var issueNum; // 记录会议当前的位置数
+			var accessoriesListData;
+			var missiveListData;
+			var meetingId;
+			var issueSubId;
+			var issueStatus = ""; // 议题状态
+			var meetStatus = "";
+			var isMeetingAdmin; // 秘书标记位
+			var voteFlag; // 表决权标记位
+			var startVoteFlag = "n"; // 发起表决权标记位
+			var resultFlag; // 查看结果权限标记位
+			var wvId;
+			var disagreePhrase;
+
+			var leaderIds; // 领导id
+			var leaderNames; // 领导姓名
+			var evadeUserIds; // 回避id
+			var leaderNamesArr // 领导姓名数组
+			var leaderIdsArr; // 领导id数组
+
+			var agreeIdsArr; // 同意议题的领导id数组
+			var suggestionArr; // 不同意的意见
+
+			var pubSubTotalTime = 0;
+			var pubTotalTime = 0;
+
+			var isPie = false; // 标记饼状图是否已初始化
+			var pieChart; // 饼状图初始化的对象
+
+			var isTimerStart = false; // 计时器启动标志位
+			var isFirst = false; // 第一次显示
+			var issuePage;
+
+			var statusButton = document.getElementById("statusButton"); // 会议状态按钮(开始于结束)
+			var stopStatusBtn = document.getElementById("stopStatusBtn"); // 会议状态按钮(暂停与继续)
+			var secretarialGroup = document.getElementById("secretarialGroup"); // 秘书操作盘
+			var startVoteBtn = document.getElementById("startVoteBtn"); // 发起表决按钮(秘书操作盘)
+			var evadeBtn = document.getElementById("evadeBtn"); // 回避按钮
+			var startVoteBtnAlone = document.getElementById("startVoteBtnAlone"); // 发起表决按钮(单独按钮)
+			var startVoteGroup = document.getElementById("startVoteGroup"); // 发起表决按钮(单独按钮)组
+
+			var suspensionBoxIsFirstShow = true; // 记录悬浮按钮是否是第一次显示
+			var suspensionBox = document.getElementById("suspensionBox"); // 获取悬浮按钮对象
+			var meetRelatedMissive = document.getElementById("meetRelatedMissive"); // 相关公文栏对象
+			var meetAccessories = document.getElementById("meetAccessories");
+			var missiveName = document.getElementById("missiveName");
+			var issueTimer = document.getElementById("issueTimer");
+			var voteText = document.getElementById("voteText"); // 我的表决结果
+			var voteNumber = document.getElementById("voteNumber"); // 总表决数值结果
+			var voteSuggestion = document.getElementById("voteSuggestion"); // 总表决结果
+			var suggestion = document.getElementById("suggestion");
+			var voteGroup = document.getElementById("voteGroup"); // 表决按钮组
+			var revoteGroup = document.getElementById("revoteGroup"); // 重新表决按钮组
+			var disagree = document.getElementById("disagree"); // 表决按钮
+			var agree = document.getElementById("agree");
+			var waiver = document.getElementById("waiver");
+			var pieChartObj = document.getElementById('pieChart'); // 获取饼图dom对象
+
+			var issueName = document.getElementById("issueName"); // 议题标题名称对象
+			var presenter = document.getElementById("presenter"); // 汇报人对象
+			var participants = document.getElementById("participants"); // 列席人员对象
+			var issueSummary = document.getElementById("subStartTime"); // 预计时长对象
+			var subTimerObj = document.getElementById("subTimer"); // 议题持续时间对象
+			var token = plus.storage.getItem('token');
+
+			function initPage() {
+				issueName.innerHTML = LOADING_TEXT;
+			}
+
+			mui.plusReady(function() {
+
+				/* openDB(); */ // 打开数据库
+
+				// 获取页面id
+				wvId = plus.webview.currentWebview().id;
+
+				// 获取上一个页面的传值
+				issuePage = plus.webview.getWebviewById("meeting-detail");
+				var self = plus.webview.currentWebview();
+				issueData = self.itemData;
+				issueCount = self.itemCount; // 获取议题个数
+				issueSubId = issueData.subId;
+				meetingId = issueData.mid;
+				isMeetingAdmin = plus.storage.getItem("meetingAdmin");
+				isMeetingAdmin = 'y';
+
+				/* initCacheData(); //获取数据库中的缓存 */
+
+				console.log("--------------------------------------");
+				console.log("被点击的条目数据: " + JSON.stringify(issueData));
+
+				getDataDetail(); // 获取详情
+				getIssueAccessoriesData(); // 获取附件列表
+				getIssueMissiveData(); // 获取相关公文列表
+				getDisagreePhrase(); // 获取议题否决常用语
+				// 开启定时刷新议题详情
+				realTimeRefresh();
+			});
+
+			// 获取议题附件列表数据
+			function getIssueAccessoriesData() {
+				var args = {
+					token:token,
+					searchTableId: issueSubId,
+					tableName: "MeetingItem"
+				};
+				var success = function(rtnData) {
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("附件列表数据: " + JSON.stringify(rtnData));
+
+					var tempRows = rtnData.rows; // 临时存储附件列表数据
+					if (tempRows.length != 0) {
+						clearAccessoriesListData();
+						accessoriesListData = tempRows;
+						createAccessoriesItem(accessoriesListData);
+						meetAccessories.hidden = false;
+					} else {
+						meetAccessories.hidden = true;
+					}
+
+					// 存储附件列表信息
+					var args = {
+						token:token,
+						dataFlag: ACCESSORIES_DATA,
+						relateMeetId: meetingId,
+						relateNodeId: issueSubId,
+						dataContent: tempRows
+					};
+					/* insterCacheData(args,function(){}); */
+
+				}
+				sendRequest(meetAccessoriesList, args, success);
+			}
+
+			// 获取议题相关公文列表数据
+			function getIssueMissiveData() {
+				var args = {
+					token:token,
+					subId: issueSubId
+				};
+				var success = function(rtnData) {
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("附件相关公文数据: " + JSON.stringify(rtnData));
+
+					var tempRows = rtnData.rows;
+					if (tempRows.length != 0) {
+						clearRelatedMissiveListData();
+						missiveListData = tempRows;
+						createRelatedMissiveList(missiveListData, "#relatedMissiveList");
+						meetRelatedMissive.hidden = false;
+					} else {
+						meetRelatedMissive.hidden = true;
+					}
+
+					// 存储相关公文列表信息
+					var args = {
+						token:token,
+						dataFlag: ISSUE_MISSIVE_LIST_DATA,
+						relateMeetId: meetingId,
+						relateNodeId: issueSubId,
+						dataContent: tempRows
+					};
+					/* insterCacheData(args,function(){}); */
+				}
+				sendRequest(issueMissiveData, args, success);
+			}
+
+			// 获取议题详情
+			function getDataDetail() {
+				var args = {
+					token:token,
+					id: issueSubId
+				}
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("议题详情数据: " + JSON.stringify(rtnData));
+
+					var objDetail = rtnData.objDetail;
+
+					initData(objDetail);
+
+					// 存储议题详情信息
+					var args = {
+						token:token,
+						dataFlag: ISSUE_DETAIL_DATA,
+						dataId: issueSubId,
+						relateMeetId: meetingId,
+						relateNodeId: meetingId,
+						dataContent: objDetail
+					};
+					/* insterCacheData(args,function(){}); */
+
+				};
+				sendRequest(meetIssueDetailUrl, args, success);
+			}
+
+			// 获取议题否决常用语
+			function getDisagreePhrase() {
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("议题否决常用语数据: " + JSON.stringify(rtnData));
+
+					disagreePhrase = rtnData.comLangList;
+				};
+				sendRequest(disagreePhraseUrl, {}, success);
+			}
+
+			// 定时刷新议题详情
+			function realTimeRefresh() {
+				if (OPEN_REFRESH) {
+					setInterval("getDataDetail()", REFRESH_TIME);
+				}
+			}
+
+			// 获取数据缓存数据
+			function initCacheData() {
+
+				// 定义议题详情查询条件
+				/* var conditionArgs = {};
+				conditionArgs[DATA_FLAG] = ISSUE_DETAIL_DATA;
+				conditionArgs[DATA_ID] = issueSubId;
+
+				selectCacheData(conditionArgs,function(rtnData){	// 获取数据库中的缓存内容, 然后显示
+					if (rtnData.length > 0) {
+						initData(JSON.parse(rtnData.item(0)[DATA_CONTENT]));	// 获取议题详情数据
+					}
+				});
+				
+				// 定义附件列表查询条件
+				conditionArgs = {};	
+				conditionArgs[DATA_FLAG] = ACCESSORIES_DATA;
+				conditionArgs[RELATE_NODE_ID] = issueSubId;
+				
+				selectCacheData(conditionArgs,function(rtnData){
+					var tempRows = JSON.parse(rtnData.item(0)[DATA_CONTENT]);	// 获取议题附件列表
+					if (tempRows.length > 0) {
+						clearAccessoriesListData();
+						accessoriesListData = tempRows;
+						createAccessoriesItem(accessoriesListData);
+						meetAccessories.hidden = false;
+					} else {
+						meetAccessories.hidden = true;
+					}
+				});
+				
+				// 定义议题相关公文列表查询条件
+				conditionArgs = {};	
+				conditionArgs[DATA_FLAG] = ISSUE_MISSIVE_LIST_DATA;
+				conditionArgs[RELATE_NODE_ID] = issueSubId;
+				
+				selectCacheData(conditionArgs,function(rtnData){
+					var tempRows = JSON.parse(rtnData.item(0)[DATA_CONTENT]);		// 获取议题列表
+					if (tempRows.length > 0) {
+						clearRelatedMissiveListData();
+						missiveListData = tempRows;
+						createRelatedMissiveList(missiveListData, "#relatedMissiveList");
+						meetRelatedMissive.hidden = false;
+					} else {
+						meetRelatedMissive.hidden = true;
+					}
+				}); */
+			}
+
+			// 清空附件列表数据
+			function clearAccessoriesListData() {
+				accessoriesListData = null;
+				meetAccessories.children[1].innerHTML = "";
+			}
+
+			// 清空相关公文列表数据
+			function clearRelatedMissiveListData() {
+				missiveListData = null;
+				meetRelatedMissive.children[1].innerHTML = "";
+			}
+
+			// 初始化控件
+			function initView(detail) {
+
+				// 初始化秘书按钮
+				if (isMeetingAdmin == "y") {
+					initStatusBtn();
+					resultFlag = "y";
+					startVoteFlag = "n"; // 因为秘书操作按钮中已经包含了发起表决, 就不需要初始化单独发起表决按钮
+				}
+				// 初始化表决按钮
+				if (voteFlag == "y" && isMeetingAdmin != "y") {
+					initVoteBtn(detail);
+				} else {
+					// 若议题不是进行中的状态, 表决全均为n
+					voteGroup.hidden = true;
+				}
+				// 初始化发起表决按钮, 主持人特有
+				startVoteFlag = plus.storage.getItem("signFlag"); // 获取主持人标记位
+				if (startVoteFlag == "y") { // 有发起表决权限时执行以下操作
+					if (voteFlag != "y") { // 当没有显示表决按钮时显示发起表决按钮
+						initStartVoteGroup();
+					}
+				}
+				// 初始化表决结果
+				if (resultFlag == "y") {
+					initVoteResult(detail);
+					initVoteSuggestion(detail);
+				}
+			}
+
+			// 初始化数据
+			function initData(objDetail) {
+
+				// 若议题状态为结束时且不是秘书时执行以下操作
+				if (objDetail.subStatus == END_ISSUE && isMeetingAdmin != "y") {
+					if (issueStatus == "" || issueStatus != objDetail.subStatus) {
+						// 若是刚进议题页面或者议题状态变更时, 做出提示
+						mui.toast("该议题已结束");
+					}
+				}
+				meetStatus = objDetail.status; // 获取当前会议的状态
+				issueStatus = objDetail.subStatus; // 获取当前议题的状态
+
+				issueNum = objDetail.subOrd; // 获取当前议题的位置标记
+
+				leaderNames = objDetail.leaderNames; // 获取领导姓名
+				leaderIds = objDetail.leaderIds; // 获取领导id
+				evadeUserIds = objDetail.evadeUserIds; // 获取选中的id
+
+				pubSubTotalTime = objDetail.subTotalTime; // 议题时间
+				pubTotalTime = objDetail.totalTime; // 会议时间
+
+				if (pubSubTotalTime == '') {
+					pubSubTotalTime = 0;
+				}
+				if (pubTotalTime == '') {
+					pubTotalTime = 0;
+				}
+
+				if (!isTimerStart && objDetail.subStatus == RUNING_ISSUE) {
+					isTimerStart = true;
+					initSubTimerFun();
+				} else {
+					setSubTimeFun();
+				}
+
+				voteFlag = objDetail.voteFlag; // 获取是否有表决权
+				resultFlag = objDetail.resultFlag; // 获取是否有权
+
+				initView(objDetail);
+
+				var issueName = document.getElementById("issueName");
+				issueName.innerHTML = objDetail.subTopic;
+
+				var presenter = document.getElementById("presenter");
+				presenter.innerHTML = objDetail.subHostNames;
+
+				var participants = document.getElementById("participants");
+				participants.innerHTML = objDetail.subPartNames;
+
+				var issueSummary = document.getElementById("subStartTime");
+				issueSummary.innerHTML = objDetail.subTimes + "分钟";
+			}
+
+			// 初始化议题状态按钮
+			function initStatusBtn() {
+				var isShow = "y"; // 悬浮盘显示与否标记位
+				switch (issueStatus) {
+					case DRAFT_ISSUE: // 草稿
+					case WAIT_ISSUE: // 待上会
+						statusButton.innerHTML = "开始议题";
+						break;
+					case RUNING_ISSUE: // 上会中
+						statusButton.innerHTML = "结束议题";
+						stopStatusBtn.innerHTML = "暂停会议";
+						stopStatusBtn.disabled = ""; // 解放暂停会议按钮
+						startVoteBtn.disabled = ""; // 解放发起表决按钮(秘书)
+						evadeBtn.disabled = ""; // 解放回避按钮
+						break;
+					case PAUSE_ISSUE: // 暂停中
+						statusButton.innerHTML = "结束议题";
+						stopStatusBtn.innerHTML = "继续会议";
+						stopStatusBtn.disabled = "";
+						startVoteBtn.disabled = "disabled"; // 除了进行中其他情况发起表决按钮(秘书)不起效
+						evadeBtn.disabled = "disabled"; // 除了进行中其他情况回避按钮不起效
+						break;
+					default: // 默认状态隐藏操作盘与操作盘悬浮图标, 议题结束
+						isShow = "n";
+						break;
+				}
+				if (voteFlag == "s") { // 当表决权限为s时, 表示已发起表决
+					startVoteBtn.innerHTML = "取消表决";
+				} else {
+					startVoteBtn.innerHTML = "发起表决";
+				}
+				initSuspensionBox(isShow); // 悬浮盘显示控制
+			}
+
+			// 初始化秘书悬浮按钮
+			function initSuspensionBox(flag) {
+
+				if (flag == "y") { // 若控制类型为显示, 则执行以下操作
+					if (suspensionBoxIsFirstShow) { // 若悬浮按钮是第一次初始化, 则执行以下操作
+						suspensionBox.hidden = false;
+						suspensionBox.innerHTML = "隐藏";
+						secretarialGroup.hidden = false;
+						suspensionBoxIsFirstShow = false; // 标记已初始化
+					}
+				} else { // 控制类型为隐藏, 执行以下操作
+					suspensionBox.hidden = true; // 隐藏悬浮按钮
+					secretarialGroup.hidden = true; // 隐藏操作盘
+				}
+			}
+
+			// 初始化发起表决按钮
+			function initStartVoteGroup() {
+				if (issueStatus == RUNING_ISSUE) { // 若议题状态为进行中, 则显示发起表决, 否则不显示
+					startVoteGroup.hidden = false;
+				} else {
+					startVoteGroup.hidden = true;
+				}
+			}
+
+			// 初始化表决按钮
+			function initVoteBtn(detail) {
+
+				var myAgree = detail.myAgree;
+
+				if (issueStatus == RUNING_ISSUE) { // 若议题在进行状态, 则显示表决按钮
+					voteGroup.hidden = false;
+
+					// 若已经表决, 则无法再次点击表决中的按钮
+					/*if(myAgree != "" && myAgree != "e") {
+						voteGroup.hidden = false; // 显示表决按钮
+						voteGroup.hidden = true; // 隐藏表决按钮
+						revoteGroup.hidden = false; // 显示重新表决按钮
+					}*/
+
+				}
+
+				// 重置表决按钮
+				agree.disabled = false;
+				disagree.disabled = false;
+				waiver.disabled = false;
+
+				// 已选按钮不可选
+				switch (myAgree) {
+					case "y":
+						agree.disabled = "disabled";
+						break; // 同意键不可选
+					case "n":
+						disagree.disabled = "disabled";
+						break; // 不同意键不可选
+					case "w":
+						waiver.disabled = "disabled";
+						break; // 弃权键不可选
+				}
+				showVoteResult(myAgree); // 显示表决结果, 没有表决则不显示
+			}
+
+			// 初始化表决结果
+			function initVoteResult(detail) {
+				var agreeCount = detail.agreeCount;
+				var disagreeCount = detail.notAgreeCount;
+				var waiveCount = detail.waiveCount;
+				var peopleCount = detail.peopleCount;
+				if (agreeCount != "0" || disagreeCount != "0" || waiveCount != "0") { // 如果表决结果不全为0, 则显示饼图
+					pieChartObj.hidden = false;
+					initPie();
+					pieChart.setOption(getOption(agreeCount, disagreeCount, waiveCount)); // 填充数据
+					voteNumber.hidden = false;
+				} else {
+					pieChartObj.hidden = true;
+					voteNumber.hidden = true;
+				}
+				var voteResult = agreeCount + "人同意, " + disagreeCount +
+					"人不同意, " + waiveCount + "人弃权, 总人数" + peopleCount + "人";
+				voteNumber.innerHTML = voteResult;
+			}
+
+			// 初始化表决意见框
+			function initVoteSuggestion(detail) {
+
+				var agreeNames = detail.agreeNames;
+				var notAgreeNames = detail.notAgreeNames;
+				var waiveNames = detail.waiveNames;
+
+				var agreeArr = agreeNames.toString().split(",");
+				if (agreeArr == "") { // 为了不错误显示, 数据为空时, 清空数组
+					agreeArr.splice(0, agreeArr.length);
+				}
+
+				var disagreeArr = notAgreeNames.toString().split("&,&");
+				if (disagreeArr == "") { // 为了不错误显示, 数据为空时, 清空数组
+					disagreeArr.splice(0, disagreeArr.length);
+				}
+
+				var waiveArr = waiveNames.toString().split(",");
+				if (waiveArr == "") { // 为了不错误显示, 数据为空时, 清空数组
+					waiveArr.splice(0, waiveArr.length);
+				}
+
+				// 如果没有人表决, 则不显示表决模块
+				if (agreeArr != "" || disagreeArr != "" || waiveArr != "") {
+					voteSuggestion.hidden = false;
+				}
+
+				createVotePerson(agreeArr, disagreeArr, waiveArr);
+
+			}
+
+			// 初始化饼状图
+			function initPie() {
+				if (!isPie) { // 若饼图没初始化, 则初始化拼图
+					pieChart = echarts.init(pieChartObj); // 初始化饼图
+					isPie = true;
+				}
+			}
+
+			// 创建表决意见列表
+			function createVotePerson(agreeArr, disagreeArr, waiveArr) {
+				// 清空原有表决意见数据
+
+				var agreeGroup = document.getElementById("agreeGroup");
+				var disagreeGroup = document.getElementById("disagreeGroup");
+				var waiveGroup = document.getElementById("waiveGroup");
+				// 清空数据
+				agreeGroup.innerHTML = "";
+				disagreeGroup.innerHTML = "";
+				waiveGroup.innerHTML = "";
+
+				for (var j = 0; j < 3; j++) {
+					var titleIcon = document.createElement("div"); // 标题图标容器
+					var voteTitle = document.createElement("div"); // 标题容器
+					var voteTitleText; // 标题文字
+					var contentClass; // 内容样式
+					var tIcon; // 标题图标
+					var table; // 列表容器
+					voteTitle.className = "signTitle";
+
+					switch (j) {
+						case 0:
+							voteTitleText = "同意 :";
+							contentClass = "oneSpace";
+							arrayData = agreeArr;
+							table = agreeGroup;
+							tIcon = "icon2-tongyi1";
+							break;
+						case 1:
+							voteTitleText = "不同意 :";
+							contentClass = "voteContent";
+							arrayData = disagreeArr;
+							table = disagreeGroup;
+							tIcon = "icon2-butongyi";
+							break;
+						case 2:
+							voteTitleText = "弃权 :";
+							contentClass = "oneSpace";
+							arrayData = waiveArr;
+							table = waiveGroup;
+							tIcon = "icon2-beituihui";
+							break;
+					}
+
+					titleIcon.className = "floatL";
+					titleIcon.innerHTML = '<span class="iconfont ' + tIcon + '"></span>';
+
+					voteTitle.innerHTML = voteTitleText;
+					// 添加标题
+					table.appendChild(titleIcon);
+					table.appendChild(voteTitle);
+					// 添加数据
+					for (var i = 0; i < arrayData.length; i++) {
+						var li = document.createElement("div");
+						li.className = contentClass;
+						contentText = arrayData[i];
+						if (contentText == "" || contentText == null || contentText == undefined) {
+							continue;
+						}
+						li.innerHTML = arrayData[i];
+						table.appendChild(li);
+					}
+				}
+
+			}
+
+			// 获取同意的人员姓名
+			function getNameArr(flag) {
+				var agreeNameArr;
+				var disagreeNameArr;
+				for (var i = 0; i < leaderIdsArr.length; i++) {
+					for (var j = 0; j < agreeIdsArr.length; j++) {
+						if (leaderIdsArr[i] == agreeIdsArr[j]) {
+							agreeNameArr[agreeNameArr.length] = leaderIdsArr[i];
+						}
+					}
+				}
+				if (flag == "a") {
+					return agreeNameArr; // 返回同意人员姓名
+				}
+				// 获取不同意人员姓名
+				for (var i = 0; i < leaderIdsArr.length; i++) {
+					var isExist = false;
+					for (var j = 0; j < agreeNameArr.length; j++) {
+						if (attendNameArr[j] == leaderNamesArr[i]) {
+							isExist = true;
+							continue;
+						}
+					}
+					if (!isExist) { // 若该姓名不存在于出席列表, 则加入未出席列表
+						disagreeNameArr[disagreeNameArr.length] = leaderNamesArr[i];
+					}
+				}
+				return disagreeNameArr; // 返回不同意人员姓名
+			}
+
+			// 初始化计时器
+			function initSubTimerFun() {
+				setInterval(setSubTimeFun, 1000); // 每一秒设置时间
+			}
+
+			// 设置时间
+			function setSubTimeFun() {
+				if (issueStatus != RUNING_ISSUE) {
+					pubSubTotalTime = parseInt(pubSubTotalTime);
+					pubTotalTime = parseInt(pubTotalTime);
+				} else {
+					pubSubTotalTime = parseInt(pubSubTotalTime) + 1;
+					pubTotalTime = parseInt(pubTotalTime) + 1;
+				}
+
+				// 议题时间计算
+				var subHour = 			(pubSubTotalTime / (60 * 60));
+				var subMinute = parseInt((pubSubTotalTime - subHour * (60 * 60)) / (60));
+				var subSecond = pubSubTotalTime - subHour * (60 * 60) - subMinute * 60;
+
+				if (subHour != 0 && subMinute != 0) { // 00:00:00时不提示
+					if (subMinute == 30 || subMinute == 0) { // 刚好为30分钟时触发提示
+						if (subSecond == 0) { // 只在刚为整分时才显示
+							var tempMinute = subHour * 60 + subMinute; // 计算出已持续的时间(分钟)
+							mui.toast("本议题已进行" + tempMinute + "分钟");
+						}
+					}
+				}
+
+				if (subHour < 10) {
+					subHour = "0" + subHour;
+				}
+				if (subMinute < 10) {
+					subMinute = "0" + subMinute;
+				}
+				if (subSecond < 10) {
+					subSecond = "0" + subSecond;
+				}
+				var subTimeFmt = subHour + ":" + subMinute + ":" + subSecond;
+				subTimerObj.innerHTML = subTimeFmt;
+
+				// 会议时间计算
+				var hour = parseInt(pubTotalTime / (60 * 60));
+				var minute = parseInt((pubTotalTime - hour * (60 * 60)) / (60));
+				var second = pubTotalTime - hour * (60 * 60) - minute * 60;
+				if (hour < 10) {
+					hour = "0" + hour;
+				}
+				if (minute < 10) {
+					minute = "0" + minute;
+				}
+				if (second < 10) {
+					second = "0" + second;
+				}
+				var timeFmt = hour + ":" + minute + ":" + second;
+				var timerObj = document.getElementById("timer");
+				timerObj.innerHTML = timeFmt;
+			}
+
+			// 初始化议题计时器
+			function initTimer() {
+				var meetTimer = document.getElementById("meetTimer");
+				var subTimerGroup = document.getElementById("subTimerGroup");
+				switch (issueStatus) { // 若不在进行和暂停中则不显示会议按钮
+					case RUNING_ISSUE:
+					case PAUSE_ISSUE:
+						meetTimer.hidden = false;
+						subTimerGroup.classList.add("floatR");
+						break;
+					default:
+						subTimerGroup.classList.remove("floatR");
+						meetTimer.hidden = true;
+				}
+			}
+
+			// 刷新议题列表数据
+			function refreshIssueList() {
+				issuePage.evalJS("refreshData();");
+			}
+
+			// 发送开始, 结束议题信号
+			function sendSignal(type, toastText, sendMessageFunction) {
+				var logonInfo;
+				if (type < 2) {
+					logonInfo = {
+						subId: issueSubId
+					};
+				} else {
+					logonInfo = {
+						id: meetingId
+					};
+				}
+				var signalUrl;
+				switch (type) {
+					case 0:
+						signalUrl = sendStartIssueSignal;
+						break; // 开始议题
+					case 1:
+						signalUrl = sendEndIssueSignal;
+						break; // 结束议题
+					case 2:
+						signalUrl = sendPauseMeetSignal;
+						break; // 暂停议题
+					case 3:
+						signalUrl = sendRestartMeetSignal;
+						break; // 重新开始议题
+					case 4:
+						signalUrl = sendStartMeetSignal;
+						break; // 开始会议
+				}
+				var success = function(rtnData) {
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("发送议题信号: " + JSON.stringify(rtnData));
+
+					if (rtnData.code == -1) { // 若出错则显示出错提示
+						mui.toast(rtnData.message);
+					} else {
+						if (toastText) { // 如果toast信息存在, 则显示toast信息
+							mui.toast(toastText);
+						}
+					}
+
+					// 若下一操作存在且不为空, 则执行下一操作
+					if (sendMessageFunction && sendMessageFunction != "") {
+						sendMessageFunction();
+					}
+
+					if (type == 1) { // 结束议题时退出
+						mui.back();
+					}
+
+					getDataDetail(); // 刷新详情内容
+				}
+				sendRequest(signalUrl, logonInfo, success);
+			}
+
+			/**
+			 * 发送表决请求
+			 * @param {Object} type 表决的类型 同意与不同意
+			 */
+			function sendAgreeResult(type, feedback) {
+				var args = {
+					token:token,
+					subId: issueSubId,
+					agree: type,
+					feedback: feedback
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("表决发送结果: " + JSON.stringify(rtnData));
+
+					showVoteResult(type); // 显示表决结果
+
+					// 刷新界面
+					getDataDetail();
+				}
+				sendRequest(voteIssueUrl, args, success);
+			}
+
+			// 打开意见编辑框
+			function editSuggestion() {
+				var args = {
+					token:token,
+					titleText: "请填写不同意的理由",
+					oldValue: suggestion.innerHTML,
+					objId: "suggestion",
+					wvId: wvId,
+					callbackName: "suggestionCallback",
+					listName: "", // 常用语选择
+					listData: disagreePhrase
+				};
+				var openUrl = "../page-editPage/editPage.html";
+				var openId = "editPage";
+				openNewPage(openUrl, openId, args);
+			}
+
+			// 编辑意见的回调
+			function suggestionCallback(objId, newValue) {
+				var result = "n"
+				showVoteResult(result); // 显示用户的表决
+				//				suggestion.hidden = false;// 显示用户填写的意见
+				suggestion.innerHTML = newValue; // 即使不显示也可以做到短期保存的效果
+
+				// 发送用户的表决信息
+				sendAgreeResult(result, newValue);
+			}
+
+			/**
+			 * 显示用户的表决
+			 * @param {Object} type 同意与否 "y / n"
+			 */
+			function showVoteResult(type) {
+
+				switch (type) {
+					case "y":
+						voteText.hidden = false;
+						voteText.innerHTML = "您的选择是：同意";
+						break;
+					case "n":
+						voteText.hidden = false;
+						voteText.innerHTML = "您的选择是：不同意";
+						break;
+					case "w":
+						voteText.hidden = false;
+						voteText.innerHTML = "您的选择是：弃权";
+						break;
+					case "e":
+						voteText.hidden = false;
+						voteText.innerHTML = "您不需参与该议题的表决";
+						break;
+				}
+			}
+
+			// 弹出提示框提示是否开始下一议题
+			function startNextIssue() {
+				var dialogText = "是否开始下一个议题？"; // 默认显示是否开始下一议题
+				var sendMessageFunction = sendStartNextIssue; // 默认设置开始下一议题
+				var toastText = "议题已结束";
+
+				if (issueCount == issueNum) {
+					dialogText = "是否结束会议?"; // 若该议题为最后一个议题, 则显示结束会议
+					sendMessageFunction = sendFinishMeet; // 设为结束会议
+					toastText = "会议已结束";
+				}
+
+				var btnArray = ['是', '否'];
+				mui.confirm(dialogText, '议题提醒', btnArray, function(e) {
+
+					if (e.index != 0) { // 若不开始下一议题, 则清空下一操作方法
+						sendMessageFunction = "";
+					}
+					sendSignal(1, toastText, sendMessageFunction);
+				});
+			}
+
+			// 发送发起表决信息
+			function sendStartVote(flag) {
+				var args = {
+					token:token,
+					subId: issueSubId,
+					flag: flag
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("发起表决结果: " + JSON.stringify(rtnData));
+					if (rtnData.code == 0) {
+						var toastText = "表决已开始";
+						if (flag == "n") {
+							toastText = "表决已取消";
+						}
+						mui.toast(toastText);
+						if (startVoteGroup.hidden == false) { // 若表决按钮(单独)为显示状态, 则将其隐藏
+							startVoteGroup.hidden = true;
+						}
+					} else {
+						mui.toast(rtnData.message);
+					}
+				}
+				sendRequest(startIssueVoteUrl, args, success);
+			}
+
+			// 发送开始下一个议题信息
+			function sendStartNextIssue() {
+				var args = {
+					token:token,
+					subId: issueSubId
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("开始下一个议题结果: " + JSON.stringify(rtnData));
+				}
+				sendRequest(sendStartNextIssueSignal, args, success);
+			}
+
+			// 发送结束会议信息
+			function sendFinishMeet() {
+				var args = {
+					token:token,
+					id: meetingId
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("结束会议结果: " + JSON.stringify(rtnData));
+				}
+				sendRequest(sendEndMeetSignal, args, success);
+			}
+
+			/**
+			 * 弹出提示框提示是否同意或弃权
+			 * @param {Object} type 选择的结果 "y"或"弃权"
+			 * @param {Object} textMsg 提示框的文字描述
+			 */
+			function agreeConfirm(type, textMsg) {
+				var btnArray = ['是', '否'];
+				mui.confirm(textMsg, '表决提醒', btnArray, function(e) {
+					if (e.index == 0) {
+						sendAgreeResult(type, ""); // 发送表决信息
+					}
+				});
+			}
+
+			/**
+			 * 显示选择提示框
+			 * @param {Object} dialogText 需要提示的文字
+			 * @param {Object} operation 对应的操作函数
+			 */
+			function showDialog(dialogText, operation) {
+				var btnArray = ['是', '否'];
+				mui.confirm('是否' + dialogText + '？', '议题提醒', btnArray, function(e) {
+					if (e.index == 0) {
+						var toastText = "已" + dialogText.substring(0, 2);
+						operation(toastText);
+					}
+				});
+			}
+
+			// 开始议题按钮的操作
+			function startMeetOperation(toastText) {
+				if (statusButton.innerHTML == "开始议题") {
+					if (meetStatus == WAIT_MEET) {
+						sendSignal(4);
+					}
+					sendSignal(0, "议题已开始");
+					// 发送开始议题信号
+				} else {
+					// 发送结束议题信号
+					startNextIssue();
+				}
+			}
+
+			// 暂停按钮的操作
+			function pauseMeetOperation(toastText) {
+				if (stopStatusBtn.innerHTML == "暂停会议") {
+					sendSignal(2, "会议已暂停");
+					// 发送开始议题信号
+				} else {
+					sendSignal(3, "会议已继续");
+				}
+			}
+
+			// 回避的回调
+			function evadeCallback(checkedIds) {
+				var args = {
+					token:token,
+					subId: issueSubId,
+					userIds: checkedIds
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("回避请求结果: " + JSON.stringify(rtnData));
+					var signPage = plus.webview.getWebviewById("radioOrCheckbox");
+					signPage.evalJS("mui.back();");
+					mui.toast(rtnData.message);
+					getDataDetail();
+				}
+				sendRequest(meetIssueEvadeUrl, args, success);
+			}
+
+			// 设置附件列表item点击事件
+			mui("#accessoryList").on('tap', '.mui-table-view-cell', function() {
+				var id = this.getAttribute("id");
+
+				if (id == 0) { // 0表示没有数据, 不跳转
+					return;
+				}
+
+				console.log("--------------------------------------");
+				console.log("被点击的附件id: " + id);
+
+				var type = getAccessoryType(id, accessoriesListData);
+				var path = accessoriesPath + id + type;
+console.log('看看');
+				downloadAccess(id, path);
+			});
+
+			/**
+			 * 设置相关公文列表item按钮点击事件
+			 * 注意: 若条目内有其他可点击的控件, 则要注意监听绑定的位置
+			 * 假设A控件内有控件B和C, B控件内有控件D, 而D的点击监听绑在A,
+			 * C的点击监听绑在B, 那在点击C与D的重叠部分时(D遮罩C), 优先执行的是C, 而不是D;
+			 * 假设C的监听也绑在A, 那优先执行的就是D
+			 */
+			mui("#relatedMissiveList").on('tap', '.iconfont', function() {
+
+				event.stopPropagation(); // 点击按钮事件已经生效, 阻止列表中的其他点击事件发生
+
+				var id = this.getAttribute("id");
+
+				switch (id) {
+					case 0: // 0表示没有数据, 不跳转
+						return;
+						break;
+					case "missiveForm":
+						type = "missiveForm";
+						break;
+					case "missiveAccessory":
+						type = "missiveAccessory";
+						break;
+				}
+
+				id = this.parentElement.parentElement.id;
+
+				console.log("--------------------------------------");
+				console.log("被点击的公文id: " + id);
+
+				var path = "../page-relatedMissive/related-main.html"
+				var openId = "related-main-0";
+				openItemPage(id, missiveListData, path, openId, openId, type);
+			});
+
+			// 设置相关公文列表item点击事件
+			mui("#relatedMissiveList").on('tap', '.missiveList', function() {
+				var id = this.getAttribute("id");
+
+				console.log("--------------------------------------");
+				console.log("被点击的公文id: " + id);
+
+				var path = "../page-relatedMissive/related-main.html"
+				var openId = "related-main-0";
+				openItemPage(id, missiveListData, path, openId, openId);
+			});
+
+			// 设置返回的操作
+			mui.back = function() {
+				refreshIssueList();
+				mui.doAction("backs"); // 返回上一个页面
+			}
+
+			// 设置表决按钮点击事件(同意,不同意,弃权)
+			mui("#voteGroup").on('tap', '.voteBtn', function() {
+				var id = this.getAttribute("id");
+
+				switch (id) {
+					case "agree":
+						agreeConfirm("y", "是否同意 ?");
+						break; // 提示是否同意
+					case "waiver":
+						agreeConfirm("w", "是否弃权 ?");
+						break; // 提示是否弃权
+					case "disagree":
+						editSuggestion();
+						break; // 打开意见编辑框
+				}
+			});
+
+			// 设置秘书按钮点击事件
+			mui("#secretarialGroup").on('tap', '.mui-btn-primary', function() {
+				var id = this.getAttribute("id");
+				switch (id) {
+					case "evadeBtn":
+						var pageUrl = "../page-select/radioOrCheckbox.html";
+						var pageId = "radioOrCheckbox";
+						var args = {
+							token:token,
+							titleName: "回避选人",
+							type: "checkbox",
+							valueNames: leaderNames,
+							valueIds: leaderIds,
+							checkedValues: evadeUserIds,
+							splitSymbol: "、",
+							wvId: wvId,
+							callbackFun: "evadeCallback"
+						}
+						openNewPage(pageUrl, pageId, args);
+						break; // 回避
+					case "stopStatusBtn":
+						showDialog(stopStatusBtn.innerHTML, pauseMeetOperation);
+						break; // 暂停与继续
+					case "statusButton":
+						showDialog(statusButton.innerHTML, startMeetOperation);
+						break; // 开始与结束
+				}
+			});
+
+			// 发起表决按钮(秘书)点击事件
+			startVoteBtn.addEventListener('tap', function(event) {
+				var flag; // s为发起表决, n为取消表决
+
+				var positiveFun = function() {
+					if (startVoteBtn.innerHTML == "发起表决") {
+						flag = "s";
+					} else {
+						flag = "n";
+					}
+					sendStartVote(flag);
+				}
+
+				showDialog(startVoteBtn.innerHTML, positiveFun);
+
+			});
+			// 发起表决按钮(单独)点击事件
+			startVoteBtnAlone.addEventListener('tap', function(event) {
+
+				var positiveFun = function() {
+					sendStartVote("s");
+				}
+				showDialog(startVoteBtnAlone.innerHTML, positiveFun);
+
+			});
+
+			// 重新表决按钮点击事件
+			revoteGroup.children[0].addEventListener('tap', function(event) {
+				revoteGroup.hidden = true;
+				voteGroup.hidden = false;
+			});
+
+			// 悬浮按钮点击事件
+			suspensionBox.addEventListener('tap', function() {
+				if (secretarialGroup.hidden == false) {
+					secretarialGroup.hidden = true;
+					suspensionBox.innerHTML = "操作";
+				} else {
+					secretarialGroup.hidden = false;
+					suspensionBox.innerHTML = "隐藏";
+				}
+			});
+
+			// 拼装饼图数据
+			var getOption = function(agreeNum, disagreeNum, waiverNum) {
+				var chartOption = {
+					calculable: false,
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						radius: '50%',
+						center: ['50%', '50%'],
+						data: [{
+							value: agreeNum,
+							name: '同意(' + agreeNum + ')'
+						}, {
+							value: disagreeNum,
+							name: '不同意(' + disagreeNum + ')'
+						}, {
+							value: waiverNum,
+							name: '弃权(' + waiverNum + ')'
+						}]
+					}]
+				};
+				return chartOption;
+			};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>待办</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">我的待办</h1>
+			<div id="search" class="mui-input-row inputlayer">
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise" >
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+				</div>
+			</div>
+		</header>		
+
+		<div id="pullrefresh" class="mui-content under-content mui-scroll-wrapper mui-scroll">
+			<div id="content" class="">
+
+				<ul id="itemList" class="mui-table-view mui-table-view-chevron">
+					<!--待办样式-->					
+					<!--<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="2" width="35"><span class="mui-icon iconfont icon2-shuruxinxi"></span></td>
+								<td class="listTitle autoHiddenText">title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="timeStyle">
+										<div class="timeTextStyle">2016-12-02</div>	
+									</div>
+									<p class="autoHiddenText" style="padding-left: 10px;">Data55555title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的</p>
+								</td>
+							</tr>
+						</table>
+					</li>-->
+				</ul>
+
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		
+		<script type="text/javascript">
+			var listData = null;
+			var maxCount = 0;
+			var pageCount = 0;
+			var searchValue = "";
+			var wvId;
+			var meetingPage; // 会议页面
+			var homePage;// 主页页面
+			
+			var centontList = document.body.querySelector('#itemList');
+
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载中...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			mui.plusReady(function() {
+				// 获取当前id
+				wvId = plus.webview.currentWebview().id;
+				// 加载已办数据
+				getBeDoneListData(1, "");
+				
+				homePage = plus.webview.getWebviewById("page-main/main-home.html");
+				meetingPage = plus.webview.getWebviewById("page-main/main-meeting.html");
+				
+				// 初始化控件
+				initView();
+			});
+
+			// 获取已办列表数据
+			function getBeDoneListData(pageNum, seacrhCentent) {
+				pageCount = pageNum;
+				var logonInfo = {
+					page: pageNum,
+					pageSize: "15",
+					searchTxt: seacrhCentent
+				};
+				var success = function(rtnData) {
+
+					console.log("--------------------------------------");
+					console.log("待办列表数据: " + JSON.stringify(rtnData));
+
+					if(listData == null) listData = rtnData.rows;
+					else listData = listData.concat(rtnData.rows); // 合并数据数组
+					maxCount = rtnData.total;
+					// 创建待办列表
+					createItemList(rtnData.rows, wvId);
+				}
+				sendRequest(toDoList, logonInfo, success);
+			}
+
+			/**
+			 * 上拉加载更多数据
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					//参数为true代表没有更多数据了。
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((itemCount == maxCount));
+					if(itemCount < maxCount)
+						getBeDoneListData(parseInt(pageCount) + 1, searchValue);
+				}, 1000);
+			}
+
+			// 搜索栏内容变更事件
+			/*function searchOnInput(){
+				var centontList = document.body.querySelector('#beDoneList');
+				centontList.innerText = "";
+				getBeDoneListData(1,searchInput.value);
+			}*/
+
+			// 初始化设置
+			function initView() {
+
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+			}
+			
+			// 刷新会议数据列表
+			function refreshMeetingList() {
+				meetingPage.evalJS("refreshData();");
+				homePage.evalJS("refreshData(true);");
+			}
+
+			function refreshData(){
+				centontList.innerHTML = "";
+				itemCount = 0;
+				listData = null;
+				// 重置上拉加载
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				searchValue = searchInput.value.trim();
+				getBeDoneListData(1,searchValue);
+			}
+
+			// 设置列表item点击事件
+			mui("#itemList").on('tap', '.mui-table-view-cell', function() {
+				var id = this.getAttribute("id");
+
+				if ( id == 0 ){ // 0表示没有数据, 不跳转
+					return;
+				}
+				
+				console.log("--------------------------------------");
+				console.log("被点击的待办id: " + id);
+
+				var openUrl = 'toDo-main.html';
+				var openId = 'toDo-main';
+				openItemPage(id, listData, openUrl, openId);
+			});
+
+			// 标题搜索键监听
+			var searchButton = document.getElementById("searchButton");
+			searchButton.addEventListener('tap', function(event) {
+				refreshData();
+			});
+
+			mui.back = function() { // 回退刷新
+				refreshMeetingList();
+				mui.doAction("backs");
+			}
+		</script>
+	</body>
+
+</html>

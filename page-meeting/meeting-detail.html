@@ -1,0 +1,819 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.nowIssue {
+				margin: 4px;
+				float: right;
+				color: #CF2D28;
+			}
+
+			.secretarialBtn {
+				width: 44%;
+				/*padding: 13px 5px;*/
+				font-size: 18px;
+			}
+
+			.secretarialBtn96 {
+				/*width: 97%;*/
+				width: 89.6%;
+				font-size: 18px;
+				margin: 5px 0 10px 0;
+			}
+
+			.mui-table-view.mui-grid-view {
+				padding: 0;
+			}
+
+			.suspensionBox {
+				bottom: 158px;
+			}
+		</style>
+	</head>
+
+	<body onload="initPage();">
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">会议详情</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+
+			<div class="mui-scroll" style="padding-bottom: 168px;">
+				<h3 id="meetingName" class="titleName"></h3>
+				<div id="issueTimer" class="issueTimer2 right-text">
+					<span id="" class="timerText ">
+						会议持续时间
+					</span>
+					<span id="timer" class="timerNumber ">
+						00:00:00
+					</span>
+				</div>
+
+				<div id="meetingContent">
+					<!--议内容会议内容-->
+					<div class="divList">
+						<div class="display floatL colorL">地点</div>
+						<div id="meetAddress" class="textAreat floatR colorR"></div>
+					</div>
+					<div class="divList">
+						<div class="display floatL colorL">主持</div>
+						<div id="hostPeople" class="textAreat floatR colorR"></div>
+					</div>
+					<div class="divList">
+						<div class="display colorL">出席人员</div>
+						<div id="leaderNamesObj" class="textAreat floatR colorR" style="text-indent: 0em;"></div>
+					</div>
+					<div class="divList" hidden="hidden">
+						<div class="display floatL colorL">常务列席</div>
+						<div id="partNamesObj" class="textAreat floatR colorR"></div>
+					</div>
+					<div class="divList" style="border-bottom: 1px solid #dedede;">
+						<div class="display floatL colorL">召开时间</div>
+						<div id="meetStartTime" class="textAreat floatR colorR"></div>
+					</div>
+				</div>
+
+				<div style=" margin-top: 20px; border-top: 1px solid #ccc; padding: 10px; background-color:#f6f9fc; ">
+					<div id="nowIssue" class="nowIssue floatR textFloatR"></div>
+					<span class="icon iconfont icon2-yuanquan"></span>议题&nbsp;:
+				</div>
+				<ul id="issueList" class="mui-table-view mui-table-view-chevron font_20" style=" background-color: #f9fdfe;">
+					<!--议题样式-->
+					<!--<li class="mui-table-view-cell">
+						<div class="statusText"><p class="red">未开会</p></div>
+						<div class="autoHiddenText"><span class="yiti_listNum">一</span>dfjslkfjdsfsdfsdfsfdsd</div>
+						<div><p class="autoHiddenText  font18">汇报人:&nbsp;李德芳　　列席:&nbsp;jdfisdjfsjdfsjflksjdfkljsdlkfjslfjslkdjflksdjflksdfjslkfj</p></div>
+						<div><p class="red  font18">预计开始时间:&nbsp;2017-01-22</p></div>
+					</li>
+					<li class="mui-table-view-cell">
+						
+						<div class="statusText"><p class="green">开会中</p></div>
+						<div class="autoHiddenText"><span class="yiti_listNum greenbg">二</span>dfjslkfjdsfsdfsdfsfdsd</div>
+						<div><p class="autoHiddenText">汇报人:&nbsp;李德芳　　列席:&nbsp;jdfisdjfsjdfsjflksjdfkljsdlkfjslfjslkdjflksdjflksdfjslkfj</p></div>
+						<div><p class="red">预计开始时间:&nbsp;2017-01-22</p></div>
+						
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="statusText"><p class="gray">已结束</p></div>
+						<div class="autoHiddenText"><span class="yiti_listNum graybg">十一</span>dfjslkfjdsfsdfsdfsfdsd</div>
+						<div><p class="autoHiddenText">汇报人:&nbsp;李德芳　　列席:&nbsp;jdfisdjfsjdfsjflksjdfkljsdlkfjslfjslkdjflksdjflksdfjslkfj</p></div>
+						<div><p class="red">预计开始时间:&nbsp;2017-01-22</p></div>
+					</li>-->
+
+				</ul>
+
+				<!--<div style="margin: 10px;margin-top: 20px;">附件列表&nbsp;:</div>-->
+
+				<!--附件列表-->
+				<!--<ul id="accessoryList" class="mui-table-view mui-table-view-chevron">-->
+				<!--附件样式-->
+				<!--<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="2" width="35"><span class="mui-icon iconfont icon2-shuruxinxi"></span></td>
+								<td class="meetListTitle autoHiddenText">附件1</td>
+							</tr>
+							<tr>
+								<td><p class="autoHiddenText" style="padding-left: 10px;">上传者:&nbsp;XXX　　上传时间:&nbsp;2016-11-14</p></td>
+							</tr>
+						</table>
+					</li>-->
+				<!--</ul>-->
+				<!--<div class="mui-content" style="margin-top: 1px;" hidden="hidden">
+					<ul class="mui-table-view mui-grid-view">
+						<li id="stopStatusBtn" class="mui-table-view-cell mui-col-xs-6" style="background-color:#a47b7b; padding: 10px 0; text-align: center;  font-size: 20px; color: #fff;">暂停会议</li>
+						<li id="statusButton" class="mui-table-view-cell mui-col-xs-6 " style="margin-left: 5px; background-color: #CCCCCC; padding: 10px 0; text-align: center;  font-size: 20px; color: #fff">开始会议</li>
+					</ul>
+				</div>-->
+
+				<div id="signGroup" class="btnGroup" hidden="hidden">
+					<button type="button" id="seeSignBtn" class="mui-btn mui-btn-danger longBtn2">查看签到情况</button>
+				</div>
+
+			</div>
+
+			<div class="operatingPanel" hidden="hidden">
+				<button id="signBtn" type="button" class="mui-btn mui-btn-primary secretarialBtn">签　到</button>
+				<button id="noticeMeet" type="button" class="mui-btn mui-btn-primary secretarialBtn">通知开会</button>
+				<button id="issueReviseBtn" type="button" class="mui-btn mui-btn-primary secretarialBtn">议题操作</button>
+				<button id="stopStatusBtn" type="button" class="mui-btn mui-btn-primary secretarialBtn" disabled="disableds">暂停会议</button>
+				<button id="statusButton" type="button" class="mui-btn mui-btn-primary secretarialBtn96">开始会议</button>
+			</div>
+
+			<div id="suspensionBox" class="suspensionBox" hidden="hidden">
+				隐藏
+			</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+
+		<script src="../js/tools.js"></script>
+		<script src="../js/Map.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+		var token = (()=>{
+			return plus.storage.getItem("token");
+		})();
+			var detailData; // 会议详情数据
+			var issueListData; // 议题列表数据
+			var accessoriesListData; // 附件列表数据(暂时作废)
+			var meetingId; // 会议id
+			var meetStatus; // 会议状态
+			var curNo = "0"; // 当前正在进行的议题序号, 0表示没有在进行的会议
+			var isMeetingAdmin; // 是否是秘书
+			var signFlag; // 查看签到结果标志位
+
+			// 签到人员信息数组
+			var leaderIds; // 签到人员的id
+			var leaderNames; // 签到人员的姓名
+			var partNames; // 常务列席人员名称
+			var attendIds; // 已经签到人员的id
+			var attendMemo; // 签到备注
+
+			var meetingPage; // 会议列表界面
+			var homePage; // 主页面
+			var wvId; // 会议详情的页面id
+			var pubTotalTime = 0; // 会议的持续时间(秒)
+			var isTimerStart = false; // 计时器启动标志位
+			var isFirst = false; // 第一次显示
+			var statusButton = document.getElementById("statusButton");
+			var stopStatusBtn = document.getElementById("stopStatusBtn");
+			var issueReviseBtn = document.getElementById("issueReviseBtn");
+			var statusButtonGroup = issueReviseBtn.parentElement; // 秘书操作功能组
+			var seeSignButtonGroup = document.getElementById("signGroup");
+			var suspensionBoxIsFirstShow = true; // 记录悬浮按钮是否是第一次显示
+			var suspensionBox = document.getElementById("suspensionBox"); // 获取悬浮按钮对象
+			var nowIssue = document.getElementById("nowIssue"); // 当前进行的议题对象
+			var table = document.getElementById("issueList"); // 议题列表对象
+			var meetingName = document.getElementById("meetingName"); // 会议名称对象
+			var meetStartTime = document.getElementById("meetStartTime"); // 会议时间对象
+			var meetAddress = document.getElementById("meetAddress"); // 会议地点对象
+			var hostPeople = document.getElementById("hostPeople"); // 主持人对象
+			var leaderNamesObj = document.getElementById("leaderNamesObj"); // 出席人员对象
+			var partNamesObj = document.getElementById("partNamesObj"); // 常务列席对象
+			// 初始化页面时做的最初的处理
+			function initPage() {
+				meetingName.innerHTML = LOADING_TEXT;
+			}
+			mui.init();
+			mui.plusReady(function() {
+				// 打开数据库
+				/* openDB(); */
+				// 获取上一个页面的传值
+				var self = plus.webview.currentWebview();
+				meetingPage = plus.webview.getWebviewById("page-main/main-meeting.html");
+				homePage = plus.webview.getWebviewById("page-main/main-home.html");
+				detailData = self.itemData;
+				wvId = self.id; // 获取本页面id
+				meetingId = detailData.id;
+				initView();
+				console.log("--------------------------------------");
+				console.log("被点击的会议数据: " + JSON.stringify(detailData));
+
+				isMeetingAdmin = 'y';
+				getDataDetail();
+
+				// 开启定时刷新议题功能
+				realTimeRefresh();
+
+				//getMeetAccessoiesData();
+			});
+
+			// 获取议题列表数据
+			function getMeetIssueData() {
+				var args = {
+					token:token,
+					mid: meetingId,
+					flag: isMeetingAdmin
+				};
+				sendRequest(meetIssueList, args, function(rtnData) {
+					// 请求成功后清除所有议题信息
+				
+					clearIssueListData();
+
+					issueListData = rtnData.rows;
+					// 创建议题列表
+					createIssueItem(issueListData);
+					console.log("--------------------------------------");
+					console.log("议题列表数据: " + JSON.stringify(rtnData));
+
+					// 缓存议题列表
+					var args = {
+						dataFlag: ISSUE_LIST_DATA,
+						relateMeetId: meetingId,
+						relateNodeId: meetingId,
+						dataContent: issueListData
+					};
+					/* insterCacheData(args, function() {}); */
+				});
+			}
+
+			// 获取会议详情
+			function getDataDetail() {
+				args = {
+					token: token,
+					id: meetingId
+				}
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("会议详情数据: " + JSON.stringify(rtnData));
+					var objDetail = rtnData.objDetail;
+
+					initData(objDetail);
+
+					getRunningIssueData(); // 获取新的议题进行记录
+					getMeetIssueData(); // 获取新的议题列表信息
+					// 获取新的会议存储位置, 成功后存储会议详情信息
+					var args = {
+						token:token,
+						dataFlag: MEET_DETAIL_DATA,
+						dataId: meetingId,
+						relateMeetId: meetingId,
+						dataContent: objDetail
+					};
+					/* insterCacheData(args, function() {}); */
+				};
+				sendRequest(meetDetailUrl, args, success);
+			}
+
+			// 获取当前议题进行情况数据
+			function getRunningIssueData() {
+				var args = {
+					token:token,
+					id: meetingId
+				};
+				var success = function(rtnData) {
+					curNo = rtnData.curNo;
+					if (curNo != "0") {
+						nowIssue.hidden = false;
+						nowIssue.innerHTML = "当前正进行第" + curNo + "个议题";
+					} else {
+						nowIssue.hidden = true;
+					}
+					console.log("--------------------------------------");
+					console.log("当前进行的议题: " + JSON.stringify(rtnData));
+				}
+				sendRequest(getRunningIssue, args, success);
+			}
+
+			// 获取会议附件列表数据
+			function getMeetAccessoiesData() {
+				var args = {
+					token:token,
+					missiveId: detailData.bizId,
+					uploadType: "-1"
+				};
+				var success = function(rtnData) {
+
+					accessoriesListData = rtnData.rows;
+					// 创建附件列表
+					createAccessoriesItem(accessoriesListData);
+
+					console.log("--------------------------------------");
+					console.log("附件列表数据: " + JSON.stringify(rtnData));
+
+				}
+				sendRequest(meetAccessoriesList, args, success);
+			}
+
+			// 发送开始会信号
+			function sendSignal(type, toastText) {
+				var args = {
+					token:token,
+					id: detailData.id
+				};
+				var signalUrl;
+				switch (type) {
+					case 0:
+						signalUrl = sendStartMeetSignal;
+						break; // 开始会议
+					case 1:
+						signalUrl = sendPauseMeetSignal;
+						break; // 暂停会议
+					case 2:
+						signalUrl = sendRestartMeetSignal;
+						break; // 重新开始会议
+					case 3:
+						signalUrl = sendEndMeetSignal;
+						break; // 结束会议
+					case 4:
+						signalUrl = sendNoticeMeetSignal;
+						break; // 发送通知开会信息
+				}
+				var success = function(rtnData) {
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("发送会议信号: " + JSON.stringify(rtnData));
+
+					if (rtnData.code == "-1") {
+						mui.toast(rtnData.message);
+					} else {
+						mui.toast(toastText);
+						if (type == 3) { // 若为结束会议的请求, 则在成功之后关闭当前页面
+							mui.back();
+						}
+					}
+					// 更新详情与议题列表内容
+					getDataDetail();
+				}
+				sendRequest(signalUrl, args, success);
+			}
+
+			// 初始化布局
+			function initView() {
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				var conditionArgs = {token:token}; // 定义会议详情查询条件
+
+				conditionArgs[DATA_FLAG] = MEET_DETAIL_DATA;
+				conditionArgs[DATA_ID] = meetingId;
+				// 获取数据库中的缓存内容, 然后显示
+
+				/* if (rtnData && rtnData.length > 0) {
+					initData(JSON.parse(rtnData.item(0)[DATA_CONTENT])); // 获取会议详情
+				} */
+
+				conditionArgs = {token:token}; // 定义议题列表查询条件
+				conditionArgs[DATA_FLAG] = ISSUE_LIST_DATA;
+				conditionArgs[RELATE_NODE_ID] = meetingId;
+			
+				/* if (rtnData && rtnData.length > 0) {
+					clearIssueListData();
+					issueListData = JSON.parse(rtnData.item(0)[DATA_CONTENT]); // 获取议题列表
+					createIssueItem(issueListData);
+				} */
+			}
+
+			/**
+			 * 清空数据列表
+			 */
+			function clearIssueListData() {
+				table.innerHTML = "";
+				issueListData = null;
+			}
+
+			/**
+			 * 初始化控件数据
+			 * @param {Object} detail 初始化的json数据
+			 */
+			function initData(detail) {
+				console.log('initData');
+				meetStatus = detail.status;
+				leaderIds = detail.leaderIds;
+				leaderNames = detail.leaderNames;
+				partNames = detail.partNames;
+				attendIds = detail.attendIds;
+				attendMemo = detail.attendMemo;
+				signFlag = detail.signFlag;
+
+				meetingName.innerHTML = detail.topic;
+				meetStartTime.innerHTML = detail.startTime.substring(0, 16);
+				meetAddress.innerHTML = detail.addr;
+				hostPeople.innerHTML = detail.hostNames;
+				leaderNamesObj.innerHTML = leaderNames;
+				partNamesObj.innerHTML = partNames;
+
+				pubTotalTime = detail.totalTime;
+				isFirst = true; // 第一次显示
+				if (!isTimerStart && detail.status == RUNING_MEET) {
+					isTimerStart = true;
+					initTimerFun();
+				} else {
+					setTimeFun();
+				}
+
+				// 初始化会议状态按钮
+				isMeetingAdmin = "y"
+				if (isMeetingAdmin == "y") {
+					initStatusBtn();
+					signFlag = "n";
+				}
+
+				// 初始化查看签到结果按钮
+				plus.storage.setItem("signFlag", signFlag); // 存储主持人标记位
+				if (signFlag == "y") {
+					initSeeSignButtonGroup();
+				}
+			}
+
+			// 初始化计时器
+			function initTimerFun() {
+				//setInterval(setTimeFun, 1000); // 每一秒设置时间
+			}
+
+			// 设置时间
+			function setTimeFun() {
+
+				if (pubTotalTime == "") {
+					pubTotalTime = 0;
+				}
+				if (meetStatus != RUNING_MEET || isFirst) {
+					pubTotalTime = parseInt(pubTotalTime);
+					isFirst = false;
+				} else {
+					pubTotalTime = parseInt(pubTotalTime) + 1;
+				}
+
+				var hour = parseInt(pubTotalTime / (60 * 60));
+				var minute = parseInt((pubTotalTime - hour * (60 * 60)) / (60));
+				var second = pubTotalTime - hour * (60 * 60) - minute * 60;
+				if (hour < 10) {
+					hour = "0" + hour;
+				}
+				if (minute < 10) {
+					minute = "0" + minute;
+				}
+				if (second < 10) {
+					second = "0" + second;
+				}
+				var timeFrt = hour + ":" + minute + ":" + second;
+
+				var timerObj = document.getElementById("timer");
+				timerObj.innerHTML = timeFrt;
+			}
+
+			// 初始化会议状态按钮(开始/结束)
+			function initStatusBtn() {
+				var isShow = "y"; // 悬浮盘显示与否标记位
+				switch (meetStatus) {
+					case WAIT_MEET:
+						statusButton.innerHTML = "开始上会";
+						break;
+					case RUNING_MEET:
+						statusButton.innerHTML = "结束会议";
+						stopStatusBtn.innerHTML = "暂停会议";
+						stopStatusBtn.disabled = "";
+						break;
+					case PAUSE_MEET:
+						statusButton.innerHTML = "结束会议";
+						stopStatusBtn.innerHTML = "继续会议";
+						stopStatusBtn.disabled = "";
+						break;
+					default: // 默认状态隐藏操作盘与操作盘悬浮图标, 议题结束
+						isShow = "n";
+						break;
+				}
+				initSuspensionBox(isShow); // 悬浮盘显示控制
+			}
+
+			// 初始化秘书悬浮按钮
+			function initSuspensionBox(flag) {
+
+				if (flag == "y") { // 若控制类型为显示, 则执行以下操作
+					if (suspensionBoxIsFirstShow) { // 若悬浮按钮是第一次初始化, 则执行以下操作
+						suspensionBox.hidden = false;
+						suspensionBox.innerHTML = "隐藏";
+						statusButtonGroup.hidden = false;
+						suspensionBoxIsFirstShow = false; // 标记已初始化
+					}
+				} else { // 控制类型为隐藏, 执行以下操作
+					suspensionBox.hidden = true; // 隐藏悬浮按钮
+					statusButtonGroup.hidden = true; // 隐藏操作盘
+				}
+			}
+
+			// 初始化查看签到情况按钮
+			function initSeeSignButtonGroup() {
+				seeSignButtonGroup.hidden = false;
+			}
+
+			// 刷新会议数据列表
+			function refreshMeetingList() {
+				meetingPage.evalJS("refreshData();");
+				homePage.evalJS("refreshData('y');");
+			}
+
+			// 刷新议题数据
+			function refreshData() {
+				getDataDetail();
+			}
+
+			/**
+			 * 定时刷新议题列表
+			 */
+			function realTimeRefresh() {
+				if (OPEN_REFRESH) {
+					/* setInterval("refreshData()", REFRESH_TIME); */
+				}
+			}
+
+			/**
+			 * 显示选择提示框
+			 * @param {Object} dialogText 需要提示的文字
+			 * @param {Object} toastText toast提示的文字
+			 * @param {Object} operation 对应的操作函数
+			 */
+			function showDialog(dialogText, toastText, operation) {
+				var btnArray = ['是', '否'];
+				mui.confirm(dialogText, '会议提醒', btnArray, function(e) {
+					if (e.index == 0) {
+						//						var toastText = "通知已发送";
+						//						if(toastText != "通知开会")
+						//							toastText = "会议已" + dialogText.substring(0, 2);
+						operation(toastText);
+					}
+				});
+			}
+
+			// 开始会议按钮的操作
+			function startMeetOperation(toastText) {
+				if (statusButton.innerHTML == "开始上会") {
+					sendSignal(0, toastText); // 发送开始会议
+				} else {
+					statusButtonGroup.hidden = true;
+					sendSignal(3, toastText); // 发送结束会议
+				}
+			}
+
+			// 暂停按钮的操作
+			function pauseMeetOperation(toastText) {
+				if (stopStatusBtn.innerHTML == "暂停会议") {
+					sendSignal(1, toastText); // 发送暂停会议
+				} else {
+					sendSignal(2, toastText); // 发送继续会议
+				}
+			}
+
+			// 通知会议按钮的操作
+			function noticeMeetOperation(toastText) {
+				sendSignal(4, toastText); // 发送通知开会
+			}
+
+			// 签到的回调
+			function signCallback(checkedIds, attendMemo) { // 选中的人员, 签到的备注
+				var args = {
+					token:token,
+					id: meetingId,
+					userIds: checkedIds,
+					attendMemo: attendMemo
+				};
+				var success = function(rtnData) {
+					console.log("--------------------------------------");
+					console.log("签到请求结果: " + JSON.stringify(rtnData));
+					var signPage = plus.webview.getWebviewById("radioOrCheckbox");
+					signPage.evalJS("mui.back();");
+					mui.toast(rtnData.message);
+					getDataDetail();
+				}
+				sendRequest(meetSignUrl, args, success);
+			}
+
+			// 通知会议的回调
+			function issueNoticeCallback(checkedIds) { // 选中的议题id
+				var checkedIdsArr = checkedIds.toString().split(",");
+
+				if (checkedIdsArr == "") {
+					return;
+				}
+
+				for (var i in checkedIdsArr) {
+					var args = {
+						token:token,
+						subId: checkedIdsArr[i]
+					};
+					var success = function(rtnData) {
+						console.log("--------------------------------------");
+						console.log("发送议题开会通知结果: " + JSON.stringify(rtnData));
+
+						// 当最后一个通知发送成功后, 退出选择发送页面
+						if (parseInt(i) + 1 == checkedIdsArr.length) {
+							var signPage = plus.webview.getWebviewById("radioOrCheckbox");
+							signPage.evalJS("mui.back();");
+							mui.toast(rtnData.message);
+						}
+					}
+					sendRequest(sendNoticeIssueSignal, args, success);
+				}
+			}
+
+			/**
+			 * 退出会议详情时删除附件文件夹中的所有文件
+			 */
+			function deleteAccess() {
+				plus.io.resolveLocalFileSystemURL(accessoriesPath, function(entry) {
+					entry.removeRecursively(function() {
+						console.log("附件已清空");
+					}, function(error) {
+						console.log("附件已清空: " + error.message);
+					});
+				}, function(error) {
+					console.log("获取附件文件夹失败: " + error.message);
+				});
+			}
+
+			// 设置议题列表item点击事件
+			mui("#issueList").on('tap', '.mui-table-view-cell', function() {
+				var id = this.getAttribute("id");
+
+				console.log("--------------------------------------");
+				console.log("被点击的议题id: " + id);
+
+				var openUrl = 'meeting-issue.html';
+				var openId = 'meeting-issue';
+				// 打开并加载议题页
+				openItemPage(id, issueListData, openUrl, openId, "", "", itemCount);
+			});
+
+			// 设置附件列表item点击事件
+			mui("#accessoryList").on('tap', '.mui-table-view-cell', function() {
+				var id = this.getAttribute("id");
+				mui.toast(id);
+				var type = getAccessoryType(id, accessoriesListData);
+				var path = accessoriesPath + id + type;
+
+				plus.io.resolveLocalFileSystemURL(path,
+					// 本地存在对应文件, 直接打开
+					function success(entry) {
+						plus.runtime.openFile(path);
+
+					}, // 本地不存在对应文件, 下载并打开
+					function error(e) {
+						downloadAccess(id, path);
+					});
+			});
+
+			// 设置秘书按钮点击事件
+			mui(".operatingPanel").on('tap', '.mui-btn-primary', function() {
+				var id = this.getAttribute("id");
+				switch (id) {
+					case "signBtn": // 签到
+						var pageUrl = "../page-select/radioOrCheckbox.html";
+						var pageId = "radioOrCheckbox";
+						var args = {
+							token:token,
+							titleName: "出席人员",
+							contentTitleName: "出席人员",
+							type: "checkbox",
+							valueNames: leaderNames,
+							valueIds: leaderIds,
+							checkedValues: attendIds,
+							splitSymbol: "、",
+							editTitle: "备注",
+							memoText: attendMemo,
+							wvId: wvId,
+							callbackFun: "signCallback"
+						};
+						openNewPage(pageUrl, pageId, args);
+						break;
+
+					case "noticeMeet": // 通知议题人员开会
+
+						var issueTitleArr = notStartIssueMap.values(); // 获取未开始的议题标题
+						var issueIdArr = notStartIssueMap.keys(); // 获取未开始的议题id
+						var issueTitles = ""; // 拼装标题
+						var issueIds = ""; // 拼装id
+
+						for (var i in issueIdArr) {
+							if (i != 0) {
+								issueTitles += ",";
+								issueIds += ",";
+							}
+							issueTitles += issueTitleArr[i];
+							issueIds += issueIdArr[i];
+						}
+
+						var pageUrl = "../page-select/radioOrCheckbox.html";
+						var pageId = "radioOrCheckbox";
+						var args = {
+							token:token,
+							titleName: "请选择需要发送通知的议题",
+							btnName: "发送通知",
+							type: "checkbox",
+							valueNames: issueTitles,
+							valueIds: issueIds,
+							checkedValues: "",
+							wvId: wvId,
+							callbackFun: "issueNoticeCallback"
+						};
+						openNewPage(pageUrl, pageId, args);
+						break;
+
+					case "statusButton": // 开始或结束
+						var btnText = statusButton.innerHTML;
+
+						if (btnText == "结束会议") { // 若为结束会议时执行以下操作
+							var notStartIssueArr = notStartIssueMap.keys(); // 获取未开始的议题数组
+							// 若当前有正在进行的议题或者未开始的议题, 弹出对话框提示
+							if (curNo != "0" || notStartIssueArr.length != 0) {
+								mui.toast("请先结束当前正进行的议题或移除未开始的议题后再执行结束操作");
+								return;
+							}
+						}
+
+						var dialogText = '是否' + btnText + '？';
+						var toastText = '会议已' + btnText.substring(0, 2);
+						showDialog(dialogText, toastText, startMeetOperation);
+
+						break;
+					case "stopStatusBtn": // 暂停或重新开始
+						var dialogText = '是否' + stopStatusBtn.innerHTML + '？';
+						var toastText = '会议已' + stopStatusBtn.innerHTML.substring(0, 2);
+						showDialog(dialogText, toastText, pauseMeetOperation);
+						break;
+					case "issueReviseBtn": // 议题操作
+						var pageUrl = "meeting-issueRevise.html";
+						var pageId = "meeting-issueRevise";
+						var args = {
+							token:token,
+							meetingId: meetingId
+						};
+						openNewPage(pageUrl, pageId, args);
+						break;
+				}
+			});
+
+			// 设置查看签到情况按钮点击事件
+			mui(".btnGroup").on('tap', '#seeSignBtn', function() {
+				var pageUrl = "meeting-signResult.html";
+				var pageId = "meeting-signResult";
+				var args = {
+					token:token,
+					meetingId: meetingId
+
+				}
+				openNewPage(pageUrl, pageId, args);
+			});
+
+			// 悬浮按钮点击事件
+			suspensionBox.addEventListener('tap', function() {
+				if (statusButtonGroup.hidden == false) {
+					statusButtonGroup.hidden = true;
+					suspensionBox.innerHTML = "操作";
+				} else {
+					statusButtonGroup.hidden = false;
+					suspensionBox.innerHTML = "隐藏";
+				}
+			});
+
+			// 返回操作
+			mui.back = function() {
+				// 退出时刷新会议列表
+				deleteAccess();
+				refreshMeetingList();
+				mui.doAction("backs");
+			};
+		</script>
+	</body>
+
+</html>

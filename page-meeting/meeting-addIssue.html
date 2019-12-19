@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<style type="text/css">
+			input.mui-input-clear {
+				text-align: left;
+				padding-left: 15px;
+			}
+			.selectedObj{
+				text-indent: 2em;
+			}
+			div{
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        	<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="titleTextObj" class="mui-title">议题操作</h1>
+			<button type="button" id="submitBtn" class="mui-btn-grey search-button">保存</button>
+		</header>
+		
+		<div id="content" class="mui-content mui-scroll">
+			<div class="mui-card mui-card-content-inner">
+				<textarea id="issueTitleInputObj" type="text" rows="3" placeholder="请输入议题标题">【临时议题】</textarea>
+				<div style="margin-bottom: 5px;"></div>
+				<div class="">
+					汇报人(必选) :
+					<button id="hostPeopleBtn" type="button" class="floatR">点击选人</button>
+				</div>
+				<div id="hostPeopleObj" class="selectedObj">
+					
+				</div>
+				<div style="margin-bottom: 15px;"></div>
+				<div class="">
+					列席人员 :
+					<button id="selectPersonBtn" type="button" class="floatR">点击选人</button>
+				</div>
+				<div id="selectedObj" class="selectedObj">
+					
+				</div>
+				<div style="margin-bottom: 15px;"></div>
+				<div class="">
+					预计时长(分钟) :
+					<div class="floatR" style="line-height:20px; vertical-align: middle;">分钟</div>
+					<input id="subMinObj" type="number" value="0" class="mui-input floatR" style="width: 45px; height: 23px; margin-right: 5px; padding: 0px 2px; text-align: center;"/>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script type="text/javascript">
+			
+			var isNew = true; 				// 记录是否是新增议题
+			var wvId; 						// 页面id
+			var mid; 						// 会议id
+			var titleText; 					// 标题名称
+			var subId; 						// 议题id
+			var issueTitle = ""; 			// 议题标题
+			var issueStates = WAIT_ISSUE 	// 议题状态
+			var missiveIds = ""; 			// 相关公文id
+			var subMemo = ""; 				// 议题备注
+			var newSubOrd = ""				// 新增议题的位置标记
+			var subHours = "0"; 			// 预计时长(小时)
+			var subSeconds = "15"; 			// 预计时长(分钟)
+			var subHostNames = ""; 			// 汇报人
+			var subHostIds = ""; 			// 汇报人id
+			var selectedNames = ""; 		// 已选中人姓名
+			var selectedIds = ""; 			// 已选中人id
+			
+			var titleTextObj = document.getElementById("titleTextObj"); 				// 获取标题对象
+			var issueTitleInputObj = document.getElementById("issueTitleInputObj"); 	// 获取议题标题输入框对象
+			var submitBtn = document.getElementById("submitBtn"); 						// 添加议题按钮对象
+			var selectPersonBtn = document.getElementById("selectPersonBtn"); 			// 获取选人按钮对象
+			var selectedObj = document.getElementById("selectedObj"); 					// 获取已选人员列表对象
+			var hostPeopleBtn = document.getElementById("hostPeopleBtn"); 				// 获取汇报人选人按钮对象
+			var hostPeopleObj = document.getElementById("hostPeopleObj"); 				// 获取汇报人已选人员列表对象
+			var subMinObj = document.getElementById("subMinObj"); 						// 获取预计时长对象
+				
+			mui.init({});
+			
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				wvId = self.id; 						// 获取页面id
+				mid = self.mid; 						// 获取会议id
+				subId = self.subId; 					// 获取议题标题
+				// 若有议题标题则认为是修改议题, 则加载原有数据
+				if (subId != undefined && subId != "") {
+					isNew = false; 						// 标记不是新增议题
+					issueTitle = self.issueTitle;		// 获取议题标题
+					issueStates = self.issueStates;		// 获取议题状态
+					missiveIds = self.missiveIds;		// 获取议题相关公文id
+					subMemo = self.subMemo; 			// 获取议题备注
+					subHours = self.subHours;			// 获取议题预计时长(小时)
+					subSeconds = self.subSeconds;		// 获取议题预计时长(分钟)
+					subHostNames = self.subHostNames;	// 获取议题汇报人
+					subHostIds = self.subHostIds;		// 获取议题汇报人id
+					selectedNames = self.selectedNames;	// 获取议题列席人员
+					selectedIds = self.selectedIds;		// 获取议题列席人员id
+				} else { // 若是新增议题则将议题id设为空
+					subId = "";
+					newSubOrd = self.newSubOrd;			// 获取新议题的序号标记
+				}
+				initData();
+			});
+			
+			// 初始化界面数据
+			function initData() {
+				if (isNew) { // 新增议题操作
+					titleTextObj.innerHTML = "添加临时议题";
+				} else { // 修改议题操作
+					titleTextObj.innerHTML = "添加列席人员";
+				}
+				if (issueTitle != "") {
+					issueTitleInputObj.innerHTML = issueTitle;
+				}
+				selectedObj.innerHTML = selectedNames;
+				hostPeopleObj.innerHTML = subHostNames;
+				if (subSeconds == "") {
+					subSeconds = 0;
+				}
+				subMinObj.value = subSeconds;
+			}
+			
+			/**
+			 * 发送议题顺序调整信号
+			 * @param {String} type 
+			 */
+			function changeItemOrd(type,subId){
+				var args = {
+					subId : subId,
+					flag : type
+				};
+				var success = function(rtnData){
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("议题顺序调整结果: " + JSON.stringify(rtnData));
+					
+					getMeetIssueData();
+				}
+				sendRequest(changeItemOrdUrl,args,success);
+			}
+			
+			// 议题更新或者创建请求
+			function IssueUpDateOrCreateRequest(){
+				var args = {
+					mid : mid,
+					subTopic : issueTitle,
+					subId : subId,
+					subOrd : newSubOrd,
+					subStatus : issueStates,
+					subHours : subHours,
+					subSeconds : subSeconds,
+					subMemo : subMemo,
+					missiveIds : missiveIds,
+					subHostNames : subHostNames,
+					subHostIds : subHostIds,
+					subPartNames : selectedNames,
+					subPartIds : selectedIds
+				};
+				var success = function(rtnData){
+					// 打印数据
+					console.log("--------------------------------------");
+					console.log("更新或创建议题结果: " + JSON.stringify(rtnData));
+					
+					mui.toast(rtnData.message);
+					if (rtnData.code == "0") { // 保存成功后返回
+						var tempPage = plus.webview.getWebviewById("meeting-issueRevise");
+						tempPage.evalJS("mui.back();"); // 刷新议题列表内容
+					}
+				}
+				sendRequest(issueUpdateOrCreateUrl,args,success);
+			}
+			
+			// 选人回调
+			function selectCallback(selectedIds, selectedNames, selectedCount) {
+				selectedObj.innerHTML = selectedNames;
+				this.selectedIds = selectedIds;
+				this.selectedNames = selectedNames;
+			}
+			
+			// 汇报人选人回调
+			function hostSelectCallback(selectedIds, selectedNames, selectedCount) {
+				hostPeopleObj.innerHTML = selectedNames;
+				this.subHostIds = selectedIds;
+				this.subHostNames = selectedNames;
+			}
+			
+			// 保存按钮点击事件
+			submitBtn.addEventListener('tap',function() {
+				if (isNew) {
+					if (issueTitle == "") {
+						mui.toast("请输入新增议题的名称");
+						return;
+					}
+					if (subHostIds == "") {
+						mui.toast("请选择汇报人");
+						return;
+					}
+				}
+				IssueUpDateOrCreateRequest();
+			});
+			
+			// 选人按钮点击事件
+			selectPersonBtn.addEventListener('tap',function() {
+				var openUrl = "../page-select/selectAllPerson.html";
+				var openId = "selectAllPerson";
+				var args = {
+					selectedIds : selectedIds,
+					selectedNames : selectedNames,
+					callbackFunction : "selectCallback",
+					lastPageId : wvId
+				}
+				openNewPage(openUrl,openId,args);
+			});
+			
+			// 汇报人选人按钮点击事件
+			hostPeopleBtn.addEventListener('tap',function() {
+				var openUrl = "../page-select/selectAllPerson.html";
+				var openId = "selectAllPerson";
+				var args = {
+					selectedIds : subHostIds,
+					selectedNames : subHostNames,
+					callbackFunction : "hostSelectCallback",
+					lastPageId : wvId
+				}
+				openNewPage(openUrl,openId,args);
+			});
+			
+			// 标题输入框内容变化监听
+			issueTitleInputObj.addEventListener('input',function() {
+				issueTitle = issueTitleInputObj.value.trim();
+			});
+			
+			// 预计时长输入框内容变化监听
+			subMinObj.addEventListener('input',function() {
+				subSeconds = subMinObj.value.trim();
+			});
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的日程</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">我的日程</h1>
+				<button type="button" id="addTask" class=" mui-pull-right" style="background: none; border: none; margin:-5px -10px 0px 0px;"  >
+					<span class="mui-icon mui-icon-plus white"></span>
+				</button>				
+				<button style="display: none;" type="button" id="showSearchBtn" class=" mui-pull-right" style="background: none; border: none; margin:-5px 0px 0px 0px;"  >
+					<span class="icon iconfont icon2-sousuo white"></span>
+				</button>
+			</div>
+			
+			<div id="searchGroup" style="display: none;">
+				<a id="hideSearchBtn" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise search_input">
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+				</div>
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>	
+			</div>		
+		</header>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="js/schedule.js"></script>
+		
+	</body>
+	
+</html>

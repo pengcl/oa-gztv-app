@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改密码</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>旧密码</label>
+					<input id='oldPassword' type="password" class="mui-input-clear mui-input" placeholder="请输入旧密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码</label>
+					<input id='newPassword1' type="password" class="mui-input-clear mui-input" placeholder="请输入新密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input id='newPassword2' type="password" class="mui-input-clear mui-input" placeholder="请再次确认密码">
+				</div>
+			</form>
+			
+			<div class="btnGroup">
+				<button id="saveBtn" type="button" 
+					class="mui-btn mui-btn-primary longBtn">保&nbsp;&nbsp;存</button>
+			</div>
+			
+			<!--<ul id="function-selection" class="mui-table-view " style="margin-top: 25px;">
+				<li id="saveBtn" >
+					<a class="mui-btn mui-btn-primary mui-btn-block longBtn">保　存</a>
+					
+				</li>
+			</ul>-->
+		</div>
+
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script type="text/javascript">
+		
+			var saveBtn = document.getElementById("saveBtn");
+		
+			mui.init();
+			
+			/**
+			 * 修改密码
+			 */
+			function changePassword(newPwd, oldPwd) {
+				var args = {
+					oldPwd: oldPwd,
+					newPwd: newPwd
+				};
+				
+				var success = function(rtnData) {
+
+					console.log("--------------------------------------");
+					console.log("密码修改结果: " + JSON.stringify(rtnData));
+
+					if(rtnData.result == "error") {
+						mui.toast("密码错误 !");
+					} else {
+						mui.toast("修改成功 !");
+						mui.back();
+					}
+				}
+				
+				sendRequest(changePasswordUrl, args, success);
+			}
+			
+			// 设置保存按钮点击监听
+			saveBtn.addEventListener('tap', function(event) {
+				var oldPwd = oldPassword.value;
+				var newPwd1 = newPassword1.value;
+				var newPwd2 = newPassword2.value;
+				
+				if(oldPwd == "" || newPwd1 == "" || newPwd2 == ""){
+					mui.toast("请将信息填写完整 !");
+					return;
+				}else{
+					if(newPwd1 != newPwd2){
+						mui.toast("两次输入的密码不正确 !");
+						return;
+					}else{
+						changePassword(newPwd1,oldPwd);
+					}
+				}
+			});	
+
+		</script>
+	</body>
+
+</html>

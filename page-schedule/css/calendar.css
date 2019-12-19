@@ -1,0 +1,264 @@
+/* Reset */
+select{
+	border: 1px solid red!important; 
+	-webkit-appearance:menulist!important;
+	 margin-top: 15px;
+}
+.ui-datepicker,
+.ui-datepicker table,
+.ui-datepicker tr,
+.ui-datepicker td,
+.ui-datepicker th {
+	margin: 0;
+	padding: 0;
+	border-spacing: 0;
+	border-collapse: collapse;
+	background-color: #fff;
+	border-bottom:1px solid #f7f7f7;
+}
+
+/* Calendar Wrapper */
+.ui-datepicker {
+	display: none;
+	width: 100%;
+
+	padding-top: 0;
+	cursor: default;
+	text-transform: uppercase;
+	font-family: Tahoma;
+	font-size: 0.65rem;
+}
+
+/* Calendar Header */
+.ui-datepicker-header {
+	position: relative;
+	border:none;
+}
+
+.ui-datepicker-title { 
+	font-family: "微软雅黑";
+	background: #FFFFFF;
+	text-align: center; 
+	line-height: 1.5rem;
+}
+
+/* Month */
+.ui-datepicker-month {
+	position: relative;
+	padding-right: 0.35rem;
+	color: #565656;
+}
+
+.ui-datepicker-month:before {
+	display: block;
+	position: absolute;
+	top: 0.325rem;
+	right: -0.1rem;
+	width: 0.125rem;
+	height: 0.125rem;
+	content: '';
+
+	background: #a5cd4e;
+	background: -moz-linear-gradient(top, #a5cd4e 0%, #6b8f1a 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a5cd4e), color-stop(100%,#6b8f1a));
+	background: -webkit-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+	background: -o-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+	background: -ms-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+	background: linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+
+	-webkit-border-radius: 0.125rem;
+	-moz-border-radius:0.125rem;
+	border-radius:0.125rem;
+}
+
+/* Year */
+.ui-datepicker-year {
+	padding-left: 0.2rem;
+	color: #a8a8a8;
+}
+
+/* Prev Next Month */
+.ui-datepicker-prev{
+	margin-top: 0.28rem;
+	position: absolute;
+	cursor: pointer;
+}
+.ui-datepicker-next {
+	margin-top: 0.26rem;
+	position: absolute;
+	cursor: pointer;
+}
+
+.ui-datepicker-prev {
+	left: 0;
+	padding-left: 0;
+}
+
+.ui-datepicker-next {
+	right: 0;
+	padding-right: 0;
+}
+
+.ui-datepicker-prev span,
+.ui-datepicker-next span{
+	display: block;
+    width: 0.45rem;
+/*	height: 0.45rem;*/
+	text-indent: -9999px;
+	background-image: url(../img/perv.png);
+}
+
+/*
+.ui-datepicker-prev span { background-position: 0 0; }
+.ui-datepicker-next span { background-position: -0.125rem 0; }
+*/
+
+.ui-datepicker-prev-hover span { background-position: 0 -0.25rem; }
+
+.ui-datepicker-next-hover span { background-position: -0.125rem; -0.25rem; }
+
+.ui-datepicker-calendar {
+	font-family: "微软雅黑";
+	width: 100%;
+}
+
+/* Calendar "Days" */
+.ui-datepicker-calendar th {
+	padding-top: 0px; /* 0.375rem;*/
+	padding-bottom: 0px; /* 0.25rem; */
+	text-align: center;
+	font-weight: normal;
+	font-size: 12px;
+	color: #a8a8a8;
+}
+
+.ui-datepicker-calendar td {
+	/*padding: 0 0.2rem;*/
+	text-align: center;
+	line-height: 1.05rem;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+	display: inline-block;
+	width: 1.05rem;
+	outline: none;
+	text-align: center;
+	text-decoration: none;
+	color:#666666;
+	border: 1px solid transparent;
+}
+
+.ui-state-default{
+	margin: 0;
+	display: inline-block;
+}
+
+/* Day Active State*/
+.ui-datepicker-calendar .ui-state-active {
+	color: #fff!important;
+	background: #5E5E5E; /* #30b2fa; */
+	color: #fff; /* 6a9113;*/
+	height: 1.6rem;
+	line-height: 1.6rem;
+	font-weight: bold;
+}
+
+/* Today */
+.ui-datepicker-calendar .ui-state-highlight {
+	color: #fff!important;
+	background: #30b2fa;
+	color: #fff; /*#6a9113*/
+	height: 1.6rem;
+	line-height: 1.6rem;	
+}
+
+/* Other Months Days*/
+.ui-datepicker-other-month .ui-state-default 
+{
+	color: #fff; /* #ABABAB;*/
+}
+
+th.ui-datepicker-week-end,
+td.ui-datepicker-week-end a {
+   color: #ccc!important; /* ABABAB */
+}
+
+
+
+/* 自定义样式开始 */
+.ui-datepicker{
+	background:;
+	padding-top:5px;
+}
+.ui-datepicker-calendar th{
+	color:#666666;
+}
+.ui-datepicker-calendar .ui-state-default{
+	color: #666666;
+	border-radius: 50%;
+	width: 1.9rem;
+	position: relative;
+}
+/*
+.ui-datepicker-calendar .ui-state-active{
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+	background: #30b2fa;
+	border-color: #30b2fa;
+	color: #FFFFFF;
+}
+*/
+
+ui-datepicker-calendar .datetoday {
+	
+}
+
+.ui-datepicker-header{
+	border-bottom:none;
+}
+.ui-datepicker-year:after{
+	content:'-';
+}
+.ui-datepicker-year,.ui-datepicker-month{
+	color: #666666;
+}
+.ui-datepicker-month:before{
+	content:none;
+}
+.ui-datepicker-prev-hover span{
+	background-position:inherit;
+	}
+.ui-datepicker-calendar td{
+	line-height: 1.8rem;
+}
+.ui-datepicker-prev{
+	left:25%;
+}
+.ui-datepicker-next{
+	right: 25%;
+}
+
+.over-today a {
+   	color:#ccc!important;
+}
+
+.ui-datepicker-prev span{			
+	background:url(../img/perv.png) no-repeat;
+	background-position:center;
+	background-size:10px 10px;
+}
+.ui-datepicker-next span{
+	background:url(../img/next.png)no-repeat;
+	background-position:center;
+
+	background-size:12px 10px;
+}
+
+.has-data-nomral a {
+   	color:#00f!important;
+}
+
+.has-data-abnomral a {
+   	color:#f00!important;
+}

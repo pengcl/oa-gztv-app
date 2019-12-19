@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>通知公告</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="css/notice-content.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<style>
+			body{
+				background-color: white;
+			}
+			p{
+				color: #4d4d4d;
+			}
+			.notice-content{
+				height: 30px!important;
+				border-radius:50px!important;
+				margin-left:3%!important;
+				background-color:#f2f2f2!important ;
+			}
+			.notice-content::-webkit-input-placeholder { /* WebKit browsers */
+				color:black;
+				font-size: 0.8rem;
+				opacity: 0.4;
+			}
+			.replyTextarea{
+				height: 30px!important; 
+				border-radius:50px!important; 
+				margin-left:3%!important; 
+				background-color:#f2f2f2!important ;
+			}
+			.contentList-img{
+				margin-top: 2px;
+				vertical-align: middle;
+				width: 2rem;
+				height: 2rem;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+			#contentList a{
+				color: #d2d2d2;
+				font-size: 17px;
+			}
+			.examineReply{
+				background-color: #F2F2F2;
+				color: #e6201d;
+				margin-bottom: 10px;
+				line-height: 22px;
+				padding-left: 5px;
+			}
+			#childUpQuantity.active{
+				color: red;
+			}
+			#mainContent a{ color: #d2d2d2; font-size: 17px; }
+			.mainContent-img{ margin-top: 2px; vertical-align: middle; width: 2rem; height: 2rem; border-radius: 50%; margin-right: 10px; }
+		</style>
+	</head>
+
+	<body style="background-color: #FAFAFA;">
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">详情回复</h1>
+			</div>
+		</header>
+		<div style="margin-top: 50px;">
+			<textarea id="content" style="height: 8rem;"></textarea>
+		</div>
+		<div style="text-align:center;margin-top:40px">
+			<button id="saveReply" style="width:80%" type="button" class="mui-btn mui-btn-danger">回复</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<!--<script src="js/notice-content.js"></script>-->
+		<script>
+			// mui初始化
+			mui.init({ beforeback: function(){ 
+				var main=plus.webview.getWebviewById(noticeInfoId); 
+				//自定义事件,事件名为changeCity 
+				main.reload(); return true; 
+			} }); 
+			
+			var id; 
+			var noticeInfoId; //创建子页面，首个选项卡页面显示，其它均隐藏；
+			
+			mui.plusReady(function() { 
+				var allId = plus.webview.currentWebview().id; 
+				var cutLength=allId.indexOf(","); 
+				id=allId.substr(0,cutLength); 
+				noticeInfoId=allId.substr(cutLength+1,allId.length); 
+			}); 
+			
+			// 标题栏返回键监听 
+			var back = document.getElementById("toBack"); 
+			back.addEventListener('tap', function(event){ 
+				mui.back(); 
+			});
+			
+			var saveReply = document.getElementById("saveReply");
+			saveReply.addEventListener('tap', function(){
+				var content = document.getElementById("content").value;
+				var url = topUrl + 'noticeComment/create.action?token=' + token;
+				mui.ajax(url, { 
+					data: { 
+						pid: id, 
+						noticeInfoId:noticeInfoId, 
+						content:content 
+					}, 
+					type:'post', 
+					success: function(data) { 
+						if(data.success){ 
+							alert('回复成功'); 
+							mui.back();
+						}else{
+							alert(data.errorMsg); 
+						} 
+					}, 
+				});
+			})
+		</script>
+	</body>
+
+</html>

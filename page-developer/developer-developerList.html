@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.divList{
+				border: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">			
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">开发者选项</h1>
+			<a id="toHome" class="mui-icon mui-icon-home mui-pull-right white"></a>
+		</header>
+
+		<div id="content" class="mui-content">
+			<ul class="mui-table-view">
+				<li id="cacheData" class="mui-table-view-cell">
+					<div class="display floatL colorL">查看缓存数据</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+			</ul>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/developerPage.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script type="text/javascript">
+			
+			mui.init();
+			mui.plusReady(function() {
+				mui.toast("您已进入开发者模式 !");
+			});
+			
+			// 初始化数据
+			function initData(){
+				
+			}
+			
+			// 列表点事件
+			mui("ul").on('tap', 'li', function() {
+				var clickId = this.getAttribute("id");
+				
+				switch (clickId) {
+					case "cacheData" : 
+						var openUrl = "../page-developer/developer-cacheData.html";
+						var openId = "developer-cacheData";
+						openNewPage(openUrl,openId);
+						break;
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

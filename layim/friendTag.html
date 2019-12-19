@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>部门专栏</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../page-notice/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<style type="text/css">
+			ul{
+				list-style: none;
+			}
+			ul li i{
+				margin-right: 10px;
+				position: relative;
+				top: 4px;
+			}
+			ul li{
+				font-size: 15px;
+				border-bottom: 1px solid #d9d8d9;
+				padding: 0 15px;
+				height: 60px;
+				line-height: 60px;
+			}
+			ul li p{
+				line-height: 25px;
+			}
+		</style>		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<a id="addFriend" class="mui-icon mui-icon-plus mui-pull-right" style="color: #FFF;"></a>
+				<h1 class="mui-title">标签</h1>
+				<!--<a id="addGroup" class="mui-icon mui-pull-right" style="color: #FFF;">完成</a>-->
+			</div>
+		</header>
+		<div id="friend" style="margin-top: 4.5rem;background-color: white;margin-bottom: 10px;">
+			<ul style="background-color: white;">
+				<li class="friendId" id="" style="color: #51aa38;">
+					<i style="font-size: 30px;" class="fa fa-plus-circle"></i>
+					<span>新建标签</span>
+				</li>
+				<ul id="friendTap">
+					<!--<li class="friendId" id="1">
+						<p style="margin-top: 5px;color: black;">朋友(1)</p>
+						<p style="font-size: 16px;">洪城赤字</p>
+					</li>-->
+				</ul>
+			</ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script type='text/javascript' src='Config.js'></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script>
+			var back = document.getElementById("toBack"); 
+			// 获取回退按钮对象(回退到首页) 
+			var userId; 
+			var homePage;
+			mui.plusReady(function() { 
+				userId = plus.webview.currentWebview().id;
+				console.log(userId);
+				var id = plus.storage.getItem("sysUsersId");
+				findFriendTap(id);
+			});
+
+			var back = document.getElementById("toBack"); 
+			back.addEventListener('tap', function(event){ 
+				mui.back(); 
+//				homePage.reload();
+			});
+			
+			//新建标签
+			var addFriend = document.getElementById("addFriend");
+			addFriend.addEventListener("tap",function(){
+				var url = 'friendTagDeatail.html'; 
+				openNewPage(url, userId+','+'');
+			})
+			
+			mui("#friend").on('tap', '.friendId', function(event) {
+				var id = this.getAttribute("id")
+				var url = 'friendTagDeatail.html'; 
+				
+				openNewPage(url,  userId+','+id);
+			})
+			
+			//加载标签
+			function findFriendTap(id){
+				var friendTap = document.getElementById("friendTap");
+				var url = imUrl+'friendTag/findTab';
+				var html='';
+				mui.ajax(url,{
+					data:{userId:id},
+					success:function(data){
+						var rows=data.model;
+						if(rows.length>0){
+							for(var i=0;i<rows.length;i++){
+								html+='<li class="friendId" id="'+rows[i].id+'">'+
+								'<p style="margin-top: 5px;color: black;">'+rows[i].tagName+'</p>'+
+								'<p style="font-size: 16px;">洪城赤字</p></li>'
+							}
+						}
+						friendTap.innerHTML=html;
+					},
+				});
+			}
+			
+		</script>
+		
+	</body>
+
+</html>

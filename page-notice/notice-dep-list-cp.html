@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知公告</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" type="text/css" href="css/notice.css"/>
+		<link rel="stylesheet" type="text/css" href="css/notice-empty.css"/>
+	</head>
+
+	<body>
+		
+		<div id="pullrefresh" class="mui-content titleTabContent mui-scroll-wrapper mui-scroll">
+			<div id="content" class="">
+				<input type="hidden" id="searchKey" value="" /> 
+				<ul id="noticeList" class="mui-table-view">
+					
+					<!--
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<span class="mui-media-object mui-pull-left xingm badgeSpan">
+								<span>状态</span>
+							</span>
+							<div class="mui-media-body">
+								项目名称
+								<span class="mui-pull-right">2017-12-25</span>
+								<p class='mui-ellipsis'>中国</p>
+							</div>
+						</a>
+					</li>
+					-->
+
+				</ul>
+				
+				<ul id="noneDataUl" class="mui-table-view mui-grid-view" style="display:none">
+			        <li class="mui-table-view-cell mui-media mui-col-xs-12" style="width:100%;height:100%;">
+		                <img class="mui-media-object" src="../img/ditu.png">
+		                <div class="mui-media-body">没有数据哦~~</div>
+			        </li>
+			    </ul>
+			    
+			</div>
+		</div>			
+		
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/lib/vue/vue.js"></script>		
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		
+		<script src="js/notice-dep-list-cp.js"></script>
+		
+	</body>
+</html>

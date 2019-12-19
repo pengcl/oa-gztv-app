@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		
+	</head>
+	<style>
+		.mui-content>.mui-table-view:first-child {
+			margin-top: 20px;
+		}
+		.mui-table-view .mui-media-body {
+			line-height: 45px;
+		}
+		.mar_t_20{ margin-top: 20px;}
+		.title-button-right {
+			margin-top: 5px;
+			margin-left: 10px;
+			margin-right: -5px;
+			float: right;
+			color: #fff;
+		}
+		
+	</style>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			<ul class="mui-table-view">
+				<li id="personalPic" class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">
+						<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../img/user.png">
+						<div class="mui-media-body">
+							个人用户
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mar_t_20">
+			
+				<li id="personalInfo" class="mui-table-view-cell">
+					<a class="mui-navigate-right" style="margin-left: -7px;">
+						<span class="icon iconfont icon2-xinxi"></span>个人信息
+					</a>
+				</li>
+				<li id="changePwd" class="mui-table-view-cell">
+					<a class="mui-navigate-right" style="margin-left: 0px; ">
+						<span class="icon iconfont icon2-mima"></span>修改密码
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 25px;">
+				<li id="appInfo" class="mui-table-view-cell">
+					<a class="mui-navigate-right" style="margin-left: 0px; ">
+						<span class="icon iconfont icon2-mima"></span>应用信息
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 25px;">
+				<li id="logout" class="mui-table-view-cell">
+					<a style="text-align: center;color: #f00;">
+						退出登录
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script type="text/javascript">
+			
+			mui.init();
+			mui.plusReady(function() {
+
+				// 加载界面特定控件
+//				initView();
+			});
+			
+			// 设置点击事件(控件组点击方式)
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+				
+				var clickId = this.getAttribute("id");
+				
+				switch(clickId) {
+					case 'personalInfo':
+						openNewPage("setting-personalInfo.html","setting-personalInfo");
+						break; // 个人信息界面
+					case 'changePwd':
+						openNewPage("setting-changePwd.html","setting-changePwd");
+						break; // 修改密码
+					case 'appInfo':
+						openNewPage("setting-appInfo.html","setting-appInfo");
+						break; // 应用信息
+					case 'logout':
+						var main = plus.webview.getWebviewById("main");
+						main.evalJS("mui.back();");
+						break; // 退出登录
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

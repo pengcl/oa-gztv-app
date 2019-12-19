@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-table-view-cell{
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        <div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">选择环节</h1>
+		</header>
+		<div id="content" class="mui-content">
+			<div class="mui-scroll">
+				<ul id="listContent">
+				<!--<ul id="mui-table-view">-->
+					<!--<li id="haha" class="divList">
+						<table border="0">
+							<tr>
+								<td rowspan="2" style="width: 35px;" class="mui-checkbox">
+									<input name="checkbox" value="Item 2" type="checkbox">
+								</td>
+								<td class="autoHiddenText">拟稿部门负责人审批</td>
+								<input type="hidden" id="userId" name="userId" />
+								<input type="hidden" id="userName" name="userName" />
+								<td style="width: 60px;"><p class="red" onclick="selPerson('+id+');">点击选人</p></td>
+							</tr>
+							<tr>
+								<td colspan="2"><p>参与人员:&nbsp;人员人员人员人员人员人员人员人员</p></td>
+							</tr>
+						</table>
+					</li>
+					
+					<li id="0" class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" style="vertical-align: ;"/>
+						<p class="red floatR" onclick="selPerson('+id+');">点击选人</p>
+						<samp>部门</samp>
+						<p>参与人员:&nbsp;人员人员人员人员人员人员人员人员</p>
+					</li>-->
+				</ul>
+				
+				<div class="btnGroup">
+					<button type="button" id="submitButton" class="mui-btn mui-btn-primary longBtn">确&nbsp;&nbsp;定</button>
+				</div>
+				
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<script type="text/javascript">
+			
+			var flowId;
+			var flowGoId;
+			var sysData;
+			var formFeildsValue;
+			
+			mui.init();
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				flowId = self.sysData.flowId;
+				flowGoId = self.sysData.flowGoId;
+				formFeildsValue = self.formFeildsValue;
+				sysData = self.sysData;
+//				var afParams =  eval(params);
+//				alert(params.m_title);
+				
+				initData();
+				getNextLinkList();
+			});
+			
+			function initData(){
+				
+			}
+			
+			// 获取环节列表
+			function getNextLinkList(){
+				var args = {
+					flowId : flowId,
+					flowGoId : flowGoId
+				};
+				var success = function(rtnData){
+					
+					createNextLinkList(rtnData.rows);
+					
+					console.log("--------------------------------------");
+					console.log("环节列表数据: " + JSON.stringify(rtnData));
+				}
+				sendRequest(getNextLinkListUrl,args,success);
+			}
+			
+			/**
+			 * 创建环节选择列表
+			 */
+			function createNextLinkList(listData){
+				var i;
+				var table = document.body.querySelector('#listContent');
+				var isFirstCanNotSelect = false; 					// 是否是第一个不可选人的环节
+				
+				for(i in listData){
+					var canSelect = listData[i].canSelect; 			// 获取是否可选人
+					var mfFlowTitle = listData[i].mfFlowTitle; 		// 获取环节名称
+					var id = listData[i].id; 						// 获取下一环节id
+					var nextFlowId = id; 							// 设置点击选人用的下一环节id
+					var isChecked = ''; 							// 设置该选项是否选中
+					var selectId = ''								// 设置默认选中的id
+					var selectName = ''								// 设置默认选中的name
+					var selectNameLabel = ''						// 显示默认选中的name
+					if (canSelect == "N") { 						// 若该环节不可选人, 则执行以下操作
+						nextFlowId = "'cannotSelect'"; 				// 设置不能选人
+						if (isFirstCanNotSelect == false) { 		// 若是第一个不能选人的选项, 则默认选中该选项
+							isChecked = 'checked="checked"'; 		// 设置默认选中
+							isFirstCanNotSelect = true; 			// 修改第一个不能选人的选项标记位
+						}
+						selectId = "value='"+listData[i].userIds+"'";		// 若是默认选中的选项, 则设置下环节人员id
+						selectName =  "value='"+listData[i].userNames+"'";	// 若是默认选中的选项, 则设置下环节人员名称
+						selectNameLabel = listData[i].userNames;			// 若是默认选中的选项, 则显示下环节人员名称
+						sysData.nextFlowId = id;							// 由于默认没有选择下一环节, 所以手动设置下一环节id
+					}
+					var li = document.createElement('div');
+					li.id = id;
+					li.className = 'divList';
+					li.innerHTML = '<table border="0"><tr><td rowspan="2" style="width: 35px;" class="mui-checkbox">'+
+					'<input id="'+id+'" value="'+id+'" type="checkbox" '+isChecked+
+					'><input type="hidden" id="'+id+'userId" name="'+id+'userId" '+selectId+'/>'+
+					'<input type="hidden" id="'+id+'userName" name="'+id+'userName" '+selectName+'/></td><td class="autoHiddenText">'+
+					mfFlowTitle+'</td><td style="width: 60px;""><p class="red" onclick="selPerson('+nextFlowId+');">点击选人</p></td>'+
+					'</tr><tr><td colspan="2"><p id="'+id+'label">'+selectNameLabel+'</p></td></tr></table>';
+					
+					table.insertBefore(li, table.firstChild);
+				}
+			}
+
+			/**
+			 * 点击选人显示选人页面
+			 * @param {Object} id
+			 */
+			function selPerson(nextFlowId){
+				
+				if (nextFlowId == "cannotSelect") { // 若该下一环节id为不能选择, 则不执行选人
+					mui.toast("该环节无需手动选择人员");
+					return;
+				}
+				
+				var temp = document.getElementById(nextFlowId);
+				var tempInput = temp.children[0].children[0].children[0].children[0].children[0];
+				tempInput.checked = "checked";
+				
+				mui.openWindow({
+					url: 'selectPerson.html',
+				    id: 'selectPerson',
+				    styles:{
+						bounce: 'vertical'
+				    },
+				    extras:{
+				        nextFlowId : nextFlowId,
+				        flowGoId : flowGoId
+				    }
+				});
+			}
+			
+			// 选人的回调
+			function selUserCallBack(flowId,userId,usrName){
+				var rtnUserId = "";
+				var rtnUserName = "";
+				
+				if(userId!=undefined&&userId.indexOf(",")>=0){
+					rtnUserId = userId.substring(1,userId.length);
+				}
+				if(usrName!=undefined&&usrName.indexOf(",")>=0){
+					rtnUserName = usrName.substring(1,usrName.length);
+				}
+				$('#'+flowId+"userId").val(rtnUserId); 		// 设置选中的人员id
+				$('#'+flowId+"userName").val(rtnUserName); 	// 设置选中的人员名称
+				$('#'+flowId+"label").text(rtnUserName); 	// 显示选中的人员名称
+				sysData.nextFlowId = flowId;
+			}
+			
+			// 提交表单信息
+			function submitFrom(){
+  				 
+  				var nextUserId = "";
+				var nextUserName = "";
+  				 
+				$("input[type='checkbox']").each(function(i,checkItem){
+					var flowId = $(this).attr("id");
+					if(checkItem.checked==true){
+						nextUserId = $('#'+flowId+"userId").val();
+						nextUserName = $('#'+flowId+"userName").val();
+					}
+				});
+  				
+		  		var params = {};
+				var missiveId = sysData.missiveId;
+				var m_title = sysData.m_title;
+				var nextFlowId = sysData.nextFlowId;
+				var flowId = sysData.flowId;
+				var flowGoId = sysData.flowGoId;
+		
+				params.missiveId = missiveId;
+			    params.m_title = m_title;
+			    params.formFeildsValue = formFeildsValue;
+			    params.nextFlowId = nextFlowId;
+			    params.nextUserId = nextUserId;
+			    params.nextUserName = nextUserName;
+			    params.flowId = flowId;
+			    params.flowGoId = flowGoId;
+			    params.isSendMessage = "0";
+			    params.mfrOperateMsg = "";
+		  		
+				var success = function(rtnData){
+					
+					mui.toast(rtnData.msg);
+					
+					console.log("--------------------------------------");
+					console.log("提交结果: " + JSON.stringify(rtnData));
+					
+					setTimeout(closePage(),500);
+				}
+				sendRequest(submitLinkUrl,params,success);
+		  		
+			}
+			
+			function closePage(){
+				var formPage = plus.webview.getWebviewById("toDo-main");
+				formPage.evalJS("closePage();");
+				mui.back();
+			}
+			
+			// 标题栏提交键监听
+			var submitButton = document.getElementById("submitButton");
+			submitButton.addEventListener('tap', function(event){
+				submitFrom();
+			});
+			
+		</script>
+	</body>
+
+</html>

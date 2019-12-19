@@ -1,0 +1,54 @@
+@charset "utf-8";
+/*reset css*/
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed,figure, figcaption, .footer, .header, hgroup,menu, nav, output, ruby, section, summary,time, mark, audio, video{margin: 0;padding: 0;border: 0;font-size: 0.5rem;font: inherit;vertical-align: baseline;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,.footer, .header, hgroup, menu, nav, section {display: block;}
+body{line-height: 1rem;background: #fff;font-family: "微软雅黑";}
+a:active{color: #000;}
+ol, ul ,li{list-style: none;}
+blockquote,q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: ''; content: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+textarea{resize: none;}
+/*清除浮动*/
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}
+/* Hide from IE Mac */
+.clearfix {display:block;}
+/* End hide from IE Mac */
+/* end of clearfix */
+.clear{ clear:both; height:0px; width:0px; line-height:0px; visibility:hidden; }
+.mui-timing-show{display: none;}
+/*定位 显示*/
+.fl{float:left; display:inline;}
+.fr{float:right; display:inline;}
+.text-l{text-align: left;}
+.text-r{text-align: right;}
+.none{display:none;}
+a{text-decoration: none;display: inline-block; color: #fff;}
+*{outline: none;-webkit-tap-highlight-color:rgba(255,0,0,0);padding: 0;margin: 0;}
+p{margin: 0;padding: 0;}
+a:focus,a:active,a:link,a:visited,a:hover{outline: none;text-decoration: none;-webkit-tap-highlight-color:rgba(255,0,0,0);}
+a:focus,a:active,a:link{color: #D9562A;}
+body{font-size: 0.5rem;font-family:"微软雅黑";background: ##efeff4;}
+input{font-family:"微软雅黑";outline: none;-webkit-tap-highlight-color:rgba(255,0,0,0);}
+input[type=text]{-webkit-appearance: none;}
+textarea{font-size: 0.5rem;color: #333333;font-family:"微软雅黑";-webkit-appearance: none;}
+
+/*public*/
+.top-part{background: #D9562A;width: 100%;height: 6.1rem;}
+.top-part-logo{display: inline-block;height: 0.95rem;width: 9rem;background: url(../images/logo.png) no-repeat;background-size: cover;margin: 0.7rem 4.5rem;}
+.mui-action-back{font-size: 1.5rem;position: absolute;left: 0rem;top: 0.1rem;display: inline-block;width: 2rem;height: 2rem;line-height: 2rem;text-align: center;}
+.top-part-title{height: 1.7rem;line-height: 1.7rem;width: 10.3rem;border: 1px dotted #fff;color: #fff;font-size: 0.7rem;margin: 0.4rem auto;border-radius: 0.2rem;text-align: center;}
+.bottom-part{width: 100%;}
+
+@media only screen and (min-width: 720px) {
+	body{
+		width:720px;
+		margin:0 auto;
+	}
+	/*.mui-bar{
+		width:980px;
+		margin:0 auto;
+	}*/
+}

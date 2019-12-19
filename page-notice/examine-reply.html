@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>通知公告</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="css/notice-content.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<style>
+			body{
+				background-color: white;
+			}
+			p{
+				color: #4d4d4d;
+			}
+			.notice-content{
+				height: 30px!important;
+				border-radius:50px!important;
+				margin-left:3%!important;
+				background-color:#f2f2f2!important ;
+			}
+			.notice-content::-webkit-input-placeholder { /* WebKit browsers */
+				color:black;
+				font-size: 0.8rem;
+				opacity: 0.4;
+			}
+			.replyTextarea{
+				height: 30px!important; 
+				border-radius:50px!important; 
+				margin-left:3%!important; 
+				background-color:#f2f2f2!important ;
+			}
+			.contentList-img{
+				margin-top: 2px;
+				vertical-align: middle;
+				width: 2rem;
+				height: 2rem;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+			#contentList a{
+				color: #d2d2d2;
+				font-size: 17px;
+			}
+			.examineReply{
+				background-color: #F2F2F2;
+				color: #e6201d;
+				margin-bottom: 10px;
+				line-height: 22px;
+				padding-left: 5px;
+			}
+			#childUpQuantity.active{
+				color: red;
+			}
+			#mainContent a{ color: #d2d2d2; font-size: 17px; }
+			.mainContent-img{ margin-top: 2px; vertical-align: middle; width: 2rem; height: 2rem; border-radius: 50%; margin-right: 10px; }
+		</style>
+	</head>
+
+	<body style="background-color: #FAFAFA;">
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">评论详情</h1>
+			</div>
+		</header>
+		<div style="padding: 0 0.6rem; border-top: 4px solid #e5e5e5;margin-top: 40px;background-color: white;">
+			<div id="mainContent" style="padding: 0 4px;margin-top: 10px;" >
+				 <div style="margin-bottom:10px" class="noticeComment" id="945234971319074816">
+				 	<div style="margin-left: 5px; color: #4d4d4d;">
+				 		<div style="float: left;height: 80px;width:auto;">
+				 			<img class="mainContent-img" src="../img/touxiang@2x.png" />
+				 		</div>
+				 		<div style="text-align: left;margin-left: 44px;">
+				 			<p id="userName" style="color: #d2d2d2;"></p>
+				 			<p style="color: #d2d2d2;"><span id="commentTime"></span>
+				 				<span style="float: right;">
+				 					<a id="childUpQuantity"><i style="margin-right: 5px;" class="fa fa-thumbs-up"></i><span id="upQuantity"></span></a>
+				 				</span>
+				 			</p>
+				 			<p id="content" style="color: #4b4b4b;"></p>
+				 		</div>
+				 		<div style="clear: both;"></div>
+				 	</div>
+				 </div>
+			</div>
+		</div>
+		<div style="padding: 0 0.6rem;">
+			<p id="allReplyNumber" style="font-size: 1em;margin: 10px 0;color: black;">最新评论</p>
+			<div id="contentList" style="padding: 0 4px;">
+				<!--<div style="margin-bottom:10px" class="noticeComment" id="945234971319074816">
+					<div style="margin-left: 5px; color: #4d4d4d;">
+						<div style="float: left;height: 80px;width:auto;">
+							<img class="contentList-img" src="../page-schedule/img/waichu.png" />
+						</div>
+						<div style="text-align: left;margin-left: 44px;border-bottom:1px solid #e5e5e5;">
+							<p style="color: #d2d2d2;">李德芳</p>
+							<p style="color: #d2d2d2;"><span>2018-01-09</span>
+								<span style="float: right;">
+						 			<a class="noticeUpCell"><i style="margin-right: 5px;" class="fa fa-thumbs-up"></i>234</a>
+						 		</span>
+							</p>
+							<p style="color: #4b4b4b;">那么到底有何深渊的含义?</p>
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<!--<script src="js/notice-content.js"></script>-->
+		<script>
+			var homePage;
+// mui初始化
+mui.init({
+					beforeback: function(){
+                    //获取父页面A.html
+                    var main=plus.webview.getWebviewById(noticeInfoId);
+                    //自定义事件,事件名为changeCity
+                    main.reload();
+					return true; 
+				}
+});
+var id;
+var noticeInfoId;
+//创建子页面，首个选项卡页面显示，其它均隐藏；
+mui.plusReady(function() {
+	var allId = plus.webview.currentWebview().id;
+	var cutLength=allId.indexOf(",");
+	id=allId.substr(0,cutLength);
+	noticeInfoId=allId.substr(cutLength+1,allId.length);
+	//获取评论内容
+	getNoticeComment(noticeInfoId);
+
+});
+
+
+
+// 标题栏返回键监听
+var back = document.getElementById("toBack");
+back.addEventListener('tap', function(event){
+	mui.back();
+});
+
+var allNoticePariseNumber;
+//获取点赞信息
+function noticePraise(noticeInfoId){
+	var noticePariseNumber = document.getElementById("noticePariseNumber");
+	var url = topUrl + 'noticePraise/noticePraise?token=' + token;
+	var noticePraise =document.getElementById("noticePraise");
+	var userId = plus.storage.getItem("sysUsersId");
+	mui.ajax(url, {
+		data: {
+			noticeInfoId: noticeInfoId,
+		},
+		dataType: 'json', //服务器返回json格式数据
+		async: true,
+		success: function(data) {
+			allNoticePariseNumber=data.length;
+			noticePariseNumber.innerHTML=allNoticePariseNumber;
+			for(var i = 0; i < data.length; i++) {
+				if(userId == data[i].userId) {
+					noticePraise.style.color="red";
+					isNoticePraise=true;
+					return false;
+				}
+			}
+			noticePraise.style.color="#d2d2d2";
+			isNoticePraise=false;
+		},
+	});
+}
+
+var isNoticePraise=false;
+
+function getNoticeComment(noticeInfoId){
+	var url = topUrl + 'noticeComment/byNoticeInfoId?token=' + token;
+	mui.ajax(url, {
+		data: {
+			noticeInfoId: noticeInfoId,
+		},
+		success: function(data) {
+			htmlNoticeComment(data);
+			////查询我的点赞内容
+			myFavorNoticeComment();
+		},
+	});
+}
+
+function htmlNoticeComment(data) {
+	var contentList = document.getElementById('contentList');
+	var dataHtml='';
+	console.log(id);
+	for(var i = 0; i < data.length; i++) {
+		if(id==data[i].id){
+			document.getElementById("userName").innerHTML=data[i].userName;
+			document.getElementById("upQuantity").innerHTML=data[i].upQuantity;
+			document.getElementById("commentTime").innerHTML=data[i].commentTime;
+			document.getElementById("content").innerHTML=data[i].content;
+		}
+	}
+//	查看子回复
+	getNoticeCommentChild(data);
+}
+
+function getNoticeCommentChild(data){
+	var html='';
+	var allReplyNumber=0;
+	var contentList = document.getElementById("contentList");
+	for(var i=0;i<data.length;i++){
+		if(data[i].pid==id){
+			allReplyNumber+=1;
+			html+='<div style="margin-bottom:10px"><div style="margin-left: 5px; color: #4d4d4d;">'+
+			'<div style="float: left;height: 80px;width:auto;">'+
+			'<img class="contentList-img" src="../img/touxiang@2x.png" />'+
+			'</div><div style="text-align: left;margin-left: 44px;border-bottom:1px solid #e5e5e5;">'+
+			'<p style="color: #d2d2d2;">'+data[i].userName+'</p><p style="color: #d2d2d2;"><span>'+data[i].commentTime+'</span>'+
+			'<span style="float: right;">'+
+//			'<a class="noticeUpCell"><i style="margin-right: 5px;" class="fa fa-thumbs-up"></i>234</a>'+
+			'</span></p><p style="color: #4b4b4b;margin-bottom:10px">'+data[i].content+'</p>'+
+			'</div><div style="clear: both;"></div></div></div>';
+		}
+	}
+	document.getElementById("allReplyNumber").innerHTML='全部评论('+allReplyNumber+')'
+	contentList.innerHTML=html;
+}
+
+function getNoticeChildNumber(data,id){
+	var childData=[];
+	for(var i=0;i<data.length;i++){
+		if(data[i].pid == id){
+			childData.push(data[i]);
+		}
+	}
+	return childData.length;
+}
+
+var childUpQuantity = document.getElementById("childUpQuantity");
+childUpQuantity.addEventListener("tap", function(){
+	var noticeClassName =  $("#childUpQuantity").attr('class');;
+		if("active" == noticeClassName) {
+		var url = topUrl + 'noticeUp/unFavor?token=' + token;
+			mui.ajax(url, {
+				data: {
+					commentId: id,
+				},
+				type:'post',
+				success: function(data) {
+					if(data.success) {
+						alert("取消点赞成功");
+						$("#childUpQuantity").removeClass("active");
+						getNoticeComment(noticeInfoId);
+					}
+				},
+			});
+	}else{
+		var url = topUrl + 'noticeUp/favor?token=' + token;
+		mui.ajax(url, {
+			data: {
+				commentId: id,
+			},
+			type: 'post',
+			success: function(data) {
+				if(data.success) {
+					alert("点赞成功");
+					getNoticeComment(noticeInfoId);
+				}
+			},
+		});
+	}
+})
+
+////点赞
+//mui("#contentList").on('tap', '.noticeUpCell', function() {
+//	var commentId = this.getAttribute("id");
+//	var noticeClassName;
+//	$(".noticeUpCell").each(function() {
+//		if(commentId == $(this).attr("id")) {
+//			noticeClassName = $(this).attr('class');
+//		}
+//	});
+//	if("noticeUpCell active" == noticeClassName) {
+//		var url = topUrl + 'noticeUp/unFavor';
+//			mui.ajax(url, {
+//				data: {
+//					commentId: commentId,
+//				},
+//				type:'post',
+//				success: function(data) {
+//					if(data.success) {
+//						alert("取消点赞成功");
+//						getNoticeComment();
+//					}
+//				},
+//			});
+//	}else{
+//		var url = topUrl + 'noticeUp/favor';
+//		mui.ajax(url, {
+//			data: {
+//				commentId: commentId,
+//			},
+//			type: 'post',
+//			success: function(data) {
+//				if(data.success) {
+//					alert("点赞成功");
+//					getNoticeComment();
+//				}
+//			},
+//		});
+//	}
+//})
+
+////查询我的点赞内容
+function myFavorNoticeComment(){
+	var url = topUrl + 'noticeUp/myFavorNoticeComment?token=' + token;
+	mui.ajax(url, {
+		data: {
+			noticeInfoId: noticeInfoId,
+		},
+		success: function(data) {
+			for(var i = 0; i < data.length; i++) {
+				if(id == data[i].commentId) {
+					$("#childUpQuantity").addClass("active"); 
+				}
+			}
+		},
+	});
+};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>部门专栏</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../page-notice/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<style type="text/css">
+		.mui-checkbox{
+			border-bottom: 1px solid #f2f2f2;
+		}
+		.mui-checkbox.mui-left label, .mui-radio.mui-left label{
+			padding-left: 90px;
+		}
+		.mui-checkbox img{
+			left: 60px;
+			height: 24px;
+			top: 8px;
+			position: absolute;
+		}
+		#addGroup{
+			margin-right: 0px;
+			line-height: 44px;
+			padding: 0px;
+			font-size: 17px;
+			font-family: 'Helvetica Neue', Helvetica, sans-serif;
+		}
+		</style>		
+	</head>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">选择好友</h1>
+				<a id="addGroup" class="mui-icon mui-pull-right" style="color: #FFF;">完成</a>
+			</div>
+		</header>
+		<div id="friend" style="margin-top: 4.5rem;background-color: white;margin-bottom: 10px;">
+				<!--<div class="mui-input-row mui-checkbox mui-left">
+					<label>checkbox左侧显示示例</label>
+					<img src="../img/slider/touxiang@2x.png" />
+					<input name="name" value="1" type="checkbox">
+				</div>
+				<div class="mui-input-row mui-checkbox mui-left">
+					<label>checkbox左侧显示示例</label>
+					<input name="name" value="2" type="checkbox">
+				</div>-->
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script type='text/javascript' src='Config.js'></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script>
+			var back = document.getElementById("toBack"); 
+			// 获取回退按钮对象(回退到首页) 
+			var userId; 
+			var homePage;
+			var layimFriendList;
+			mui.plusReady(function() { 
+				userId = plus.storage.getItem("sysUsersId");
+//				userId = plus.webview.currentWebview().id;
+				var id =plus.webview.currentWebview().id;
+				homePage =plus.webview.getWebviewById(id.substr(1,id.length));
+				layimFriend();
+			});
+			
+			function layimFriend(){
+				var url = imUrl+'layim/friend';
+				var friend = document.getElementById("friend");
+				var html='';
+				mui.ajax(url, { 
+					data: { 
+						uuid: userId, 
+					}, 
+					success: function(data) {
+						layimFriendList = data;
+						if(data.length>0){
+							for(var i=0;i<data.length;i++){
+								html='<div class="mui-input-row mui-checkbox mui-left">'+
+								'<label>'+data[i].username+'</label>'+
+								'<img src="'+data[i].avatar+'" />'+
+								'<input name="name" img="'+data[i].avatar+'" groupname="'+data[i].username+'" value="'+data[i].id+'" type="checkbox"></div>'
+							}
+						}
+						friend.innerHTML=html;
+					},
+				});
+			}
+
+			var back = document.getElementById("toBack"); 
+			back.addEventListener('tap', function(event){ 
+				mui.back(); 
+			});
+			
+			var addGroup = document.getElementById("addGroup");
+			addGroup.addEventListener("tap", function(){
+				var arr=document.getElementsByName("name");
+				var friendList=[];
+				var arrLength = arr.length-1;
+				for(i=0;i<arr.length;i++){
+					if(arr[i].checked){
+						var data={};
+						var id=arr[i].value;
+						data.id=id;
+						data.groupname={};
+						data.img={};
+						for(var i=0;i<layimFriendList.length;i++){
+							if(id == layimFriendList[i].id){
+								data.groupname=layimFriendList[i].username;
+								data.img=layimFriendList[i].avatar;
+							}
+						}
+						friendList.push(data);
+					} 
+				}
+				if(friendList.length==0){
+					alert("请选择人员!");
+					return;
+				}
+				console.log(friendList[0].id);
+				console.log(friendList[0].groupname);
+				console.log(friendList[0].img);
+				homePage.evalJS("addFriendFun("+JSON.stringify(friendList)+")");
+				mui.back();
+			})
+			
+		</script>
+		
+	</body>
+
+</html>

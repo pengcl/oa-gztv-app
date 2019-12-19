@@ -1,0 +1,81 @@
+/*输入框布局*/
+
+.mui-content {
+	padding: 30px 26px;
+}
+
+.mui-input-row {
+	margin-top: 20px;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/*按钮*/
+
+#login_button {
+	font-family: "微软雅黑";
+	width: 100%;
+	font-size: 20px;
+	display: block;
+	border: 0px;
+	border-radius: 2px;
+	margin: 40px auto;
+	padding: 10px 0px;
+	background-color: #e61e24;
+	color: #FFF;
+	text-align: center;
+}
+
+.logon_Pic img {
+	margin-top: 30px;
+	/*width: 170px;
+	height: 191px;*/
+	width: 150px;
+	height: 171px;
+}
+
+img {
+	border: 0;
+}
+
+.logon_Pic {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+	white-space: normal;
+	margin: 40px auto 0 auto;
+	text-align: center;
+}
+
+.mui-content {
+	background-color: #fff;
+}
+
+.txtUser {
+	color: #676870;
+}
+
+.footName {
+	text-align: center;
+	position:relative;
+	/*left: 50%;*/
+	margin-left: 0px;
+	padding: 0;
+	color: #7d3b39;
+}
+
+.footName img {
+	width: 130px;
+	height: 34px;
+}
+
+.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea {
+    float: right;
+   /* width: 56%;*/
+    margin-bottom: 0;
+    padding-left: 0;
+    border: 0;
+}
+
+

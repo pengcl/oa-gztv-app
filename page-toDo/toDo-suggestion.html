@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet"/>
+		<link href="../css/publicClass.css" rel="stylesheet"/>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/publicMethod.js"></script>
+		<style type="text/css">
+			table{
+				margin-bottom: 20px;
+				border-bottom: 1px dashed;
+			}
+			td{
+				padding: 3px;
+			}
+			.toDoBtn{
+				width: 94%;
+				margin-top: 15px;
+				/*padding: 13px;*/
+				font-size: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="content" class="mui-content">
+			<textarea id="editContent" class="editContent" placeholder="请输入内容"></textarea>
+			
+			<div id="selectList" class="mui-card" hidden="hidden">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse"><!--默认打开列表样式 mui-active -->
+						<a id="groupName" class="mui-navigate-right">表单</a>
+						<div class="mui-collapse-content">
+							<form id="selectContentList" class="mui-input-group">
+								<!--模板-->
+								<!--<div class="mui-input-row">
+									<label>Input</label>
+								</div>-->
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="btnGroup">
+				
+				<button id="submitBtn" type="button" class="mui-btn mui-btn-primary toDoBtn">转下一处理人</button>
+				
+			</div>
+				<!--<button id="endBtn" type="button" class="mui-btn mui-btn-danger toDoBtn">办　结</button>
+				<button id="toreadBtn" type="button" class="mui-btn mui-btn-danger toDoBtn">送阅知</button>
+				<button id="saveBtn" type="button" class="mui-btn mui-btn-danger toDoBtn">保　存</button>
+				<button id="backBtn" type="button" class="mui-btn mui-btn-danger toDoBtn">回　退</button>-->
+		</div>
+		
+		<script type="text/javascript">
+			
+			var submitBtnObj = document.getElementById("submitBtn");
+			var formPage;
+			
+			mui.plusReady(function(){
+				formPage = plus.webview.getWebviewById("toDo-form.html");
+				if (plus.storage.getItem("deptName") == "") { // 只要是台领导, 下一处理人按钮都是显示转秘书室
+					submitBtnObj.innerHTML = "转秘书室";
+				}
+			});
+			
+			submitBtnObj.addEventListener('tap', function(event) {
+				var value = editContent.value;
+				formPage.evalJS("suggestionEditCallback('"+value+"');");
+			});
+			
+		</script>
+	</body>
+
+</html>

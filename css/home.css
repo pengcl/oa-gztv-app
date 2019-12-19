@@ -1,0 +1,229 @@
+	.gridStyle {
+		padding: 0;
+	}
+	
+	.white {
+		color: #fff;
+	}
+	
+	#weather-content {
+		color: #fff;
+	}
+	/*登陆用户*/
+	
+	.loginName {
+		position: absolute;
+		bottom: 0px;
+		right: 10px;
+		height: 24px;
+		line-height: 24px;
+		font-size: 14px;
+		color: #fff;
+		font-weight: bold;
+	}
+	/*.loginName{
+		
+		height: 16px;
+		line-height: 16px;
+		font-size: 12px;
+		color: #f00;
+		font-weight: bold;
+	}*/
+	
+	.mui-slider-indicator .mui-indicator {
+		-webkit-box-shadow: 0 0 0 0;
+	}
+	
+	table {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0px;
+	}
+	
+	.whitesize {
+		color: #FFF;
+	}
+	
+	#weather-bar {
+		background-color: #000;
+		opacity: 0.5;
+		width: 100%;
+		height: 80px;
+		padding: 5px 10px 10px 10px;
+		display: inline-block;
+	}
+	
+	.greeting-bar {
+		position: absolute;
+		/*这个width的值不知道是什么属性*/
+		width: initial;
+		left: 98px;
+		right: 10px;
+	}
+	
+	.weather-left {
+		display: inline-block;
+		font-size: 16px;
+		width: 90%;
+	}
+	
+	.weather-right {
+		display: inline-block;
+		font-size: 18px;
+		text-align: right;
+		width: 6%;
+	}
+	
+	.whiteEn {
+		margin-top: -4px;
+		font-size: 14px;
+	}
+	
+	.mui-grid-view.mui-grid-9 {
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid #eee;
+		border-left: 1px solid #eee;
+		background-color: #FFF;
+	}
+	
+	.pageMeeting {
+		display: inline-block;
+		width: 100%;
+		padding: 10px;
+		margin-top: 15px;
+		background-color: #FFF;
+		vertical-align: top;
+		color: #CF2D28;
+	}
+	
+	.titleL {
+		display: inline-block;
+		border-left: 5px solid #CF2D28;
+		padding-left: 5px;
+		color: #CF2D28;
+	}
+	
+	.titleR {
+		display: inline-block;
+		font-size: 12px;
+		text-align: right;
+		float: right;
+	}
+	
+	.titleL p {
+		color: #CF2D28;
+		font-weight: bold;
+	}
+	
+	.titleR a {
+		color: #CF2D28;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+		margin: 0;
+		padding: 22px 15px;
+		vertical-align: top;
+		border-right: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+	}
+	
+	/*.mui-slider-title {
+		line-height: 14px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 40px;
+		margin: 0;
+		text-align: left;
+		opacity: .8;
+		background-color: #2f2f2f;
+		color: #fff;
+		padding: 8px 10px 0px 10px;
+		text-indent: 0px;
+	}*/
+	
+	.title_cn {
+		font-size: 16px;
+	}
+	
+	.title_en {
+		font-size: 12px;
+	}
+	
+	.temperature {
+		float: right;
+		color: #fff;
+		margin-top: -2px;
+		padding-left: 5px;
+	}
+	
+	.weather-pic {
+		width: 28px;
+		height: 28px;
+		float: right;
+		margin: 6px 0px 0px 6px;
+	}
+	/*增加样式: 图标， 滚动栏*/
+	
+	.mui-grid-view.mui-grid-9 .mui-media .mui-icon {
+		font-size: 28px;
+	}
+	
+	/*.mui-slider-indicator {
+		bottom: 0px;
+	}*/
+	
+	/*.mui-slider-title {
+		height: 20px;
+		opacity: .0;
+		background-color: #2f2f2f;
+	}*/
+	
+	/*.mui-slider .mui-slider-group .mui-slider-item {
+		width: 100%;
+		height: 70%;
+		max-height: 200px;
+	}*/
+	
+	.mui-slider-indicator .mui-indicator {
+		margin: 1px 2px;
+		cursor: pointer;
+		border-radius: 50%;
+	}
+	
+	.mui-table-view:after {
+		height: 0px;
+	}
+	/*主页输入框*/
+	
+	input.mui-input-clear {
+		text-align: left;
+		padding-left: 30px;
+		color: #fff;
+	}
+	
+	.mui-input-row .mui-input-clear~.mui-icon-clear,
+	.mui-input-row .mui-input-password~.mui-icon-eye,
+	.mui-input-row .mui-input-speech~.mui-icon-speech {
+		color: #fff;
+	}
+	
+	.disInline {
+		display: inline-block;
+	}
+	
+	.ver_top {
+		vertical-align: top;
+	}
+	
+	.ver_min {
+		vertical-align: middle;
+	}
+	
+	/*.mui-slider-indicator .mui-indicator {
+		border: none;
+		-webkit-box-shadow: 0 0 0px 0px rgba(130, 130, 130, .7);
+		box-shadow: 0 0 0px 0px rgba(130, 130, 130, .7);
+	}*/

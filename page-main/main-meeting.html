@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/meetingListStyle.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.tab {
+				padding: -1px 10px;
+				padding-bottom: 0px;
+				display: block;
+				margin: 0px -10px;
+				background-color: #fff;
+				border-bottom: 1px solid #CCCCCC;
+				height: 40px;
+			}
+			
+			.titleTabContent {
+				margin-top: 40px;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				/*选中页签样式*/
+				color: #f00;
+				background-color: #F6F9FC;
+				border-bottom: 2px solid #f00;
+			}
+			
+			div#segmentedControl {
+				top: 0px;
+			}
+		
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:#f3100f; text-align: left;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<div id="titleGroup" class="titleGroup">
+				<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<h1 class="mui-title">我的会议</h1>
+				
+				<button type="button" id="showSearchBtn" class=" mui-pull-right" style="background: none; border: none; margin:-2px 10px 0 0px;"  >
+					<span class="icon iconfont icon2-sousuo white"></span>					
+				</button>	
+				
+			</div>
+
+			<div id="searchGroup" style="display: none;">
+				<a id="hideSearchBtn" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise search_input">
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+				</div>
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>	
+			</div>
+
+			<!--<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title">我的会议</h1>
+			<div id="search" class="mui-input-row inputlayer">
+				<button type="button" id="searchButton" class="mui-btn-grey search-button">搜索</button>
+				<div class="icon iconfont icon2-sousuo mui-input-row huise">
+					<input id="searchInput" type="search" class="mui-input-clear" placeholder="请输入搜索内容">
+				</div>
+			</div>-->
+
+			<div class="tab">
+				<div id="segmentedControl" class=" mui-segmented-control mui-segmented-control-inverted ">
+					
+					<a id="notStart" class="mui-control-item mui-active">
+						未开始
+					</a>
+					<a id="running" class="mui-control-item">
+						进行中
+					</a>
+					<a id="finish" class="mui-control-item">
+						已结束
+					</a>
+					
+				</div>
+			</div>
+		</header>
+
+		<div id="pullrefresh" class="mui-content titleTabContent mui-scroll-wrapper mui-scroll">
+
+			<div id="content" class="">
+
+				<ul id="meetList" class="mui-table-view mui-table-view-chevron listStyle">
+
+					<!--item模板, 测试item样式请在模板中测试-->
+					<!--最新item布局-->
+					<!--<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="2" width="35"><span class="mui-icon iconfont icon2-shuruxinxi"></span></td>
+								<td>
+									<div class="statusText"><p class="green">开会中</p></div>
+									<div class="listTitle autoHiddenText">title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="timeStyle">
+										<div class="timeTextStyle" >2016-12-02 17:50</div>	
+									</div>
+									<p class="autoHiddenText" style="padding-left: 10px;">Data55555title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的title范德萨的发生法师法师打发斯蒂芬水电费水电费水电费所发生的</p>
+								</td>
+							</tr>
+						</table>
+					</li>-->
+
+					<!--图标布局-->
+					<!--<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="3" width="35"><span class="mui-icon iconfont icon2-shuruxinxi red"></span></td>
+							</tr>
+						</table>
+					</li>
+					<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="3" width="35"><span class="mui-icon iconfont icon2-dai blue"></span></td>
+							</tr>
+						</table>
+					</li>
+					<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="3" width="35"><span class="mui-icon iconfont icon2-huiyi_icon gray"></span></td>
+							</tr>
+						</table>
+					</li>
+					<li name="5" class="mui-table-view-cell">
+						<table border="0">
+							<tr>
+								<td rowspan="3" width="35"><span class="mui-icon iconfont icon2-yibanyewu green"></span></td>
+							</tr>
+						</table>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+
+		<!--工具js-->
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/waitingDialog.js"></script>
+		<script src="../js/publicResource.js"></script>
+		<script src="../js/websql.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<!--操作js-->
+		<script src="../js/publicMethod.js"></script>
+		<script src="../js/meetListData.js"></script>
+		<script type="text/javascript">
+			var homePage;
+
+			// 获取控件对象
+			var back = document.getElementById("toBack"); // 获取回退按钮对象(回退到首页)
+			var hideSearchBtn = document.getElementById("hideSearchBtn"); // 获取隐藏搜索栏按钮对象(隐藏搜索栏)
+			var searchBtn = document.getElementById("searchButton"); // 获取搜索按钮对象(获取数据)
+			var showSearchBtn = document.getElementById("showSearchBtn"); // 获取显示搜索栏按钮对象(显示)
+			var titleGroup = document.getElementById("titleGroup"); // 获取标题栏控件组
+			var searchGroup = document.getElementById("searchGroup"); // 获取搜索栏控件组
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						// 调用上拉加载方法
+						contentrefresh: '正在加载中...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			mui.plusReady(function() {
+
+				homePage = plus.webview.getWebviewById("page-main/main-home.html");
+
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				initView();
+
+				/*获取初始化会议列表数据, 初始化获取第一页*/
+				getMeetListData(1);
+			
+				// 开启定时刷新
+				//				realTimeRefresh();
+			});
+
+			/**
+			 * 初始化控件
+			 */
+			function initView() {
+				openDB(); // 开启数据库
+				console.log('open');
+				createCacheData(NOT_START_MEET_DATA);
+			}
+
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					refreshData();
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); // 
+				}, 1000);
+			}
+
+			/**
+			 * 上拉加载更多数据
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					// 参数为true代表没有更多数据了。
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(itemCount >= maxCount);
+					// 因为第一次上拉加载会无视结束加载条件, 所以在这多加一层判断
+					if(itemCount < maxCount) {
+						getMeetListData(parseInt(pageCount) + 1);
+					}
+				}, 1000);
+				
+			}
+
+			/**
+			 * 切换选项卡
+			 */
+			function changeTab() {
+				var mainPage = plus.webview.getWebviewById("main");
+				mainPage.evalJS("changeTab(0,2);");
+			}
+
+			/*事件监听*/
+
+			// 设置列表item点击事件
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+				var id = this.getAttribute("id");
+
+				if(id == 0) { // 若id为0, 则表示没有数据
+					return;
+				}
+
+				console.log("--------------------------------------");
+				console.log("被点击的会议id: " + id);
+
+				// 打开并加载详情页
+				var openUrl = '../page-meeting/meeting-detail.html';
+				var openId = 'meeting-detail';
+
+				openItemPage(id, meetListData, openUrl, openId);
+			});
+
+			// 设置页签点击事件
+			mui(".mui-segmented-control").on('tap', '.mui-control-item', function() {
+				var id = this.getAttribute("id");
+				var cacheFlag = "";
+				switch(id) {
+					case "notStart":
+						meetType = notStartMeetType;
+						cacheFlag = NOT_START_MEET_DATA;
+						break;
+					case "running":
+						meetType = runningMeetType;
+						cacheFlag = RUNNING_MEET_DATA;
+						break;
+					case "finish":
+						meetType = finishMeetType;
+						cacheFlag = FINISH_MEET_DATA;
+						break;
+				}
+				/* createCacheData(cacheFlag); */
+				searchValue = searchInput.value.trim(); // 获取搜索栏中的搜索文字
+				getMeetListData(1, 0);
+			});
+
+			// 标题搜索键监听
+			searchBtn.addEventListener('tap', function(event) {
+				// 重置上拉加载
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				searchValue = searchInput.value.trim();
+				//				getMeetListData(1,searchValue);
+				refreshData();
+
+				homePage.evalJS("refreshData('y');");
+			});
+
+			// 显示搜索栏按钮点击事件
+			showSearchBtn.addEventListener('tap', function(event) {
+				setTimeout(function() {
+					titleGroup.hidden = true;
+					searchGroup.style.display = "-webkit-flex"; // 用 -webkit-flex 代替 flex, 使flex属性在旧设备上也生效
+					searchInput.focus();
+				}, 400);// 设置延时, 保证显示搜索栏时弹出软键盘
+			});
+
+			// 隐藏搜索栏按钮点击事件
+			hideSearchBtn.addEventListener('tap', function(event) {
+				searchInput.blur(); // 隐藏搜索栏时让输入框失去焦点
+				searchGroup.style.display = "none";
+				titleGroup.hidden = false;
+			});
+
+			// 标题栏返回键监听
+			back.addEventListener('tap', function(event) {
+				changeTab();
+			});
+		</script>
+
+	</body>
+
+</html>

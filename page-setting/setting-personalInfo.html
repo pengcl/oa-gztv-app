@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-table-view-cell{
+				padding-right: 35px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">			
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人信息</h1>
+		</header>
+
+		<div id="content" class="mui-content">
+			<ul class="mui-table-view">
+				<li id="uname" class="mui-table-view-cell">
+					<div class="display floatL colorL">姓名</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+				<li id="deptName" class="mui-table-view-cell">
+					<div class="display floatL colorL">部门</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+				<li id="umobile" class="mui-table-view-cell">
+					<div class="display floatL colorL">电话</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+				<li id="uemail" class="mui-table-view-cell">
+					<div class="display floatL colorL">E-mail</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+			</ul>
+			
+			<div class="btnGroup">
+				<button id="saveBtn" type="button" 
+					class="mui-btn mui-btn-primary longBtn">保　存</button>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/openPage.js"></script>
+		<script src="../js/publicSkills.js"></script>
+		<script src="../js/networkRequest.js"></script>
+		<script type="text/javascript">
+			
+			var wvId;
+			var userInfo;
+			var userName = document.getElementById("uname").children[1];
+			var deptName = document.getElementById("deptName").children[1];
+			var userMobile = document.getElementById("umobile").children[1];
+			var userEmail = document.getElementById("uemail").children[1];
+			var saveBtn = document.getElementById("saveBtn");
+			
+			mui.init();
+			mui.plusReady(function() {
+
+				// 发送请求获取人员信息
+				sendRequest(getUserInfoUrl,"",function(rtnData){
+					console.log("--------------------------------------");
+					console.log("个人信息数据: " + JSON.stringify(rtnData));
+					userInfo = rtnData;
+					initData();
+				});
+				wvId = plus.webview.currentWebview().id;
+			});
+			
+			// 初始化数据
+			function initData(){
+				userName.innerHTML = userInfo["uname"];
+				deptName.innerHTML = plus.storage.getItem("deptName");
+				userMobile.innerHTML = userInfo["umobile"];
+				userEmail.innerHTML = userInfo["uemail"];
+			}
+			
+			// 编辑成功的回调函数
+			function editCallback(objId, newValue){
+				var temp = document.getElementById(objId).children[1];
+				temp.innerHTML = newValue;
+				userInfo[objId] = newValue;
+			}
+			
+			// 设置条目击事件(控件组点击方式)
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+				var clickId = this.getAttribute("id");
+				
+				if(clickId == "uname" || clickId == "deptName"){
+					mui.toast("该字段不可修改 !");
+					return;
+				}
+				
+				var openUrl = "../page-editPage/editPage.html";
+				var openId = "editPage";
+				
+				var args = {
+					titleText : "修改"+this.children[0].innerHTML,
+					oldValue : userInfo[clickId],
+					objId : clickId,
+					wvId : wvId,
+					callbackName : "editCallback"
+				};
+				openNewPage(openUrl,openId,args);
+			});
+			
+			// 添加保存按钮点击监听
+			saveBtn.addEventListener('tap', function(event) {
+				// 发送保存用户信息
+				var args = {
+					uname : userInfo["uname"],
+					umobile : userInfo["umobile"],
+					uemail : userInfo["uemail"]
+				};
+				sendRequest(upDateUserInfoUrl,args,function(rtnData){
+					console.log("--------------------------------------");
+					console.log("信息保存结果: " + JSON.stringify(rtnData));
+					if(rtnData.code == "1"){
+						mui.toast(rtnData.msg);
+						mui.back();
+					}else{
+						mui.toast(rtnData.msg);
+					}
+				});
+			});
+			
+		</script>
+	</body>
+
+</html>

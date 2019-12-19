@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/publicClass.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+	</head>
+	<style>
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #f00;
+		}
+		.iconfont{ /*去掉图标的蓝色*/
+			color: inherit;
+		}
+	</style>
+
+	<body>
+		
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+        <div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 id="title" class="mui-title">公文表单</h1>
+			<button type="button" id="backToMeetBtn" class="mui-btn-grey search-button">议题首页</button>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab">
+			<a id="missiveTab" class="mui-tab-item mui-active" href="related-form">
+				<span class="mui-icon iconfont icon2-biaodan"></span>
+				<span class="mui-tab-label">公文表单</span>
+			</a>
+			<a id="accessTab" class="mui-tab-item" href="related-accessories">
+				<span class="mui-icon iconfont icon2-fujian"></span>
+				<span class="mui-tab-label">正文附件</span>
+			</a>
+			<a id="recordTab" class="mui-tab-item" href="related-record">
+				<span class="mui-icon iconfont icon2-gongwenliuzhuan"></span>
+				<span class="mui-tab-label">流转记录</span>
+			</a>
+		</nav>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/immersed.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			mui.init();
+			
+			var form = "related-form";
+			var accessories = "related-accessories";
+			var record = "related-record";
+			var num = "1";
+			
+			var subpage_extras;
+
+			var aniShow = {};
+			var tabIdArr = ['missiveTab','accessTab','recordTab'];
+			var subpages;
+			var subpagesId;
+			var subpage_style;
+			//当前激活选项, 设置登录后首先显示的页面
+			var activeTab;
+			var ItemData;
+			var pageId;
+			var itemId;
+			var itemTitle;
+			var pageFlag;
+			
+			var backToMeetBtn = document.getElementById("backToMeetBtn"); // 获取返回返回议题详情按钮对象
+
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				
+				initView();
+				
+				var self = plus.webview.currentWebview();
+				ItemData = self.itemData;
+				pageId = self.pageId;
+				pageFlag = self.pageFlag;// 默认打开页面标记位
+				
+				itemTitle = JSON.stringify(ItemData.mtitle); // 转换成纯字符串
+				if (itemTitle) {
+					itemTitle = itemTitle.substring(1, itemTitle.length-1); // 将转换后生成的双引号截掉
+				}
+				
+				itemId = ItemData.mid;
+				if(pageId == "related-main-0")
+					itemId = ItemData.missiveId;
+				subpage_extras = {
+					pageId : self.id
+				}
+				
+				var fristShow = 0; // 设置默认显示的页面, 0是第一个
+				// 跳转至附件页面
+				if (pageFlag == "missiveAccessory") {
+					fristShow = 1;
+					changeTab(1,0);// 切换高光
+				}
+				
+				for(var i = 0; i < 3; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpagesId[i], subpage_style, subpage_extras);
+					if(i == fristShow) { // 显示默认的页面, 默认是第一个
+						temp[subpagesId[i]] = "true";
+						mui.extend(aniShow, temp);
+					} else {
+						sub.hide();// 其他页面隐藏
+					}
+					self.append(sub);
+				}
+				
+			});
+			
+			// 初始化子页面
+			function initView(){
+				var tempId = form+"-"+num;
+				var tempPage = plus.webview.getWebviewById(tempId);
+				while(tempPage!=null){
+					num = (parseInt(num) + 1) + "";
+					tempId = form+"-"+num;
+					tempPage = plus.webview.getWebviewById(tempId);
+				}
+				subpages = ['related-form.html', 'related-accessories.html', 'related-record.html'];
+				subpagesId = [tempId, (accessories+"-"+num), (record+"-"+num)];
+				subpage_style = {
+					top: subpageTop,
+					bottom: '51px'
+				};
+				
+				activeTab = subpagesId[0];
+				
+			}
+			
+			// 当子页面创建完毕后调用此方法获取MissiveId, 初始化内容
+			function subGetMissiveId(id){
+				var sub = plus.webview.getWebviewById(subpagesId[id]);
+				
+				// 将missiveId传至子页面
+				switch(id){
+					case 0:
+						sub.evalJS("getBeDoneData('"+itemId+"','"+itemTitle+"');");
+					break;
+					case 1:
+						sub.evalJS("getAccessoriesData('"+itemId+"','"+itemTitle+"');");
+					break;
+					case 2:
+						sub.evalJS("getRecordData('"+itemId+"','"+itemTitle+"');");
+					break;
+				}
+			}
+			
+			/**
+			 * 非点击切换选项卡
+			 * @param int newTab 需要显示的页面
+			 * @param int oldTab 需要隐藏的页面
+			 */
+			function changeTab(newTab,oldTab) {
+				// 显示
+				plus.webview.show(subpages[newTab]);
+				// 隐藏
+				plus.webview.hide(subpages[oldTab]);
+				// 更换正在显示选项卡
+				activeTab = subpages[newTab];
+				
+				// 切换选项卡高亮
+				var defaultTab = document.getElementById(tabIdArr[newTab]);
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				
+				// 切换高光
+				current.classList.remove('mui-active'); // 删掉当前高光
+				defaultTab.classList.add('mui-active'); // 根据选择对象显示高光
+			}
+			
+			//选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				// 获取点击选卡的连接
+				var targetTab = (this.getAttribute('href')+"-"+num);
+				// 若点击的选卡与当前正在显示的选卡相同, 则回滚
+				if(targetTab == activeTab) {
+					return;
+				}
+				
+				// 切换标题栏内容
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios || aniShow[targetTab]) {
+					//显示选中界面
+					plus.webview.show(targetTab);
+				} else {
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 0);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			
+			// 选项卡高光设置, 默认第一个高光
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+			// 标题栏返回键监听
+			var back = document.getElementById("toBack");
+			back.addEventListener('tap', function(event){
+				mui.back();
+			});
+			
+			var isBackToMeetBtnOnClick = false; // 标记议题按钮是否点击
+			// 返回议题详情按钮点击事件
+			backToMeetBtn.addEventListener('tap', function(event){
+				var tempPage = plus.webview.getWebviewById("meeting-issue");
+				tempPage.evalJS("mui.back();");
+			});
+			
+		</script>
+	</body>
+
+</html>

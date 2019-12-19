@@ -1,0 +1,222 @@
+/* 原common.css内容开始  */
+header.mui-bar-nav {
+	background-color:#f3100f;
+}
+header a.mui-icon.toback {
+	padding-top: 9px;
+}
+/* 原common.css内容结束  */
+
+
+/* 原publicCss.css内容开始  */
+.titName {
+	margin-top: -15px;
+	padding-left: 15px;
+	font-family: '微软雅黑';
+	font-weight: bold;
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+	text-align: left;
+}
+
+.fan_down {
+	position: absolute;
+	top: 60px;
+	right: 15px;
+	font-size: 12px;
+	color: #C0C0C0;
+}
+.fan_down2 {
+	position: absolute;
+	top: 100px;
+	right: 15px;
+	font-size: 12px;
+	color: #C0C0C0;
+}
+.btnGroup{
+	text-align: center;
+}
+
+.longBtn{
+	width: 100%;
+	margin-top: 25px;
+	font-size: 20px;
+}
+
+.longBtnOnly{
+	width: 100%;
+	margin-top: 0px;
+	font-size: 20px;
+}
+
+select#selecter {
+	color: #888;
+	height: 38px;
+	line-height: 38px;
+	padding-top: 0px;
+}
+
+select {
+	direction: rtl;
+}
+
+.text_center {
+	text-align: center;
+}
+
+.textFloatR {
+	text-align: right;
+}
+
+/* 特定控件样式 */
+
+.titleName{
+	font-size: 24px;
+	font-family: "微软雅黑";
+	text-align: center;
+	margin: 20px 10px;
+}
+
+#toBack{
+	padding-top: 7px;
+}
+
+.longBtn { /* 长条按钮样式 */
+	/*width: 98%;*/
+	margin-top: 15px;
+	font-size: 20px;
+}
+
+.headerPic{ /* 头像样式 */
+	line-height: 60px;
+	max-width: 60px;
+	min-width: 60px;
+	max-height: 60px;
+	min-height: 60px;
+	border-radius: 15%;
+	border: 1px solid #CCCCCC;
+}
+
+.littleIconsStyle{ /* 图标样式 */
+	max-width: 20px;
+	min-width: 20px;
+	max-height: 20px;
+	min-height: 20px;
+}
+
+.editContent {
+	width: 100%;
+	border: 0px;
+	height: 200px;
+	word-break: break-all;
+	word-wrap: break-all;
+}
+
+.divList,
+.divListEdit,
+.divListSelect{
+	width: 100%;
+	background-color: #FFF;
+	padding: 10px;
+	padding-right: 17px;
+	padding-left: 15px;
+	line-height: 24px;
+	border-top: 1px solid #dedede;
+	overflow: hidden;
+}
+
+.divListSelect,
+.divListEdit {
+	padding-right: 32px;
+}
+
+
+/* 颜色 */
+
+.green {
+	color: #11b84c;
+}
+
+.red {
+	color: #CF2D28;
+}
+
+.gray {
+	color: #949498;
+}
+
+.blue{
+	color: #38adff;
+}
+
+.blue_bg{
+	background-color: #38adff;
+}
+
+/* 杂项 */
+
+.listGroupInterval{ /* 列表组间隔 */
+	margin-top: 20px;
+}
+
+.display {
+	display: inline-block;
+}
+
+.textAreat {
+	text-indent: 2em;
+	display: inline-block;
+	color: #737373;
+}
+
+.moreSignLine {
+	margin-top: 5px;
+	padding-top: 5px;
+	border-top: dashed 1px #CCCCCC;
+	/*border-top: dashed 1px #ab1c0d;*/
+}
+
+.autoHiddenText { /* 自动隐藏文字 */
+	word-break: keep-all;
+	/* 不换行 */
+	white-space: nowrap;
+	/* 不换行 */
+	overflow: hidden;
+	/* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow: ellipsis;
+	/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+	word-break: break-all;
+	/*font-size: 16px;*/
+}
+
+.colorL {
+	color: #000;
+	font-size: 16px;
+}
+
+.colorR {
+	color: #949498;
+	font-size: 16px;
+}
+
+.floatL {
+	float: left;
+}
+
+.floatR {
+	float: right;
+}
+
+/* 重写样式 */
+
+html,body{
+	max-width: 100%;
+}
+
+.mui-btn-blue,
+.mui-btn-primary{
+	border: 1px solid #38adff;
+	background-color: #38adff;
+}
+/* 原publicCss.css内容结束  */

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/common.css" rel="stylesheet" />
+		<link href="css/me-personalInfo.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header id="header" class="mui-bar mui-bar-nav" style=" background-color:#f3100f;">
+			<div style=" position: absolute; z-index: 0;"><img src="../img/top_bgimg.png"></div>
+			<a id="toBack" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人信息</h1>
+		</header>
+
+
+		<div id="content" class="mui-content">
+			
+			<div></div> <!--辅助层-->
+			
+			<ul class="mui-table-view listGroupInterval head">
+				<li id="personalPic" class="mui-table-view-cell" style="padding-right: 15px;">
+					<div id="personalPicL" class="display floatL colorL" style="padding-top: 20px; width:80%">头像</div>
+					<img id="headPicObj" class="mui-media-object mui-pull-right headerPic" src="../img/user.png"/>
+				</li>
+			</ul>	
+			<ul class="mui-table-view listGroupInterval form">
+				<li id="accountObj" name="" class="mui-table-view-cell">
+					<div class="display floatL colorL">帐号</div>
+					<div class="textAreat floatR colorR"></div>
+				</li>				
+				<li id="unameObj" name="uname" class="mui-table-view-cell">
+					<div class="display floatL colorL">姓名</div>
+					<div class="textAreat floatR colorR"></div>
+				</li>
+				<li id="deptNameObj" name="" class="mui-table-view-cell">
+					<div class="display floatL colorL">部门</div>
+					<div class="textAreat floatR colorR"></div>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view listGroupInterval form">
+				<li id="umobileObj" name="umobile" class="mui-table-view-cell arrowList">
+					<div class="display floatL colorL">手机号</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+				<li id="uemailObj" name="uemail" class="mui-table-view-cell arrowList">
+					<div class="display floatL colorL">E-mail</div>
+					<div class="textAreat floatR colorR mui-navigate-right"></div>
+				</li>
+			</ul>
+			
+			<div class="btnGroup" hidden="hidden">
+				<button id="saveBtn" type="button" 
+					class="mui-btn mui-btn-primary longBtn">保　存</button>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		
+		<script src="../js/app-url.js"></script>
+		<script src="../js/app-constant.js"></script>
+		<script src="../js/publicUrls.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/immersed.js"></script>
+		
+		<script src="js/me-personalInfo-copy.js"></script>
+
+	</body>
+
+</html>

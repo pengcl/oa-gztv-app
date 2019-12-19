@@ -1,0 +1,1722 @@
+{
+    "@platforms" : [ "android", "iPhone", "iPad" ],
+    "id" : "com.ecroe.oa", /*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name" : "广视通", /*应用名称，程序桌面图标名称*/
+    "version" : {
+        "name" : "1.1.3", /*应用版本名称*/
+        "code" : "83"
+    },
+    "description" : "简单生活 快乐工作", /*应用描述信息*/
+    "icons" : {
+        "72" : "icon.png"
+    },
+    "launch_path" : "login.html", /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "developer" : {
+        "name" : "", /*开发者名称*/
+        "email" : "", /*开发者邮箱地址*/
+        "url" : "http://www.dcloud.io"
+    },
+    "permissions" : {
+        "Accelerometer" : {
+            "description" : "访问加速度感应器"
+        },
+        "Audio" : {
+            "description" : "访问麦克风"
+        },
+        "Cache" : {
+            "description" : "管理应用缓存"
+        },
+        "Camera" : {},
+        "Console" : {
+            "description" : "跟踪调试输出日志"
+        },
+        "Contacts" : {
+            "description" : "访问系统联系人信息"
+        },
+        "Device" : {
+            "description" : "访问设备信息"
+        },
+        "Downloader" : {
+            "description" : "文件下载管理"
+        },
+        "Events" : {
+            "description" : "应用扩展事件"
+        },
+        "File" : {
+            "description" : "访问本地文件系统"
+        },
+        "Gallery" : {
+            "description" : "访问系统相册"
+        },
+        "Geolocation" : {
+            "description" : "访问位置信息"
+        },
+        "Invocation" : {
+            "description" : "使用Native.js能力"
+        },
+        "Orientation" : {
+            "description" : "访问方向感应器"
+        },
+        "Proximity" : {
+            "description" : "访问距离感应器"
+        },
+        "Storage" : {
+            "description" : "管理应用本地数据"
+        },
+        "Uploader" : {
+            "description" : "管理文件上传任务"
+        },
+        "Runtime" : {
+            "description" : "访问运行期环境"
+        },
+        "XMLHttpRequest" : {
+            "description" : "跨域网络访问"
+        },
+        "Zip" : {
+            "description" : "文件压缩与解压缩"
+        },
+        "Barcode" : {},
+        "Maps" : {
+            "description" : "管理地图插件"
+        },
+        "Speech" : {},
+        "Webview" : {
+            "description" : "窗口管理"
+        },
+        "NativeUI" : {
+            "description" : "原生UI控件"
+        },
+        "Navigator" : {
+            "description" : "浏览器信息"
+        },
+        "NativeObj" : {
+            "description" : "原生对象"
+        }
+    },
+    "plus" : {
+        "splashscreen" : {
+            "autoclose" : true, /*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+            "waiting" : false,
+            "delay" : "3000"
+        },
+        "runmode" : "liberate", /*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+        "signature" : "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==", /*可选，保留给应用签名，暂不使用*/
+        "distribute" : {
+            "apple" : {
+                "appid" : "", /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+                "mobileprovision" : "", /*iOS应用打包配置文件*/
+                "password" : "", /*iOS应用打包个人证书导入密码*/
+                "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+                "UIReserveStatusbarOffset" : false,
+                "devices" : "universal", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+                "frameworks" : []
+            },
+            "google" : {
+                "packagename" : "", /*Android应用包名，如io.dcloud.HelloH5*/
+                "keystore" : "", /*Android应用打包使用的密钥库文件*/
+                "password" : "", /*Android应用打包使用密钥库中证书的密码*/
+                "aliasname" : "", /*Android应用打包使用密钥库中证书的别名*/
+                "ImmersedStatusbar" : true,
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission  android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+                    "<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>"
+                ]
+            },
+            "orientation" : [
+                "portrait-primary",
+                "portrait-secondary",
+                "landscape-primary",
+                "landscape-secondary"
+            ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+            "icons" : {
+                "ios" : {
+                    "prerendered" : true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+                    "auto" : "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+                    "iphone" : {
+                        "normal" : "unpackage/res/icons/57x57.png", /*iPhone普通屏幕程序图标，分辨率：57x57*/
+                        "retina" : "unpackage/res/icons/114x114.png", /*iPhone高分屏程序图标，分辨率：114x114*/
+                        "retina7" : "unpackage/res/icons/120x120.png", /*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+                        "spotlight-normal" : "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+                        "spotlight-retina" : "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+                        "spotlight-retina7" : "unpackage/res/icons/80x80.png", /*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal" : "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+                        "settings-retina" : "unpackage/res/icons/58x58.png",
+                        "retina8" : "unpackage/res/icons/180x180.png",
+                        "settings-retina8" : "unpackage/res/icons/87x87.png",
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    },
+                    "ipad" : {
+                        "normal" : "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+                        "retina" : "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+                        "normal7" : "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+                        "retina7" : "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+                        "spotlight-normal" : "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+                        "spotlight-retina" : "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+                        "spotlight-normal7" : "unpackage/res/icons/40x40.png", /*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+                        "spotlight-retina7" : "unpackage/res/icons/80x80.png", /*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal" : "unpackage/res/icons/29x29.png", /*iPad设置页面程序图标，分辨率：29x29*/
+                        "settings-retina" : "unpackage/res/icons/58x58.png",
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "appstore" : "unpackage/res/icons/1024x1024.png"
+                },
+                "android" : {
+                    "mdpi" : "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+                    "ldpi" : "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+                    "hdpi" : "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+                    "xhdpi" : "unpackage/res/icons/96x96.png", /*720P高分屏程序图标，分辨率：96x96*/
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                }
+            },
+            "splashscreen" : {
+                "ios" : {
+                    "iphone" : {
+                        "default" : "", /*iPhone3启动图片选，分辨率：320x480*/
+                        "retina35" : "img/logo.png",
+                        "retina55" : "img/logo.png",
+                        "retina47" : "img/logo.png",
+                        "retina40" : "img/logo.png",
+                        "retina55l" : "img/logo.png"
+                    },
+                    "ipad" : {
+                        "portrait" : "unpackage/ios/768x1004.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+                        "portrait-retina" : "unpackage/ios/1536x2008.png", /*iPad高分屏竖屏图片，分辨率：1536x2008*/
+                        "landscape" : "unpackage/ios/1024x748.png", /*iPad横屏启动图片，分辨率：1024x748*/
+                        "landscape-retina" : "unpackage/ios/2048x1496.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+                        "portrait7" : "img/logo.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+                        "portrait-retina7" : "img/logo.png", /*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+                        "landscape7" : "img/logo.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+                        "landscape-retina7" : "img/logo.png"
+                    }
+                },
+                "android" : {
+                    "mdpi" : "", /*普通屏启动图片，分辨率：240x282*/
+                    "ldpi" : "", /*大屏启动图片，分辨率：320x442*/
+                    "hdpi" : "img/logo.png",
+                    "xxhdpi" : "img/logo.png",
+                    "xhdpi" : "img/logo.png"
+                }
+            },
+            "plugins" : {
+                "speech" : {
+                    "ifly" : {}
+                }
+            }
+        }
+    },
+    "dependencies" : {
+        "pages" : {
+            "index.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "main.html",
+                    "page/main-home.html",
+                    "js/mui.js",
+                    "main-page/main-home-header.html",
+                    "main-page/main-home.html"
+                ],
+                "refer" : [
+                    "page/main-document.html",
+                    "page/main-setting.html",
+                    "page/main-meeting.html",
+                    "page/main-communication.html",
+                    "main-page/main-document-header.html",
+                    "main-page/main-meeting-header.html",
+                    "main-page/main-communication-header.html",
+                    "main-page/main-agenda-header.html",
+                    "main-page/main-document.html",
+                    "main-page/main-communication.html",
+                    "main-page/main-agenda.html",
+                    "main-page/main-meeting.html"
+                ],
+                "priority" : 0
+            },
+            "main.html" : {
+                "resources" : [
+                    "index.html",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-home-header.html",
+                    "login.html",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "main-page/main-home.html",
+                    "main-page/main-communication-header.html",
+                    "page-main/main-home.html",
+                    "page-main/main-communication-header.html",
+                    "page-main/main-meeting.html",
+                    "fonts/sani.ttf",
+                    "js/websql.js"
+                ],
+                "refer" : [
+                    "main-page/main-document-header.html",
+                    "main-page/main-meeting-header.html",
+                    "main-page/main-agenda-header.html",
+                    "page-main/main-agenda-header.html",
+                    "page-main/main-meeting-header.html",
+                    "page-main/main-document-header.html",
+                    "page-schedule/schedule.html",
+                    "page-missive/missive.html"
+                ],
+                "priority" : 0
+            },
+            "page/main-home.html" : {
+                "resources" : [ "js/mui.min.js", "fonts/mui.ttf", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page/main-setting.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page/main-meeting.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css", "fonts/mui.ttf" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page/main-document.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "login.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "main.html",
+                    "main-page/main-home-header.html",
+                    "js/publicUrls.js",
+                    "img/login_password1.png",
+                    "css/login.css",
+                    "img/login_header.png",
+                    "img/login_user.png",
+                    "js/publicMethod.js",
+                    "js/immersed.js",
+                    "img/loginbg_.png",
+                    "img/bg_.png",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "img/name.png",
+                    "js/waitingDialog.js",
+                    "js/openPage.js",
+                    "js/networkRequest.js",
+                    "js/publicResource.js",
+                    "js/websql.js",
+                    "js/version.js"
+                ],
+                "refer" : [
+                    "main-page/main-document-header.html",
+                    "main-page/main-meeting-header.html",
+                    "main-page/main-communication-header.html",
+                    "main-page/main-agenda-header.html"
+                ],
+                "priority" : 0
+            },
+            "main-page/main-home-header.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-home.html",
+                    "fonts/mui.ttf",
+                    "img/weather.png"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-agenda-header.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-agenda.html",
+                    "fonts/mui.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-communication-header.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-communication.html",
+                    "fonts/mui.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-document-header.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-document.html",
+                    "fonts/mui.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-home.html" : {
+                "resources" : [
+                    "fonts/mui.ttf",
+                    "main-page/main-meeting.html",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "css/meetingListStyle.css",
+                    "main-page/main-meeting-header.html",
+                    "js/publicMethod.js",
+                    "js/publicUrls.js",
+                    "img/times.png",
+                    "css/iconfont.css",
+                    "img/index_banner.png",
+                    "fonts/iconfont.ttf",
+                    "img/list_img.png",
+                    "images/cbd.jpg",
+                    "images/muwu.jpg",
+                    "images/yuantiao.jpg",
+                    "images/shuijiao.jpg",
+                    "img/weather.png",
+                    "img/slider/lu1.jpg",
+                    "img/slider/lu2.jpg",
+                    "img/slider/lu3.jpg",
+                    "img/slider/lu4.jpg"
+                ],
+                "refer" : [ "meeting-page/meeting-detail.html" ],
+                "priority" : 0
+            },
+            "main-page/main-meeting-header.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "main-page/main-meeting.html",
+                    "fonts/mui.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-communication.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-agenda.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "main-page/main-meeting.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "css/meetingListStyle.css",
+                    "js/publicUrls.js",
+                    "js/publicMethod.js",
+                    "img/times.png",
+                    "img/list_img.png",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "fonts/mui.ttf",
+                    "css/iconfont2.css"
+                ],
+                "refer" : [ "meeting-page/meeting-detail.html" ],
+                "priority" : 0
+            },
+            "meeting-page/meeting-detail.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "css/meetingListStyle.css",
+                    "img/times.png",
+                    "js/publicUrls.js",
+                    "js/publicMethod.js",
+                    "img/userlist.png",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [ "meeting-page/meeting-issue.html" ],
+                "priority" : 0
+            },
+            "main-page/main-document.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "meeting-page/meeting-issue.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "img/list_img.png",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-agenda-header.html" : {
+                "resources" : [
+                    "fonts/mui.ttf",
+                    "page-main/main-agenda.html",
+                    "js/immersed.js",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "img/top_bgimg.png"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-meeting-header.html" : {
+                "resources" : [
+                    "page-main/main-meeting.html",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-communication-header.html" : {
+                "resources" : [
+                    "page-main/main-communication.html",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-meeting.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "fonts/mui.ttf",
+                    "js/openItemPage.js",
+                    "js/meetListData.js",
+                    "img/top_bgimg.png",
+                    "js/openPage.js",
+                    "js/publicResource.js",
+                    "fonts/sani.ttf",
+                    "js/networkRequest.js",
+                    "js/websql.js",
+                    "js/waitingDialog.js"
+                ],
+                "refer" : [ "page-meeting/meeting-detail.html" ],
+                "priority" : 0
+            },
+            "page-meeting/meeting-detail.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/publicUrls.js",
+                    "css/publicClass.css",
+                    "js/immersed.js",
+                    "js/tools.js",
+                    "js/openItemPage.js",
+                    "fonts/mui.ttf",
+                    "img/top_bgimg.png",
+                    "js/slideToReturn.js",
+                    "js/openPage.js",
+                    "js/networkRequest.js",
+                    "js/publicSkills.js",
+                    "js/publicResource.js",
+                    "js/Map.js",
+                    "fonts/sani.ttf",
+                    "js/websql.js",
+                    "js/waitingDialog.js"
+                ],
+                "refer" : [
+                    "page-meeting/meeting-issue.html",
+                    "page-select/radioOrCheckbox.html",
+                    "page-meeting/meeting-issueRevise.html",
+                    "page-meeting/meeting-signResult.html"
+                ],
+                "priority" : 0
+            },
+            "page-main/main-home.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "img/weather.png",
+                    "img/slider/lu1.jpg",
+                    "img/slider/lu2.jpg",
+                    "img/slider/lu3.jpg",
+                    "js/publicMethod.js",
+                    "img/slider/lu4.jpg",
+                    "js/publicUrls.js",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "css/publicClass.css",
+                    "js/immersed.js",
+                    "js/tools.js",
+                    "js/openItemPage.js",
+                    "js/meetListData.js",
+                    "img/slider/lu5.jpg",
+                    "img/slider/lu6.jpg",
+                    "css/home.css",
+                    "img/top_bgimg.png",
+                    "fonts/HYShiGuangTiW.ttf",
+                    "js/noticeListData.js",
+                    "js/openPage.js",
+                    "js/publicResource.js",
+                    "fonts/sani.ttf",
+                    "fonts/hanyi.ttf",
+                    "js/networkRequest.js",
+                    "js/websql.js",
+                    "js/waitingDialog.js"
+                ],
+                "refer" : [
+                    "page-beDone/main-beDone.html",
+                    "page-meeting/meeting-detail.html",
+                    "page-toDo/main-toDo.html",
+                    "page-setting/main-setting.html",
+                    "page-notice/notice.html",
+                    "page-me/me.html",
+                    "page-notice/notice-content.html",
+                    "page-notice/main-carouselDetail.html",
+                    "page-notice/notice-dep.html",
+                    "page-main/main-webview.html",
+                    "page-im/im-chat.html",
+                    "layim/chat.html"
+                ],
+                "priority" : 0
+            },
+            "page-main/main-document-header.html" : {
+                "resources" : [
+                    "page-main/main-document.html",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/immersed.js",
+                    "img/top_bgimg.png"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-meeting/meeting-issue.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/publicUrls.js",
+                    "css/publicClass.css",
+                    "js/tools.js",
+                    "fonts/mui.ttf",
+                    "js/openItemPage.js",
+                    "js/immersed.js",
+                    "img/top_bgimg.png",
+                    "js/slideToReturn.js",
+                    "js/openPage.js",
+                    "js/publicSkills.js",
+                    "js/networkRequest.js",
+                    "js/publicResource.js",
+                    "js/echarts-all.js",
+                    "fonts/sani.ttf",
+                    "js/websql.js",
+                    "js/waitingDialog.js"
+                ],
+                "refer" : [
+                    "page-relatedMissive/related-main.html",
+                    "page-editPage/editPage.html",
+                    "page-select/radioOrCheckbox.html"
+                ],
+                "priority" : 0
+            },
+            "page-beDone/main-beDone.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "css/publicClass.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "js/publicMethod.js",
+                    "js/openItemPage.js",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "js/tools.js",
+                    "img/top_bgimg.png",
+                    "js/slideToReturn.js",
+                    "js/openPage.js",
+                    "js/networkRequest.js",
+                    "js/publicSkills.js"
+                ],
+                "refer" : [ "page-beDone/beDone-main.html" ],
+                "priority" : 0
+            },
+            "page-beDone/beDone-main.html" : {
+                "resources" : [
+                    "page-beDone/beDone-text.html",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/immersed.js",
+                    "fonts/mui.ttf",
+                    "fonts/iconfont.ttf",
+                    "page-beDone/beDone-form.html",
+                    "page-beDone/beDone-accessories.html",
+                    "img/top_bgimg.png"
+                ],
+                "refer" : [
+                    "page-beDone/beDone-Instruction.html",
+                    "page-beDone/beDone-document.html",
+                    "page-beDone/beDone-Record.html",
+                    "page-beDone/beDone-record.html"
+                ],
+                "priority" : 0
+            },
+            "page-main/main-agenda.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-text.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-communication.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-Record.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-Instruction.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-document.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-accessories.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "fonts/iconfont.ttf",
+                    "js/immersed.js",
+                    "js/tools.js",
+                    "js/openItemPage.js",
+                    "js/Map.js",
+                    "js/openPage.js"
+                ],
+                "refer" : [
+                    "page-beDone/beDone-main.html",
+                    "page-relatedMissive/related-main.html"
+                ],
+                "priority" : 0
+            },
+            "page-main/main-document.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-form.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "css/meetingListStyle.css",
+                    "css/publicClass.css",
+                    "js/Map.js",
+                    "fonts/mui.ttf",
+                    "js/jquery.min.js",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-beDone/beDone-record.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-toDo/main-toDo.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "js/openItemPage.js",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "img/top_bgimg.png",
+                    "js/slideToReturn.js",
+                    "js/openPage.js",
+                    "js/publicSkills.js",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [ "page-toDo/toDo-main.html" ],
+                "priority" : 0
+            },
+            "page-toDo/toDo-main.html" : {
+                "resources" : [
+                    "page-toDo/toDo-form.html",
+                    "js/mui.min.js",
+                    "fonts/mui.ttf",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/immersed.js",
+                    "img/top_bgimg.png",
+                    "js/slideToReturn.js",
+                    "css/publicClass.css",
+                    "js/publicSkills.js"
+                ],
+                "refer" : [
+                    "page-toDo/toDo-record.html",
+                    "page-toDo/toDo-accessories.html",
+                    "page-toDo/toDo-suggestion.html"
+                ],
+                "priority" : 0
+            },
+            "page-toDo/toDo-record.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "js/publicUrls.js",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-toDo/toDo-accessories.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "fonts/iconfont.ttf",
+                    "js/tools.js",
+                    "js/Map.js",
+                    "js/openItemPage.js",
+                    "js/immersed.js",
+                    "js/openPage.js",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-toDo/toDo-form.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "js/publicUrls.js",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/Map.js",
+                    "fonts/mui.ttf",
+                    "js/jquery.min.js",
+                    "js/openPage.js",
+                    "js/tools.js",
+                    "js/networkRequest.js",
+                    "js/publicSkills.js",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [ "page-select/selectNextLink.html", "page-editPage/editPage.html" ],
+                "priority" : 0
+            },
+            "page-relatedMissive/related-main.html" : {
+                "resources" : [
+                    "page-relatedMissive/related-form.html",
+                    "fonts/mui.ttf",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/immersed.js",
+                    "page-relatedMissive/related-accessories.html",
+                    "img/top_bgimg.png",
+                    "css/publicClass.css"
+                ],
+                "refer" : [ "page-relatedMissive/related-record.html" ],
+                "priority" : 0
+            },
+            "page-relatedMissive/related-accessories.html" : {
+                "resources" : [
+                    "js/immersed.js",
+                    "css/meetingListStyle.css",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "js/publicUrls.js",
+                    "js/mui.min.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/tools.js",
+                    "js/openItemPage.js",
+                    "js/Map.js",
+                    "js/openPage.js",
+                    "fonts/sani.ttf",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [ "page-relatedMissive/related-main.html" ],
+                "priority" : 0
+            },
+            "page-relatedMissive/related-record.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-relatedMissive/related-form.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/Map.js",
+                    "fonts/mui.ttf",
+                    "js/jquery.min.js",
+                    "js/networkRequest.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-select/selectNextLink.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/publicMethod.js",
+                    "js/jquery.min.js",
+                    "img/top_bgimg.png",
+                    "js/immersed.js",
+                    "js/publicSkills.js"
+                ],
+                "refer" : [ "page-select/selectPerson.html" ],
+                "priority" : 0
+            },
+            "page-select/selectPerson.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "img/top_bgimg.png",
+                    "js/jquery.min.js",
+                    "js/publicMethod.js",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf",
+                    "js/publicSkills.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-setting/main-setting.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/publicSkills.js",
+                    "fonts/mui.ttf",
+                    "js/openPage.js",
+                    "img/top_bgimg.png",
+                    "js/immersed.js",
+                    "img/user.png",
+                    "css/iconfont.css",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [
+                    "page-setting/setting-changePwd.html",
+                    "page-setting/setting-personalInfo.html",
+                    "page-select/selectAllPerson.html",
+                    "page-setting/setting-appInfo.html"
+                ],
+                "priority" : 0
+            },
+            "page-setting/setting-changePwd.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "fonts/mui.ttf",
+                    "css/publicClass.css",
+                    "img/top_bgimg.png",
+                    "js/networkRequest.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-setting/setting-personalInfo.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "js/networkRequest.js",
+                    "js/openPage.js",
+                    "css/mui.min.css",
+                    "js/publicSkills.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "js/publicUrls.js",
+                    "img/top_bgimg.png",
+                    "js/immersed.js"
+                ],
+                "refer" : [ "page-editPage/editPage.html" ],
+                "priority" : 0
+            },
+            "page-editPage/editPage.html" : {
+                "resources" : [
+                    "img/top_bgimg.png",
+                    "js/immersed.js",
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/mui.min.css",
+                    "js/publicSkills.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-select/radioOrCheckbox.html" : {
+                "resources" : [
+                    "js/jquery.min.js",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "js/publicSkills.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/iconfont.css",
+                    "img/top_bgimg.png",
+                    "js/openPage.js",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [ "page-editPage/editPage.html" ],
+                "priority" : 0
+            },
+            "page-toDo/toDo-suggestion.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-meeting/meeting-issueRevise.html" : {
+                "resources" : [
+                    "js/tools.js",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "js/networkRequest.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js",
+                    "css/meetingListStyle.css",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "img/top_bgimg.png",
+                    "css/iconfont.css",
+                    "js/publicResource.js",
+                    "fonts/iconfont.ttf",
+                    "js/openPage.js"
+                ],
+                "refer" : [ "page-meeting/meeting-addIssue.html" ],
+                "priority" : 0
+            },
+            "page-meeting/meeting-signResult.html" : {
+                "resources" : [
+                    "js/jquery.min.js",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "js/publicSkills.js",
+                    "fonts/mui.ttf",
+                    "img/top_bgimg.png",
+                    "js/networkRequest.js",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "kinth/page-me/me.html" : {
+                "resources" : [ "kinth/fonts/mui.ttf", "js/openPage.js" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "kinth/login.html" : {
+                "resources" : [
+                    "kinth/img/login_header.png",
+                    "kinth/js/mui.min.js",
+                    "kinth/css/login.css",
+                    "kinth/js/publicUrls.js",
+                    "kinth/css/mui.min.css"
+                ],
+                "refer" : [ "kinth/main.html" ],
+                "priority" : 0
+            },
+            "kinth/page-main/kaoqin.html" : {
+                "resources" : [
+                    "js/getLocation.js",
+                    "kinth/css/input_Style.css",
+                    "kinth/css/iconfont.css",
+                    "js/waitingDialog.js",
+                    "js/networkRequest.js",
+                    "kinth/js/mui.min.js",
+                    "kinth/js/publicUrls.js",
+                    "kinth/js/publicSkills.js",
+                    "kinth/css/mui.min.css",
+                    "kinth/fonts/iconfont.ttf",
+                    "kinth/fonts/mui.ttf"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "kinth/main.html" : {
+                "resources" : [
+                    "kinth/fonts/iconfont.ttf",
+                    "kinth/css/iconfont.css",
+                    "kinth/page-main/home.html",
+                    "kinth/css/main.css"
+                ],
+                "refer" : [ "kinth/page-me/me.html" ],
+                "priority" : 0
+            },
+            "kinth/page-main/home.html" : {
+                "resources" : [
+                    "kinth/img/slider/img2.jpg",
+                    "kinth/img/slider/img3.jpg",
+                    "kinth/img/slider/img1.jpg",
+                    "kinth/css/home.css"
+                ],
+                "refer" : [ "kinth/page-main/kaoqin.html", "kinth/page-main/xmkaoqin.html" ],
+                "priority" : 0
+            },
+            "kinth/page-main/xmkaoqin.html" : {
+                "resources" : [
+                    "js/tools.js",
+                    "kinth/css/input_Style.css",
+                    "kinth/css/mui.picker.min.css",
+                    "kinth/fonts/mui.ttf",
+                    "js/networkRequest.js",
+                    "kinth/js/mui.min.js",
+                    "kinth/css/table_style.css",
+                    "kinth/js/publicSkills.js",
+                    "kinth/js/publicUrls.js",
+                    "kinth/js/mui.picker.min.js",
+                    "kinth/css/mui.min.css"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-select/selectAllPerson.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "css/iconfont.css",
+                    "img/top_bgimg.png",
+                    "css/mui.min.css",
+                    "fonts/iconfont.ttf",
+                    "js/Map.js",
+                    "js/networkRequest.js",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [ "login.html" ],
+                "priority" : 0
+            },
+            "page-meeting/meeting-addIssue.html" : {
+                "resources" : [
+                    "css/meetingListStyle.css",
+                    "js/publicResource.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "js/networkRequest.js",
+                    "img/top_bgimg.png",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "js/publicSkills.js",
+                    "js/tools.js",
+                    "js/mui.min.js",
+                    "js/publicMethod.js",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "js/openPage.js",
+                    "fonts/iconfont.ttf"
+                ],
+                "refer" : [ "page-select/selectAllPerson.html" ],
+                "priority" : 0
+            },
+            "page-setting/setting-appInfo.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "js/networkRequest.js",
+                    "js/openPage.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js",
+                    "css/publicClass.css",
+                    "img/top_bgimg.png",
+                    "fonts/mui.ttf"
+                ],
+                "refer" : [
+                    "page-editPage/editPage.html",
+                    "page-setting/setting-developer.html",
+                    "page-developer/developer-developerList.html"
+                ],
+                "priority" : 0
+            },
+            "page-setting/setting-developer.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "js/networkRequest.js",
+                    "js/openPage.js",
+                    "img/top_bgimg.png",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-developer/developer-developerList.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "js/mui.min.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "js/networkRequest.js",
+                    "js/openPage.js",
+                    "img/top_bgimg.png",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js",
+                    "js/developerPage.js"
+                ],
+                "refer" : [ "page-developer/developer-cacheData.html" ],
+                "priority" : 0
+            },
+            "page-developer/developer-cacheData.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "js/websql.js",
+                    "js/waitingDialog.js",
+                    "js/mui.min.js",
+                    "js/networkRequest.js",
+                    "js/openPage.js",
+                    "js/publicUrls.js",
+                    "js/publicSkills.js",
+                    "js/immersed.js",
+                    "css/publicClass.css",
+                    "fonts/mui.ttf",
+                    "img/top_bgimg.png"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-notice/notice-list.html" : {
+                "resources" : [
+                    "img/ditu.png",
+                    "page-notice/css/notice.css",
+                    "page-notice/css/notice-empty.css",
+                    "page-notice/js/notice-list.js",
+                    "js/jquery.min.js",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/openPage.js",
+                    "js/publicUrls.js",
+                    "js/app.js"
+                ],
+                "refer" : [
+                    "page-main/main-webview.html",
+                    "page-notice/notice-content.html",
+                    "page-notice/main-carouselDetail.html"
+                ],
+                "priority" : 0
+            },
+            "page-notice/notice.html" : {
+                "resources" : [
+                    "js/jquery.min.js",
+                    "page-notice/notice-list.html",
+                    "css/mui.min.css",
+                    "page-notice/js/notice.js",
+                    "js/app.js",
+                    "js/mui.min.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-schedule/schedule.html" : {
+                "resources" : [
+                    "page-schedule/js/schedule.js",
+                    "page-schedule/schedule-calendar.html",
+                    "fonts/mui.ttf",
+                    "css/meetingListStyle.css",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "img/top_bgimg.png",
+                    "css/mui.min.css",
+                    "js/mui.min.js",
+                    "js/immersed.js",
+                    "js/openPage.js"
+                ],
+                "refer" : [
+                    "page-schedule/schedule-list.html",
+                    "page-schedule/schedule-detail.html"
+                ],
+                "priority" : 0
+            },
+            "page-missive/missive.html" : {
+                "resources" : [
+                    "page-missive/js/missive.js",
+                    "fonts/mui.ttf",
+                    "img/top_bgimg.png",
+                    "js/tools.js",
+                    "js/publicMethod.js",
+                    "js/openPage.js",
+                    "js/networkRequest.js",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "css/publicClass.css",
+                    "css/iconfont.css",
+                    "css/mui.min.css",
+                    "fonts/sani.ttf"
+                ],
+                "refer" : [ "page-beDone/beDone-main.html" ],
+                "priority" : 0
+            },
+            "page-schedule/schedule-calendar.html" : {
+                "resources" : [
+                    "page-schedule/js/jquery1.min.js",
+                    "page-schedule/css/public.css",
+                    "page-schedule/js/vw-simulate.js",
+                    "js/app.js",
+                    "page-schedule/js/can.js",
+                    "js/vue.js",
+                    "js/jquery.min.js",
+                    "js/mui.picker.min.js",
+                    "page-schedule/js/schedule-calendar.js",
+                    "page-schedule/js/set-meta.js",
+                    "page-schedule/css/calendar.css",
+                    "page-schedule/img/next.png",
+                    "page-schedule/img/perv.png",
+                    "js/mui.min.js",
+                    "page-schedule/css/schedule.css",
+                    "css/mui.min.css",
+                    "css/mui.picker.min.css",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [ "page-schedule/schedule-detail.html" ],
+                "priority" : 0
+            },
+            "page-schedule/schedule-list.html" : {
+                "resources" : [
+                    "page-schedule/js/schedule-list.js",
+                    "page-schedule/js/jquery1.min.js",
+                    "page-schedule/css/public.css",
+                    "page-schedule/js/vw-simulate.js",
+                    "js/app.js",
+                    "page-schedule/js/can.js",
+                    "js/vue.js",
+                    "js/jquery.min.js",
+                    "js/mui.picker.min.js",
+                    "page-schedule/js/set-meta.js",
+                    "css/mui.min.css",
+                    "page-schedule/css/schedule.css",
+                    "css/mui.picker.min.css",
+                    "js/publicUrls.js",
+                    "js/mui.min.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-me/me.html" : {
+                "resources" : [
+                    "img/user.png",
+                    "page-me/js/me.js",
+                    "js/app-constant.js",
+                    "img/icons/user.png",
+                    "js/mui.min.js",
+                    "css/common.css",
+                    "img/icons/locked.png",
+                    "css/mui.min.css",
+                    "img/icons/info1.png",
+                    "page-me/css/me.css",
+                    "js/immersed.js",
+                    "js/app.js",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [
+                    "page-me/me-personalInfo.html",
+                    "page-me/me-changePwd.html",
+                    "page-me/me-about.html"
+                ],
+                "priority" : 0
+            },
+            "page-notice/notice-dep.html" : {
+                "resources" : [
+                    "js/app.js",
+                    "js/jquery.min.js",
+                    "page-notice/notice-list.html",
+                    "js/mui.min.js",
+                    "page-notice/js/notice-dep.js",
+                    "js/immersed.js",
+                    "css/mui.min.css",
+                    "page-notice/notice-dep-list-cp.html",
+                    "js/publicUrls.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-notice/notice-content.html" : {
+                "resources" : [
+                    "js/jquery.min.js",
+                    "page-notice/notice-list.html",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "page-notice/js/notice-content.js",
+                    "js/app.js",
+                    "js/immersed.js",
+                    "js/publicUrls.js",
+                    "page-notice/css/notice-content.css",
+                    "page-notice/js/main-carouselDetail.js",
+                    "page-notice/font-awesome-4.7.0/css/font-awesome.min.css",
+                    "page-notice/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2",
+                    "page-schedule/img/waichu.png"
+                ],
+                "refer" : [ "page-notice/examine-reply.html", "page-notice/relpy-content.html" ],
+                "priority" : 0
+            },
+            "page-me/me-personalInfo.html" : {
+                "resources" : [
+                    "page-me/css/me-personalInfo.css",
+                    "js/mui.min.js",
+                    "css/common.css",
+                    "css/mui.min.css",
+                    "page-me/js/me-personalInfo.js",
+                    "img/user.png",
+                    "js/app-constant.js",
+                    "js/app.js",
+                    "js/publicUrls.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [
+                    "plus/camera_image.html",
+                    "page-common/editPage.html",
+                    "page-me/selectOneDialog.html"
+                ],
+                "priority" : 0
+            },
+            "page-notice/main-carouselDetail.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "page-notice/js/notice-content.js",
+                    "js/jquery.min.js",
+                    "page-notice/css/notice-content.css",
+                    "js/app.js",
+                    "img/kinth/login_header.png",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "img/icons/locked.png",
+                    "page-notice/js/main-carouselDetail.js",
+                    "page-notice/font-awesome-4.7.0/css/font-awesome.min.css",
+                    "page-schedule/img/waichu.png"
+                ],
+                "refer" : [ "page-notice/examine-reply.html", "page-notice/relpy-content.html" ],
+                "priority" : 0
+            },
+            "page-notice/notice-dep-list-cp.html" : {
+                "resources" : [
+                    "page-notice/css/notice.css",
+                    "js/mui.min.js",
+                    "js/openPage.js",
+                    "page-notice/css/notice-empty.css",
+                    "js/publicUrls.js",
+                    "img/ditu.png",
+                    "js/jquery.min.js",
+                    "css/mui.min.css",
+                    "page-notice/js/notice-dep-list-cp.js",
+                    "js/app.js"
+                ],
+                "refer" : [ "page-notice/notice-content.html" ],
+                "priority" : 0
+            },
+            "page-me/me-changePwd.html" : {
+                "resources" : [ "page-me/js/me-changePwd.js", "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "plus/camera_image.html" : {
+                "resources" : [ "plus/css/plus.css", "plus/js/plus.js" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-me/me-about.html" : {
+                "resources" : [
+                    "js/version.js",
+                    "page-me/css/me-about.css",
+                    "js/mui.min.js",
+                    "page-me/js/me-about.js",
+                    "img/logo-download.png",
+                    "js/app-constant-project.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-im/im-chat.html" : {
+                "resources" : [
+                    "js/mui.imageViewer.js",
+                    "page-im/css/im-chat.css",
+                    "page-im/js/im-chat.js",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "img/logo.png",
+                    "css/mui.imageviewer.css",
+                    "js/immersed.js",
+                    "js/arttmpl.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-main/main-webview.html" : {
+                "resources" : [ "js/mui.min.js", "css/mui.min.css" ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-common/editPage.html" : {
+                "resources" : [
+                    "js/app.js",
+                    "page-common/js/editPage.js",
+                    "js/mui.min.js",
+                    "css/common.css",
+                    "css/mui.min.css",
+                    "js/immersed.js",
+                    "page-common/css/editPage.css"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-schedule/schedule-detail.html" : {
+                "resources" : [
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/immersed.js",
+                    "js/mui.picker.min.js",
+                    "js/publicUrls.js",
+                    "js/app.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-notice/examine-reply.html" : {
+                "resources" : [
+                    "js/app.js",
+                    "js/jquery.min.js",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "page-notice/font-awesome-4.7.0/css/font-awesome.min.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js",
+                    "page-notice/css/notice-content.css"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "page-notice/relpy-content.html" : {
+                "resources" : [
+                    "js/app.js",
+                    "js/jquery.min.js",
+                    "js/mui.min.js",
+                    "css/mui.min.css",
+                    "js/publicUrls.js",
+                    "js/immersed.js"
+                ],
+                "refer" : [],
+                "priority" : 0
+            },
+            "layim/chat.html" : {
+                "resources" : [
+                    "layim/layim/css/modules/layim/voice/default.mp3",
+                    "layim/layim/lay/modules/mobile.js"
+                ],
+                "refer" : [
+                    "layim/select-people.html",
+                    "layim/addGroup.html",
+                    "layim/friendTag.html",
+                    "layim/add-people.html",
+                    "layim/address-book.html",
+                    "page-me/me-personalInfo.html",
+                    "page-me/me-personalInfo-copy.html",
+                    "layim/address-book-second.html"
+                ],
+                "priority" : 0
+            },
+            "layim/friendTag.html" : {
+                "resources" : [],
+                "refer" : [ "layim/select-people.html", "layim/friendTagDeatail.html" ],
+                "priority" : 0
+            },
+            "layim/friendTagDeatail.html" : {
+                "resources" : [],
+                "refer" : [ "layim/select-friend.html" ],
+                "priority" : 0
+            }
+        },
+        "idle" : {
+            "resources" : [ "css/mui.css" ]
+        }
+    },
+    "unpackage" : [ "css/mui.css" ]
+}

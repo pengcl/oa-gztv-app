@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="css/notice-deail.css" />
+		<style>
+			[v-cloak] {
+	  			display: none;
+			}
+		</style>
+	</head>
+		
+	<body>
+		<div id="content">
+			<header id="header" class="mui-bar mui-bar-nav" style="background-color:#37aeff;">
+				<a id="toBack" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left">
+					<span style="font-size: 17px;"></span></a>
+				<h1 class="mui-title">通知详情</h1>
+			</header>
+			<div id="app" class="mui-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" v-cloak>
+						<a href="javascript:;">
+							<span class="mui-media-object mui-pull-left xingm notice-color-doblue">
+							<span v-if='auditUserName.length > 2'>{{auditUserName.substring(auditUserName.length-2,auditUserName.length)}}</span>
+							<span v-if='auditUserName.length <= 2'>{{auditUserName}}</span>							
+							</span>
+							<div class="mui-media-body" v-cloak>
+								{{subject}}
+								<p>
+									{{auditTime}}
+								</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media" style="height:auto;">
+						<div class="mui-media-body">
+							<div id="html" style="width: 100%;float: right;overflow:auto;height:auto;margin-top: 10px;color: #b7b2b2;">
+								
+							</div>							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/lib/vue/vue.js"></script>
+	
+	<script src="../js/publicUrls.js"></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/immersed.js"></script>
+	
+	<script src="js/notice-detail.js"></script>
+	
+</html>
